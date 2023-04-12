@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/entities/Terrain.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/Terrain_view_clientController.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/interfaces/ITerrain_service.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/DETAILS_TerrainController.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/entities/Equipment.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/entities/Reservation.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/ADD_reservationController.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/ADD_terrainController.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/Terrain_cardController.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/UPDATE_TerrainController.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/UPDATE_ReservationController.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/test/Sportify.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/Terrain_view_ownerController.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/services/TerrainService.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/gui/terrain/ADD_Terrain.fxml</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/DETAILS_ReservationController.java</file>
+            <file>file:/C:/Users/WALID/Desktop/Sportify_java/Sportify/src/sportify/edu/controllers/Reservation_view_client.java</file>
+        </group>
+    </open-files>
+</project-private>

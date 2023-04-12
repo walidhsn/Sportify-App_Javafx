@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1250.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Terrain_view_ownerController">
+   <children>
+      <TableView fx:id="table_terrain" layoutX="16.0" layoutY="82.0" prefHeight="497.0" prefWidth="1224.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="82.0">
+        <columns>
+          <TableColumn fx:id="name_col" prefWidth="96.00003051757812" text="Name" />
+            <TableColumn fx:id="capacity_col" prefWidth="76.0" text="Capacity" />
+            <TableColumn fx:id="sportType_col" prefWidth="91.0" text="Sport Type" />
+            <TableColumn fx:id="rentPrice_col" prefWidth="72.0" text="Price" />
+            <TableColumn fx:id="disponibility_col" prefWidth="85.0" text="Status" />
+            <TableColumn fx:id="postalCode_col" prefWidth="90.0" text="Postal Code" />
+            <TableColumn fx:id="city_col" minWidth="0.0" prefWidth="97.0" text="City" />
+            <TableColumn fx:id="country_col" prefWidth="123.0" text="Country" />
+            <TableColumn fx:id="updatedAt_col" prefWidth="153.0" text="UpdatedAt" />
+            <TableColumn fx:id="details_col" prefWidth="105.0" text="Details" />
+            <TableColumn fx:id="update_col" prefWidth="117.0" text="Update" />
+            <TableColumn fx:id="delete_col" prefWidth="117.0" text="Delete" />
+        </columns>
+      </TableView>
+      <ToolBar layoutX="16.0" layoutY="14.0" prefHeight="57.0" prefWidth="1224.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="10.0">
+         <items>
+            <Button fx:id="back_btn" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#returnHomePage" prefHeight="41.0" prefWidth="103.0" text="Back">
+               <font>
+                  <Font name="Sitka Text" size="15.0" />
+               </font>
+               <graphic>
+                  <ImageView fx:id="backBtn_icon" fitHeight="31.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../resources/back-arrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator prefWidth="200.0" />
+            <GridPane hgap="5.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <TextField fx:id="search_text" promptText="Search" />
+                  <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../../../../resources/search-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="17.0" />
+            <Button fx:id="add_btn" mnemonicParsing="false" onAction="#redirectToAddTerrain" prefHeight="30.0" prefWidth="155.0" text="ADD Staduim">
+               <graphic>
+                  <ImageView fx:id="add_icon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Button>
+         </items>
+      </ToolBar>
+   </children>
+</AnchorPane>
