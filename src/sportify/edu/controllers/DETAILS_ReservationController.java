@@ -81,7 +81,7 @@ public class DETAILS_ReservationController implements Initializable {
             Image img = new Image(path);
             terrain_image.setImage(img);
         }
-        float total = reservation.getNbPerson()*t.getRentPrice();
+        float total = (reservation.getNbPerson() * t.getRentPrice());
         String total_txt = String.valueOf(total) + " Dt";
         total_price.setText(total_txt);
     }

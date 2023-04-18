@@ -48,8 +48,8 @@ and open the template in the editor.
 }
 /* Apply styles to labels */
 .label {
-    -fx-text-fill: #ee1e46;
-    -fx-font-size: 16px;
+    -fx-text-fill: #d6435c;
+    -fx-font-size: 19px;
 }
 
 /* Apply styles to combo boxes */
