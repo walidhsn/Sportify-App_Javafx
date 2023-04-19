@@ -77,7 +77,7 @@ public class Reservation_view_client implements Initializable {
     private List<Reservation> reservation_list;
     private List<Reservation> reservation_list_search;
     private ImageView icon_delete, icon_update, icon_view, icon_card;
-    
+
     private ReservationService rs;
 
     public void setData(int client) {
@@ -92,10 +92,10 @@ public class Reservation_view_client implements Initializable {
         status_col.setCellValueFactory(new PropertyValueFactory<>("resStatus"));
         montant_total.setCellValueFactory(cellData -> {
             Reservation reservation = cellData.getValue();
-            TerrainService ts= new TerrainService();
+            TerrainService ts = new TerrainService();
             Terrain t = ts.diplay(reservation.getTerrain_id());
             double totalAmount = reservation.getNbPerson() * t.getRentPrice();
-            String total_txt = String.format("%.2f", totalAmount)+" Dt";
+            String total_txt = String.format("%.2f", totalAmount) + " Dt";
             return new SimpleStringProperty(total_txt);
         });
         search_text.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -138,6 +138,21 @@ public class Reservation_view_client implements Initializable {
                     } else {
                         setGraphic(paymentButton);
                         paymentButton.setOnAction((ActionEvent event) -> {
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/reservation/Payment.fxml"));
+                                Parent root = loader.load();
+                                //UPDATE The Controller with Data :
+                                PaymentController controller = loader.getController();
+                                Reservation data = getTableView().getItems().get(getIndex());
+                                controller.setData(data);
+                                //-----
+                                Scene scene = new Scene(root);
+                                Stage stage = (Stage) table_reservation.getScene().getWindow();
+                                stage.setScene(scene);
+                                stage.show();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         });
                     }
                 }
@@ -226,7 +241,7 @@ public class Reservation_view_client implements Initializable {
                                     Parent root = loader.load();
                                     //UPDATE The Controller with Data :
                                     UPDATE_ReservationController controller = loader.getController();
-                                    controller.setData(data,client_id);
+                                    controller.setData(data, client_id);
                                     //-----
                                     Scene scene = new Scene(root);
                                     Stage stage = (Stage) table_reservation.getScene().getWindow();
@@ -300,7 +315,7 @@ public class Reservation_view_client implements Initializable {
         reservation_list = new ArrayList<>();
         reservation_list_search = new ArrayList<>();
         rs = new ReservationService();
-        
+
     }
 
     @FXML

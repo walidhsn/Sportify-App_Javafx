@@ -10,7 +10,12 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import com.stripe.model.PaymentMethod;
+import com.stripe.model.Token;
+import com.stripe.param.CustomerCreateParams;
+import com.stripe.param.CustomerRetrieveParams;
+import com.stripe.param.PaymentMethodAttachParams;
 import com.stripe.param.PaymentMethodCreateParams;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,58 +24,51 @@ import java.util.Map;
  * @author WALID
  */
 public class PaymentProcessor {
-
+    
     private static final String STRIPE_API_KEY = "sk_test_51MiLxXDj8DllmHoGdij9Kn3ssUzp6qdna36XzuWr5Lbq5jKb2TnMkygJ6bCOU45gFmrZz8xtnUB1NWGGJSZPXROP00bZcx8mmF"; // your API secret key
 
-    public static boolean processPayment(String name,String email, int amount, String cardNumber,Integer cardExpMonth, Integer cardExpYear, String cardCvc) throws StripeException {
+    public static boolean processPayment(String name, String email, int amount, String cardNumber, int cardExpMonth, int cardExpYear, String cardCvc) throws StripeException {
         boolean result = false;
         // Set your secret key
         Stripe.apiKey = STRIPE_API_KEY;
-        
-       Map<String, Object> customerParams = new HashMap<>();
-        customerParams.put("name", name);
-        customerParams.put("email", email);
-        Customer customer = Customer.create(customerParams);
 
-        // Create payment method
-        PaymentMethodCreateParams.CardDetails card = PaymentMethodCreateParams.CardDetails.builder()
-                .setNumber(cardNumber)
-                .setExpMonth(cardExpMonth.longValue())
-                .setExpYear(cardExpYear.longValue())
-                .setCvc(cardCvc)
-                .build();
+        // Create a Customer
+        Map<String, Object> customerParameter = new HashMap<String, Object>();
+        customerParameter.put("name", name);
+        customerParameter.put("email", email);
+        Customer client = Customer.create(customerParameter);
 
-        PaymentMethodCreateParams paymentMethodParams = PaymentMethodCreateParams.builder()
-                .setCard(card)
-                .setType(PaymentMethodCreateParams.Type.CARD)
-                .build();
-
-        PaymentMethod paymentMethod = PaymentMethod.create(paymentMethodParams);
-
-        // Attach payment method to customer
-        Map<String, Object> attachParams = new HashMap<>();
-        attachParams.put("customer", customer.getId());
-        paymentMethod.attach(attachParams);
-
-        // Create the charge object
-        Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount", amount);
-        chargeParams.put("currency", "eur");
-        chargeParams.put("customer", customer.getId());
-        chargeParams.put("payment_method", paymentMethod.getId());
-
-        // Charge the customer's card
-        Charge charge = Charge.create(chargeParams);
-
-        // Check the charge status
+        // Create a Card
+        Map<String, Object> cardParameter = new HashMap<String, Object>();
+        cardParameter.put("number", cardNumber);
+        cardParameter.put("exp_month", cardExpMonth);
+        cardParameter.put("exp_year", cardExpYear);
+        cardParameter.put("cvc", cardCvc);
+        // Create a Token 
+        Map<String, Object> tokenParameter = new HashMap<String, Object>();
+        tokenParameter.put("card", cardParameter);
+        Token token = Token.create(tokenParameter);
+        // Create a Source 
+        Map<String, Object> sourceParameter = new HashMap<String, Object>();
+        sourceParameter.put("source", token.getId());
+        CustomerRetrieveParams params = CustomerRetrieveParams.builder()
+                .addExpand("sources").build();
+        Customer stripeCustomer = Customer.retrieve(String.valueOf(client.getId()), params, null);
+        stripeCustomer.getSources().create(sourceParameter);
+        // Create a Charge
+        Map<String, Object> chargeParameter = new HashMap<String, Object>();
+        chargeParameter.put("amount", amount);
+        chargeParameter.put("currency", "eur");
+        chargeParameter.put("customer", client.getId());
+        Charge charge = Charge.create(chargeParameter);
+        // Check if the charge was successful
         if (charge.getStatus().equals("succeeded")) {
-            // Payment successful
-            result =true;
+            System.out.println("Payment successful!");
+            result = true;
         } else {
-            // Payment failed
-            result =false;
+            System.out.println("Payment failed!");
         }
-
         return result;
     }
+    
 }

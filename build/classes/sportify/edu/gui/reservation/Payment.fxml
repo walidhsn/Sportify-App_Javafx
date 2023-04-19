@@ -70,8 +70,8 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Spinner fx:id="MM" prefHeight="37.0" prefWidth="102.0" GridPane.columnIndex="1" />
-            <Spinner fx:id="YY" prefHeight="37.0" prefWidth="102.0" GridPane.columnIndex="3" />
+            <Spinner fx:id="MM" editable="true" prefHeight="37.0" prefWidth="102.0" GridPane.columnIndex="1" />
+            <Spinner fx:id="YY" editable="true" prefHeight="37.0" prefWidth="102.0" GridPane.columnIndex="3" />
             <Label style="-fx-text-fill: white;" text="MM :" />
             <Label style="-fx-text-fill: white;" text="YY :" GridPane.columnIndex="2" />
          </children>
@@ -86,7 +86,7 @@
          </rowConstraints>
          <children>
             <Label style="-fx-text-fill: white;" text="CVC  :" />
-            <Spinner fx:id="cvc" prefHeight="37.0" prefWidth="102.0" GridPane.columnIndex="1" />
+            <Spinner fx:id="cvc" editable="true" prefHeight="37.0" prefWidth="102.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>

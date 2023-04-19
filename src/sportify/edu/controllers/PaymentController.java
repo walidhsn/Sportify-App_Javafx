@@ -5,18 +5,25 @@
  */
 package sportify.edu.controllers;
 
+import com.stripe.exception.StripeException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import sportify.edu.entities.Reservation;
+import sportify.edu.entities.Terrain;
+import sportify.edu.services.PaymentProcessor;
+import sportify.edu.services.TerrainService;
 
 /**
  * FXML Controller class
@@ -42,16 +49,24 @@ public class PaymentController implements Initializable {
 
     private float total_pay;
     private Reservation reservation;
+    @FXML
+    private TextField client_name;
 
-    public void setData(int nb_p, float rent_price,Reservation r) {
+    public void setData(Reservation r) {
         this.reservation = r;
-        total_pay = nb_p * rent_price;
-        int mm = LocalDate.now().getMonth().getValue();
+        TerrainService ts = new TerrainService();
+        Terrain t = ts.diplay(r.getTerrain_id());
+        total_pay = (r.getNbPerson() * t.getRentPrice());
+        int mm = LocalDate.now().getMonthValue();
         int yy = LocalDate.now().getYear();
         SpinnerValueFactory<Integer> valueFactory_month = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12, mm, 1);// (min,max,startvalue,incrementValue) 
         SpinnerValueFactory<Integer> valueFactory_year = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 9999999, yy, 1);// (min,max,startvalue,incrementValue) 
         SpinnerValueFactory<Integer> valueFactory_cvc = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 999, 1, 1);// (min,max,startvalue,incrementValue) 
-
+        MM.setValueFactory(valueFactory_month);
+        YY.setValueFactory(valueFactory_year);
+        cvc.setValueFactory(valueFactory_cvc);
+        String total_txt = "Total : " + String.valueOf(total_pay) + " Dt.";
+        total.setText(total_txt);
     }
 
     /**
@@ -63,7 +78,128 @@ public class PaymentController implements Initializable {
     }
 
     @FXML
-    private void payment(ActionEvent event) {
+    private void payment(ActionEvent event) throws StripeException {
+
+        if (client_name.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You need to input your Name");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        } else if (email.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You need to input your Email");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        } else if (num_card.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You need to input your Card Number");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        } else if (!check_cvc(cvc.getValue())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("The CVC number should contain three digits");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        } else if (!check_expDate(YY.getValue(), MM.getValue())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please enter a valid expiration date");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        }else if(!isValidEmail(email.getText())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please enter a valid Email address.");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        }else {
+            boolean isValid = check_card_num(num_card.getText());
+            if (!isValid) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Please enter a valid Card number");
+                alert.setTitle("Problem");
+                alert.setHeaderText(null);
+                alert.showAndWait();
+            } else {
+                String name = client_name.getText();
+                String email_txt = email.getText();
+                String num = num_card.getText();
+                int yy = YY.getValue();
+                int mm = MM.getValue();
+                String cvc_num = String.valueOf(cvc.getValue());
+                boolean payment_result = PaymentProcessor.processPayment(name, email_txt,(int) total_pay, num, mm, yy, cvc_num);
+                if (payment_result) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setContentText("Successful Payment.");
+                    alert.setHeaderText(null);
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Payment Failed.");
+                    alert.setTitle("Problem");
+                    alert.setHeaderText(null);
+                    alert.showAndWait();
+                }
+            }
+        }
+
     }
 
+    private boolean check_cvc(int value) {
+        String cvc_txt = String.valueOf(value);
+        boolean valid = false;
+        if (cvc_txt.length() == 3) {
+            valid = true;
+        }
+        System.out.println(cvc_txt.length());
+        System.out.println(value);
+        System.out.println("--" + cvc_txt);
+        return valid;
+    }
+
+    private boolean check_expDate(int value_y, int value_mm) {
+        boolean valid = false;
+        LocalDate date = LocalDate.now();
+        if ((value_y >= date.getYear()) && (value_mm >= date.getMonthValue())) {
+            valid = true;
+        }
+        return valid;
+    }
+
+    private boolean check_card_num(String cardNumber) {
+        // Step 1: Check length
+        int length = cardNumber.length();
+        if (length < 13 || length > 19) {
+            return false;
+        }
+        /*String regex = "^(?:(?:4[0-9]{12}(?:[0-9]{3})?)|(?:5[1-5][0-9]{14})|(?:6(?:011|5[0-9][0-9])[0-9]{12})|(?:3[47][0-9]{13})|(?:3(?:0[0-5]|[68][0-9])[0-9]{11})|(?:((?:2131|1800|35[0-9]{3})[0-9]{11})))$";
+        // Create a Pattern object with the regular expression
+        Pattern pattern = Pattern.compile(regex);
+
+        // Match the pattern against the credit card number
+        Matcher matcher = pattern.matcher(cardNumber);
+
+        // Return true if the pattern matches, false otherwise
+        return matcher.matches();*/
+        return true;
+    }
+
+    public boolean isValidEmail(String email) {
+        // Regular expression pattern to match an email address
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
+        // Compile the pattern
+        Pattern pattern = Pattern.compile(regex);
+
+        // Match the pattern against the email address
+        Matcher matcher = pattern.matcher(email);
+
+        // Return true if the pattern matches, false otherwise
+        return matcher.matches();
+    }
 }
