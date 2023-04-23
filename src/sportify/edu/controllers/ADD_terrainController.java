@@ -161,6 +161,7 @@ public class ADD_terrainController implements Initializable {
 
     @FXML
     private void add_terrain(ActionEvent event) {
+        Terrain verif;
         int id_user = 1; // Just For Test will be replaced
         //Getting Values :        
         String name = terrain_name.getText();
@@ -173,6 +174,7 @@ public class ADD_terrainController implements Initializable {
         Integer roadNumber = terrain_roadNumber.getValue();
         String city = terrain_city.getText();
         String country = terrain_country.getValue().getName();
+
         // Control :
         if (name.isEmpty() && name.length() < 3) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -205,14 +207,29 @@ public class ADD_terrainController implements Initializable {
             alert.setHeaderText(null);
             alert.showAndWait();
         } else {
-            if (file != null) {
-                String destPath = "C:/Users/WALID/Desktop/WEBPI/WEBPI/public/uploads/terrain/";
-                String imageName = generateUniqueName(file); // Generate a unique name for the image
-                File dest = new File(destPath + imageName); // Set the destination path for the image
-                try {
-                    Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING); // Copy the image to the destination folder
+            verif = ts.find_terrain(name, city, country);
+            if (verif == null) {
+                if (file != null) {
+                    String destPath = "C:/Users/WALID/Desktop/WEBPI/WEBPI/public/uploads/terrain/";
+                    String imageName = generateUniqueName(file); // Generate a unique name for the image
+                    File dest = new File(destPath + imageName); // Set the destination path for the image
+                    try {
+                        Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING); // Copy the image to the destination folder
 
-                    Terrain t = new Terrain(id_user, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, imageName, LocalDateTime.now());
+                        Terrain t = new Terrain(id_user, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, imageName, LocalDateTime.now());
+                        ts.addEntity(t);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Success");
+                        alert.setContentText("Added .");
+                        alert.setHeaderText(null);
+                        alert.show();
+                        redirectToListTerrain();
+                    } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+
+                } else {
+                    Terrain t = new Terrain(id_user, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, null, LocalDateTime.now());
                     ts.addEntity(t);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
@@ -220,19 +237,13 @@ public class ADD_terrainController implements Initializable {
                     alert.setHeaderText(null);
                     alert.show();
                     redirectToListTerrain();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
                 }
-
             } else {
-                Terrain t = new Terrain(id_user, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, null, LocalDateTime.now());
-                ts.addEntity(t);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setContentText("Added .");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("The Stadium Already Exist,try another one.");
+                alert.setTitle("Problem");
                 alert.setHeaderText(null);
-                alert.show();
-                redirectToListTerrain();
+                alert.showAndWait();
             }
         }
     }

@@ -6,6 +6,7 @@
 package sportify.edu.controllers;
 
 import com.stripe.exception.StripeException;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -13,16 +14,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import sportify.edu.entities.Reservation;
 import sportify.edu.entities.Terrain;
 import sportify.edu.services.PaymentProcessor;
+import sportify.edu.services.ReservationService;
 import sportify.edu.services.TerrainService;
 
 /**
@@ -110,13 +116,13 @@ public class PaymentController implements Initializable {
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
-        }else if(!isValidEmail(email.getText())){
+        } else if (!isValidEmail(email.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Please enter a valid Email address.");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
-        }else {
+        } else {
             boolean isValid = check_card_num(num_card.getText());
             if (!isValid) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -131,19 +137,24 @@ public class PaymentController implements Initializable {
                 int yy = YY.getValue();
                 int mm = MM.getValue();
                 String cvc_num = String.valueOf(cvc.getValue());
-                boolean payment_result = PaymentProcessor.processPayment(name, email_txt,(int) total_pay, num, mm, yy, cvc_num);
+                boolean payment_result = PaymentProcessor.processPayment(name, email_txt,total_pay, num, mm, yy, cvc_num);
                 if (payment_result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
                     alert.setContentText("Successful Payment.");
                     alert.setHeaderText(null);
                     alert.showAndWait();
+                    this.reservation.setResStatus(true);
+                    ReservationService rs = new ReservationService();
+                    rs.updateEntity(this.reservation);
+                    redirect_to_successPage();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Payment Failed.");
                     alert.setTitle("Problem");
                     alert.setHeaderText(null);
                     alert.showAndWait();
+                    redirect_to_FailPage();
                 }
             }
         }
@@ -156,9 +167,6 @@ public class PaymentController implements Initializable {
         if (cvc_txt.length() == 3) {
             valid = true;
         }
-        System.out.println(cvc_txt.length());
-        System.out.println(value);
-        System.out.println("--" + cvc_txt);
         return valid;
     }
 
@@ -177,7 +185,7 @@ public class PaymentController implements Initializable {
         if (length < 13 || length > 19) {
             return false;
         }
-        /*String regex = "^(?:(?:4[0-9]{12}(?:[0-9]{3})?)|(?:5[1-5][0-9]{14})|(?:6(?:011|5[0-9][0-9])[0-9]{12})|(?:3[47][0-9]{13})|(?:3(?:0[0-5]|[68][0-9])[0-9]{11})|(?:((?:2131|1800|35[0-9]{3})[0-9]{11})))$";
+        String regex = "^(?:(?:4[0-9]{12}(?:[0-9]{3})?)|(?:5[1-5][0-9]{14})|(?:6(?:011|5[0-9][0-9])[0-9]{12})|(?:3[47][0-9]{13})|(?:3(?:0[0-5]|[68][0-9])[0-9]{11})|(?:((?:2131|1800|35[0-9]{3})[0-9]{11})))$";
         // Create a Pattern object with the regular expression
         Pattern pattern = Pattern.compile(regex);
 
@@ -185,8 +193,7 @@ public class PaymentController implements Initializable {
         Matcher matcher = pattern.matcher(cardNumber);
 
         // Return true if the pattern matches, false otherwise
-        return matcher.matches();*/
-        return true;
+        return matcher.matches();
     }
 
     public boolean isValidEmail(String email) {
@@ -201,5 +208,35 @@ public class PaymentController implements Initializable {
 
         // Return true if the pattern matches, false otherwise
         return matcher.matches();
+    }
+
+    private void redirect_to_successPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/reservation/Success_page.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Success_pageController controller = loader.getController();
+            controller.setData(this.reservation);
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) pay_btn.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private void redirect_to_FailPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/reservation/Fail_page.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Fail_pageController controller = loader.getController();
+            controller.setData(this.reservation);
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) pay_btn.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

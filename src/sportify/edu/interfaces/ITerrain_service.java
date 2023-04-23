@@ -15,6 +15,7 @@ import sportify.edu.entities.Terrain;
  */
 public interface ITerrain_service {
     public List<Terrain> myProprieties(int owner_id);
+    public Terrain find_terrain(String name,String city,String country);
     public List<Terrain> filterTerrain(String location,String sport_type,String rent_price);
     public List<Terrain> searchTerrain(String search_term);
     public void add_autoCompleteWord(String word);

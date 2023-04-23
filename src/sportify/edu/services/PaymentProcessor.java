@@ -27,8 +27,12 @@ public class PaymentProcessor {
     
     private static final String STRIPE_API_KEY = "sk_test_51MiLxXDj8DllmHoGdij9Kn3ssUzp6qdna36XzuWr5Lbq5jKb2TnMkygJ6bCOU45gFmrZz8xtnUB1NWGGJSZPXROP00bZcx8mmF"; // your API secret key
 
-    public static boolean processPayment(String name, String email, int amount, String cardNumber, int cardExpMonth, int cardExpYear, String cardCvc) throws StripeException {
-        boolean result = false;
+    public static boolean processPayment(String name, String email,float amount, String cardNumber, int cardExpMonth, int cardExpYear, String cardCvc) throws StripeException {
+        boolean result = false;       
+        int Conversion;
+        //Conversion  Dt to Eur : 
+        amount = (float) ((amount /0.3)*10);
+        Conversion = (int) amount;
         // Set your secret key
         Stripe.apiKey = STRIPE_API_KEY;
 
@@ -57,7 +61,7 @@ public class PaymentProcessor {
         stripeCustomer.getSources().create(sourceParameter);
         // Create a Charge
         Map<String, Object> chargeParameter = new HashMap<String, Object>();
-        chargeParameter.put("amount", amount);
+        chargeParameter.put("amount", Conversion);
         chargeParameter.put("currency", "eur");
         chargeParameter.put("customer", client.getId());
         Charge charge = Charge.create(chargeParameter);
