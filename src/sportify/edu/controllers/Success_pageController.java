@@ -27,6 +27,11 @@ import sportify.edu.entities.Reservation;
 import sportify.edu.entities.Terrain;
 import sportify.edu.services.TerrainService;
 
+import com.twilio.Twilio;
+import com.twilio.exception.ApiException;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+
 /**
  * FXML Controller class
  *
@@ -42,6 +47,9 @@ public class Success_pageController implements Initializable {
     private Button back_btn;
     private Reservation reservation;
     private Terrain terrain;
+    //The Account Sid and Token at console.twilio.com
+    public static final String ACCOUNT_SID = "ACe1969f27c9ebaba39c1c2e19532653e5";
+    public static final String AUTH_TOKEN = "53b72d6c70636292563f45e93c8725f3";
 
     public void setData(Reservation r) {
         String value;
@@ -52,6 +60,7 @@ public class Success_pageController implements Initializable {
             value = "This confirms that we've just received your online payment for your Reservation of the Staduim : " + terrain.getName() + ",";
             payment_txt.setText(value);
         }
+        send_sms_to_Client(50190957); // this will be replaced with the client number 
     }
 
     public void export_pdf(String html, String fileName) throws IOException, DocumentException {
@@ -87,7 +96,7 @@ public class Success_pageController implements Initializable {
         float total = (this.reservation.getNbPerson() * this.terrain.getRentPrice());
         DateTimeFormatter formatter_time = DateTimeFormatter.ofPattern("HH:mm");
         DateTimeFormatter formatter_date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String date_res =formatter_date.format(reservation.getDateReservation());
+        String date_res = formatter_date.format(reservation.getDateReservation());
         String start_time = formatter_time.format(reservation.getStartTime());
         String end_time = formatter_time.format(reservation.getEndTime());
         String html = "<!DOCTYPE html>\n"
@@ -173,7 +182,6 @@ public class Success_pageController implements Initializable {
                 + "                <td>" + String.valueOf(this.reservation.getNbPerson()) + "</td>\n"
                 + "                <td>" + String.valueOf(total) + ".DT</td>\n"
                 + "            </tr>\n"
-               
                 + "            <tr>\n"
                 + "                <td colspan=\"3\" align=\"right\">Total:</td>\n"
                 + "                <td class=\"total\">" + String.valueOf(total) + ".DT</td>\n"
@@ -212,4 +220,32 @@ public class Success_pageController implements Initializable {
         }
     }
 
+    private void send_sms_to_Client(int phone) {
+
+        try {
+            //init twilio
+            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+            String send_number = "+216" + String.valueOf(phone);
+            String from_number = "+15075650863";
+            String body = "Sportify: Thank you for making a reservation with us! We look forward to seeing you on : ";
+            DateTimeFormatter formatter_time = DateTimeFormatter.ofPattern("HH:mm");
+            DateTimeFormatter formatter_date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String date_res = formatter_date.format(reservation.getDateReservation());
+            String start_time = formatter_time.format(reservation.getStartTime());
+            String end_time = formatter_time.format(reservation.getEndTime());
+            body += date_res + ", at : " + start_time + " ,ends at : " + end_time;
+            Message message = Message
+                    .creator(
+                            new PhoneNumber(send_number),
+                            new PhoneNumber(from_number),
+                            body
+                    )
+                    .create();
+
+        } catch (final ApiException e) {
+
+            System.err.println(e);
+
+        }
+    }
 }
