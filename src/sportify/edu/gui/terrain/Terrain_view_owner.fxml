@@ -65,9 +65,18 @@
                </children>
             </GridPane>
             <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="17.0" />
-            <Button fx:id="add_btn" mnemonicParsing="false" onAction="#redirectToAddTerrain" prefHeight="30.0" prefWidth="155.0" text="ADD Staduim">
+            <Button fx:id="add_btn" mnemonicParsing="false" onAction="#redirectToAddTerrain" prefHeight="41.0" prefWidth="155.0" text="ADD Staduim">
                <graphic>
-                  <ImageView fx:id="add_icon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="add_icon" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Button>
+            <Button fx:id="chart_btn" mnemonicParsing="false" onAction="#redirectToChart" prefHeight="41.0" prefWidth="155.0" text="Charts">
+               <graphic>
+                  <ImageView fx:id="add_icon1" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../resources/chart.png" />
+                     </image>
+                  </ImageView>
                </graphic>
             </Button>
          </items>

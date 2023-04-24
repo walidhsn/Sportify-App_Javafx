@@ -94,6 +94,11 @@ public class ADD_terrainController implements Initializable {
 
     private TerrainService ts;
     private Set<String> possible_suggestions;
+    private int id_owner;
+
+    public void setData(int id_owner) {
+        this.id_owner = id_owner;
+    }
 
     /**
      * Initializes the controller class.
@@ -297,11 +302,14 @@ public class ADD_terrainController implements Initializable {
     }
 
     private void redirectToListTerrain() {
-        Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Terrain_view_ownerController controller = loader.getController();
+            controller.setData(this.id_owner);
             Scene scene = new Scene(root);
-            Stage stage = (Stage) terrain_addBtn.getScene().getWindow();
+            Stage stage = (Stage) back_btn.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
