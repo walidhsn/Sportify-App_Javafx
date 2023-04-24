@@ -5,7 +5,7 @@
  */
 package sportify.edu.controllers;
 
-
+import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,7 +27,10 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import sportify.edu.entities.Reservation;
@@ -84,8 +88,8 @@ public class Terrain_chartController implements Initializable {
         barChart();
     }
 
-
     private void barChart() {
+        
         TerrainService ts = new TerrainService();
         ReservationService rs = new ReservationService();
         Map<String, Double> data_map = new HashMap<>();
@@ -146,6 +150,8 @@ public class Terrain_chartController implements Initializable {
         for (Map.Entry<String, Double> element : data_map.entrySet()) {
             piechartData.add(new PieChart.Data(element.getKey(), element.getValue()));
         }
+        final Label caption = new Label("");
+
         // create a PieChart with the data from the ObservableList :
         PieChart pieChart = new PieChart(piechartData);
         pieChart.setClockwise(true);
@@ -154,7 +160,30 @@ public class Terrain_chartController implements Initializable {
         pieChart.setLabelsVisible(true);
         pieChart.setStartAngle(180);
         pieChart.setLegendSide(Side.LEFT);
-        //Set it to the Pane:
-        borderPane.setCenter(pieChart);
+
+        // create a StackPane to hold the pie chart and the caption label
+        StackPane pieChartPane = new StackPane();
+        pieChartPane.getChildren().addAll(pieChart, caption);
+        borderPane.setCenter(pieChartPane);
+
+        // add the event handler to each pie slice
+        for (final PieChart.Data data : pieChart.getData()) {
+            data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
+                    new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    caption.setTranslateX(e.getX());
+                    caption.setTranslateY(e.getY());
+                    caption.setText(String.valueOf(data.getPieValue()) + " Dt");
+                    caption.setTextFill(Paint.valueOf("#ffffff"));
+                    caption.setStyle("-fx-background-color: black; -fx-padding: 5px;-fx-font-size: 18px;");
+                    caption.setVisible(true);
+                }
+            });
+        }
+
+        // hide the caption label when the mouse is released
+        pieChartPane.setOnMouseReleased(e -> caption.setVisible(false));
+
     }
 }
