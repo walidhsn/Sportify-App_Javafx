@@ -98,6 +98,12 @@ public class PaymentController implements Initializable {
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+        } else if (!isValidEmail(email.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please enter a valid Email address.");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
         } else if (num_card.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You need to input your Card Number");
@@ -116,12 +122,6 @@ public class PaymentController implements Initializable {
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
-        } else if (!isValidEmail(email.getText())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Please enter a valid Email address.");
-            alert.setTitle("Problem");
-            alert.setHeaderText(null);
-            alert.showAndWait();
         } else {
             boolean isValid = check_card_num(num_card.getText());
             if (!isValid) {
@@ -137,7 +137,7 @@ public class PaymentController implements Initializable {
                 int yy = YY.getValue();
                 int mm = MM.getValue();
                 String cvc_num = String.valueOf(cvc.getValue());
-                boolean payment_result = PaymentProcessor.processPayment(name, email_txt,total_pay, num, mm, yy, cvc_num);
+                boolean payment_result = PaymentProcessor.processPayment(name, email_txt, total_pay, num, mm, yy, cvc_num);
                 if (payment_result) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
@@ -180,6 +180,8 @@ public class PaymentController implements Initializable {
     }
 
     private boolean check_card_num(String cardNumber) {
+        // Trim the input string to remove any leading or trailing whitespace
+        cardNumber = cardNumber.trim();
         // Step 1: Check length
         int length = cardNumber.length();
         if (length < 13 || length > 19) {
@@ -197,8 +199,10 @@ public class PaymentController implements Initializable {
     }
 
     public boolean isValidEmail(String email) {
+        // Trim the input string to remove any leading or trailing whitespace
+        email = email.trim();
         // Regular expression pattern to match an email address
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 
         // Compile the pattern
         Pattern pattern = Pattern.compile(regex);

@@ -196,7 +196,8 @@ public class Success_pageController implements Initializable {
                 + "    </div>\n"
                 + "</body>\n"
                 + "</html>";
-        String fileName = "example.pdf";
+        String txt= "Reservation-"+String.valueOf(reservation.getId())+".pdf";
+        String fileName = txt;
         try {
             export_pdf(html, fileName);
         } catch (Exception e) {

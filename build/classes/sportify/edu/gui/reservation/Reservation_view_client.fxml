@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1300.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Reservation_view_client">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1500.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Reservation_view_client">
    <children>
       <TableView fx:id="table_reservation" layoutX="22.0" layoutY="93.0" prefHeight="493.0" prefWidth="1267.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="93.0">
          <columns>
@@ -26,7 +26,8 @@
             <TableColumn fx:id="montant_total" prefWidth="144.0" text="Total Price" />
             <TableColumn fx:id="details_col" prefWidth="132.0" text="Details" />
             <TableColumn fx:id="update_col" prefWidth="127.0" text="Update" />
-            <TableColumn fx:id="delete_col" prefWidth="116.0" text="Delete" />
+            <TableColumn fx:id="delete_col" prefWidth="136.0" text="Delete" />
+            <TableColumn fx:id="receipt_col" prefWidth="179.0" text="Receipt" />
          </columns>
       </TableView>
       <ToolBar layoutX="21.0" layoutY="26.0" prefHeight="57.0" prefWidth="1267.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="12.0">
