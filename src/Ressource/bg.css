@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+.root {
+    -fx-background-color: #343a40;
+    -fx-font-family: 'Open Sans', sans-serif;
+    /* other styles */
+}
+
+/*.root {
+    -fx-background-color: #343a40;
+    -fx-font-family: 'Roboto', sans-serif;
+    
+}*/
