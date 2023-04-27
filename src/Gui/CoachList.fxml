@@ -17,8 +17,8 @@
         <columns>
           <TableColumn fx:id="colId" prefWidth="35.999969482421875" text="id" />
           <TableColumn fx:id="colName" prefWidth="172.79998779296875" text="Name" />
-            <TableColumn fx:id="colCategory" prefWidth="204.0" text="Category" />
-            <TableColumn fx:id="colCategory1" prefWidth="284.0000244140625" text="Image" />
+            <TableColumn fx:id="colCategory" prefWidth="204.0" text="Email" />
+            <TableColumn fx:id="colPhone" prefWidth="284.0000244140625" text="Phone" />
         </columns>
       </TableView>
       <Button fx:id="btnAdd" alignment="TOP_LEFT" layoutX="44.0" layoutY="537.0" mnemonicParsing="false" onAction="#handleAddButtonClick" prefHeight="44.0" prefWidth="97.0" text="Add">
@@ -38,7 +38,7 @@
          </graphic>
 </Button>
 
-      <Label layoutX="234.0" layoutY="25.0" text="Academies list" textFill="RED">
+      <Label layoutX="274.0" layoutY="23.0" text="Coaches list" textFill="RED">
          <font>
             <Font name="Sitka Text" size="45.0" />
          </font>

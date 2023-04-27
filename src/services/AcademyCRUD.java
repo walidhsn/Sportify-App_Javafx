@@ -158,7 +158,7 @@ public class AcademyCRUD implements EntityCRUD<Academy> {
                 p.setId(rs.getInt(1));
                 p.setName(rs.getString("name"));
                 p.setCategory(rs.getString("category"));
-                p.setImageName(rs.getString("image"));
+                p.setImageName(rs.getString("image_name"));
                 System.out.println("Academy details: " + p.toString());
             } else {
                 System.out.println("No Academy found with ID " + id + ".");

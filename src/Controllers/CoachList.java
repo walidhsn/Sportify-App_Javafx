@@ -14,7 +14,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import entities.Academy;
+import entities.Coach;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
@@ -60,24 +60,26 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 //import javax.swing.text.Document;
-import services.AcademyCRUD;
+import services.CoachCRUD;
 
 /**
  *
  * @author ramib
  */
-public class AcademyList implements Initializable {
+public class CoachList implements Initializable {
     
     private Label label;
     @FXML
-    private TableView<Academy> tvAcademy;
-    private ObservableList<Academy> academyList;
+    private TableView<Coach> tvCoach;
+    private ObservableList<Coach> coachList;
     @FXML
-    private TableColumn<Academy, Integer> colId;
+    private TableColumn<Coach, Integer> colId;
     @FXML
-    private TableColumn<Academy, String> colName;
+    private TableColumn<Coach, String> colName;
     @FXML
-    private TableColumn<Academy, String> colCategory;
+    private TableColumn<Coach, String> colCategory;
+    @FXML
+    private TableColumn<Coach, String> colPhone;
     @FXML
     private TextField searchField;
     @FXML
@@ -90,7 +92,7 @@ public class AcademyList implements Initializable {
     private Button btnPDF;
 
     
-    private AcademyCRUD academyCRUD = new AcademyCRUD();
+    private CoachCRUD coachCRUD = new CoachCRUD();
     @FXML
     private Button btnAdd;
     
@@ -98,33 +100,34 @@ public class AcademyList implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
-        academyList = FXCollections.observableArrayList(academyCRUD.display());
-        tvAcademy.setItems(academyList);
+        colCategory.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        coachList = FXCollections.observableArrayList(coachCRUD.display());
+        tvCoach.setItems(coachList);
 
         // Set the selection mode to MULTIPLE
-        tvAcademy.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tvCoach.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        // Add listener for the selection of an academy in the table
-        tvAcademy.setOnMousePressed(event -> {
+        // Add listener for the selection of an coach in the table
+        tvCoach.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                Academy selectedAcademy = tvAcademy.getSelectionModel().getSelectedItem();
-                if (selectedAcademy != null) {
+                Coach selectedCoach = tvCoach.getSelectionModel().getSelectedItem();
+                if (selectedCoach != null) {
                     try {
-                        // Load the AcademyDetails FXML file
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyDetails.fxml"));
+                        // Load the CoachDetails FXML file
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/CoachDetails.fxml"));
                         Parent root = loader.load();
 
-                        // Get a reference to the AcademyDetails controller
-                        AcademyDetails controller = loader.getController();
+                        // Get a reference to the CoachDetails controller
+                        CoachDetails controller = loader.getController();
 
-                        // Call a method on the controller to set the academy to display its details
-                        controller.setAcademy(selectedAcademy);
+                        // Call a method on the controller to set the coach to display its details
+                        controller.setCoach(selectedCoach);
                         
                         // Get a reference to the current stage
-                        Stage stage = (Stage) tvAcademy.getScene().getWindow();
+                        Stage stage = (Stage) tvCoach.getScene().getWindow();
 
-                        // Create a new stage to display the AcademyDetails scene
+                        // Create a new stage to display the CoachDetails scene
                         Scene scene = new Scene(root);
                         stage.setScene(scene);
                         stage.show();
@@ -139,18 +142,18 @@ public class AcademyList implements Initializable {
     @FXML
     private void handleSearchButtonClick(ActionEvent event) {
         String searchText = searchField.getText();
-        ObservableList<Academy> filteredList = FXCollections.observableArrayList();
-        for (Academy academy : academyList) {
-            if (academy.getName().toLowerCase().contains(searchText.toLowerCase())) {
-                filteredList.add(academy);
+        ObservableList<Coach> filteredList = FXCollections.observableArrayList();
+        for (Coach coach : coachList) {
+            if (coach.getName().toLowerCase().contains(searchText.toLowerCase())) {
+                filteredList.add(coach);
             }
         }
-        tvAcademy.setItems(filteredList);
+        tvCoach.setItems(filteredList);
     }
     
     @FXML
     private void handleAddButtonClick(ActionEvent event) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyAdd.fxml"));
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/CoachAdd.fxml"));
 //        Parent root = loader.load();
 //
 //        Scene scene = new Scene(root);
@@ -158,7 +161,7 @@ public class AcademyList implements Initializable {
 //        stage.setScene(scene);
 //        stage.show();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyAdd.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachAdd.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -171,13 +174,13 @@ public class AcademyList implements Initializable {
     @FXML
     private void handleClearButtonClick(MouseEvent event) throws IOException {
         String searchText = "";
-        ObservableList<Academy> filteredList = FXCollections.observableArrayList();
-        for (Academy academy : academyList) {
-            if (academy.getName().toLowerCase().contains(searchText.toLowerCase())) {
-                filteredList.add(academy);
+        ObservableList<Coach> filteredList = FXCollections.observableArrayList();
+        for (Coach coach : coachList) {
+            if (coach.getName().toLowerCase().contains(searchText.toLowerCase())) {
+                filteredList.add(coach);
             }
         }
-        tvAcademy.setItems(filteredList);
+        tvCoach.setItems(filteredList);
     }
     
     @FXML
@@ -186,7 +189,7 @@ public class AcademyList implements Initializable {
             byte[] pdfBytes = generatePDF();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save PDF File");
-            fileChooser.setInitialFileName("academyList.pdf");
+            fileChooser.setInitialFileName("coachList.pdf");
             File file = fileChooser.showSaveDialog(btnPDF.getScene().getWindow());
             if (file != null) {
                 FileOutputStream fos = new FileOutputStream(file);
@@ -207,7 +210,7 @@ public class AcademyList implements Initializable {
         // Define font styles
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
         
-        Paragraph title = new Paragraph("Academy List");
+        Paragraph title = new Paragraph("Coach List");
         title.setFont(FontFactory.getFont(FontFactory.TIMES_BOLD, 24, BaseColor.RED));
         title.setAlignment(Element.ALIGN_CENTER);
         title.setSpacingAfter(20);
@@ -222,10 +225,10 @@ public class AcademyList implements Initializable {
         Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 10, BaseColor.BLACK);
 
         // Add table data
-        for (Academy academy : academyList) {
-            table.addCell(new Phrase(String.valueOf(academy.getId()), dataFont));
-            table.addCell(new Phrase(academy.getName(), dataFont));
-            table.addCell(new Phrase(academy.getCategory(), dataFont));
+        for (Coach coach : coachList) {
+            table.addCell(new Phrase(String.valueOf(coach.getId()), dataFont));
+            table.addCell(new Phrase(coach.getName(), dataFont));
+            table.addCell(new Phrase(coach.getEmail(), dataFont));
         }
 
         // Add style to table
@@ -239,14 +242,14 @@ public class AcademyList implements Initializable {
         return baos.toByteArray();
     }
     
-    public void generateCategoryChart(List<Academy> academyList) {
-        if (academyList == null || academyList.isEmpty()) {
-            throw new IllegalArgumentException("Academy list cannot be null or empty");
+    public void generateCategoryChart(List<Coach> coachList) {
+        if (coachList == null || coachList.isEmpty()) {
+            throw new IllegalArgumentException("Coach list cannot be null or empty");
         }
         // Create a map to store the count of academies in each category
         Map<String, Integer> categoryCount = new HashMap<>();
-        for (Academy academy : academyList) {
-            String category = academy.getCategory();
+        for (Coach coach : coachList) {
+            String category = coach.getEmail();
             categoryCount.put(category, categoryCount.getOrDefault(category, 0) + 1);
         }
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -277,7 +280,7 @@ public class AcademyList implements Initializable {
     
     @FXML
     private void handleChartButtonClick(ActionEvent event) {
-        generateCategoryChart(academyList);
+        generateCategoryChart(coachList);
     }
 
 
