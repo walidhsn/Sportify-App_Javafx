@@ -64,11 +64,11 @@ public class Reservation_view_client implements Initializable {
     @FXML
     private TableColumn<Reservation, String> details_col;
     @FXML
-    private TableColumn<Reservation, String> update_col;
+    private TableColumn<Reservation, Boolean> update_col;
     @FXML
     private TableColumn<Reservation, String> delete_col;
     @FXML
-    private TableColumn<Reservation,Boolean> receipt_col;
+    private TableColumn<Reservation, Boolean> receipt_col;
     @FXML
     private TableColumn<Reservation, String> montant_total;
     @FXML
@@ -84,7 +84,7 @@ public class Reservation_view_client implements Initializable {
     private ImageView backBtn_icon;
     private List<Reservation> reservation_list;
     private List<Reservation> reservation_list_search;
-    private ImageView icon_delete, icon_update, icon_view, icon_card,icon_pdf;
+    private ImageView icon_delete, icon_update, icon_view, icon_card, icon_pdf;
 
     private ReservationService rs;
 
@@ -99,6 +99,7 @@ public class Reservation_view_client implements Initializable {
         endTime_col.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         status_col.setCellValueFactory(new PropertyValueFactory<>("resStatus"));
         receipt_col.setCellValueFactory(new PropertyValueFactory<>("resStatus"));
+        update_col.setCellValueFactory(new PropertyValueFactory<>("resStatus"));
         montant_total.setCellValueFactory(cellData -> {
             Reservation reservation = cellData.getValue();
             TerrainService ts = new TerrainService();
@@ -189,16 +190,16 @@ public class Reservation_view_client implements Initializable {
                     // Set the label style
                     unpaidLabel.setStyle("-fx-text-fill: red;");
                     if (empty || resStatus == null) {
-                         setGraphic(null);
-                    }else if(!resStatus){
+                        setGraphic(null);
+                    } else if (!resStatus) {
                         setGraphic(unpaidLabel);
-                    }else if (resStatus) {
-                       setGraphic(exportButton);
+                    } else if (resStatus) {
+                        setGraphic(exportButton);
                         exportButton.setOnAction((ActionEvent event) -> {
                             Reservation data = getTableView().getItems().get(getIndex());
                             generate_pdf(data);
                         });
-                    } 
+                    }
                 }
             };
         });
@@ -247,7 +248,7 @@ public class Reservation_view_client implements Initializable {
 
         //Update Button : 
         update_col.setCellFactory(column -> {
-            return new TableCell<Reservation, String>() {
+            return new TableCell<Reservation, Boolean>() {
 
                 final Button updateButton = new Button();
 
@@ -262,11 +263,12 @@ public class Reservation_view_client implements Initializable {
                 }
 
                 @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
+                protected void updateItem(Boolean resStatus, boolean empty) {
+                    super.updateItem(resStatus, empty);
+
+                    if (empty || resStatus == null) {
                         setGraphic(null);
-                    } else {
+                    } else if (!resStatus) {
                         setGraphic(updateButton);
                         updateButton.setOnAction((ActionEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -296,6 +298,8 @@ public class Reservation_view_client implements Initializable {
                                 }
                             }
                         });
+                    } else if (resStatus) {
+                        setGraphic(null);
                     }
                 }
             };
@@ -390,7 +394,7 @@ public class Reservation_view_client implements Initializable {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     private void export_pdf(String html, String fileName) throws IOException, DocumentException {
         // Create a file chooser dialog
         FileChooser fileChooser = new FileChooser();
@@ -409,7 +413,8 @@ public class Reservation_view_client implements Initializable {
             renderer.createPDF(os);
         }
     }
-    private void generate_pdf(Reservation reservation){
+
+    private void generate_pdf(Reservation reservation) {
         TerrainService ts = new TerrainService();
         Terrain terrain = ts.diplay(reservation.getTerrain_id());
         float total = (reservation.getNbPerson() * terrain.getRentPrice());
@@ -515,7 +520,7 @@ public class Reservation_view_client implements Initializable {
                 + "    </div>\n"
                 + "</body>\n"
                 + "</html>";
-        String txt= "Reservation-"+String.valueOf(reservation.getId())+".pdf";
+        String txt = "Reservation-" + String.valueOf(reservation.getId()) + ".pdf";
         String fileName = txt;
         try {
             export_pdf(html, fileName);

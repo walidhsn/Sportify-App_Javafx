@@ -57,6 +57,8 @@ public class PaymentController implements Initializable {
     private Reservation reservation;
     @FXML
     private TextField client_name;
+    @FXML
+    private Button back_btn;
 
     public void setData(Reservation r) {
         this.reservation = r;
@@ -92,37 +94,57 @@ public class PaymentController implements Initializable {
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            client_name.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(client_name).play();
         } else if (email.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You need to input your Email");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            email.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(email).play();
         } else if (!isValidEmail(email.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Please enter a valid Email address.");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            email.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(email).play();
         } else if (num_card.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You need to input your Card Number");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            num_card.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(num_card).play();
         } else if (!check_cvc(cvc.getValue())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("The CVC number should contain three digits");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            cvc.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(cvc).play();
         } else if (!check_expDate(YY.getValue(), MM.getValue())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Please enter a valid expiration date");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            MM.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            YY.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(MM).play();
+            new animatefx.animation.Shake(YY).play();
         } else {
+            client_name.setStyle(null);
+            email.setStyle(null);
+            num_card.setStyle(null);
+            cvc.setStyle(null);
+            MM.setStyle(null);
+            YY.setStyle(null);
             boolean isValid = check_card_num(num_card.getText());
             if (!isValid) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -130,7 +152,10 @@ public class PaymentController implements Initializable {
                 alert.setTitle("Problem");
                 alert.setHeaderText(null);
                 alert.showAndWait();
+                num_card.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                new animatefx.animation.Shake(num_card).play();
             } else {
+                num_card.setStyle(null);
                 String name = client_name.getText();
                 String email_txt = email.getText();
                 String num = num_card.getText();
@@ -238,6 +263,22 @@ public class PaymentController implements Initializable {
             controller.setData(this.reservation);
             Scene scene = new Scene(root);
             Stage stage = (Stage) pay_btn.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void redirectToListReservation(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/reservation/Reservation_view_client.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Reservation_view_client controller = loader.getController();
+            controller.setData(this.reservation.getClient_id());
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) back_btn.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

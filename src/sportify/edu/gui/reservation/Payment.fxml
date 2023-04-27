@@ -12,16 +12,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../../../resources/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="sportify.edu.controllers.PaymentController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.PaymentController">
    <children>
-      <Label alignment="CENTER" layoutX="316.0" layoutY="34.0" prefHeight="33.0" prefWidth="168.0" style="-fx-font-size: 30;" text="Payment " />
-      <Pane layoutX="28.0" layoutY="524.0" prefHeight="53.0" prefWidth="199.0" style="-fx-background-radius: 20; -fx-background-color: #5f6469;">
+      <Label alignment="CENTER" layoutX="316.0" layoutY="34.0" prefHeight="33.0" prefWidth="168.0" style="-fx-font-size: 30;" text="Payment " AnchorPane.leftAnchor="316.0" AnchorPane.rightAnchor="316.0" />
+      <Pane layoutX="76.0" layoutY="533.0" prefHeight="53.0" prefWidth="199.0" style="-fx-background-radius: 20; -fx-background-color: #5f6469;" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="525.0">
          <children>
             <Label fx:id="total" layoutX="14.0" layoutY="11.0" prefHeight="31.0" prefWidth="168.0" style="-fx-font-size: 20;" text="Total :" />
          </children>
       </Pane>
-      <Pane layoutX="76.0" layoutY="105.0" prefHeight="395.0" prefWidth="656.0" style="-fx-background-radius: 20; -fx-background-color: #5f6469;">
+      <Pane layoutX="76.0" layoutY="105.0" prefHeight="395.0" prefWidth="656.0" style="-fx-background-radius: 20; -fx-background-color: #5f6469;" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="68.0">
          <children>
             <Button fx:id="pay_btn" layoutX="510.0" layoutY="343.0" mnemonicParsing="false" onAction="#payment" prefHeight="38.0" prefWidth="102.0" text="Pay now" />
             <GridPane hgap="5.0" layoutX="50.0" layoutY="25.0">
@@ -89,5 +88,14 @@
             <Spinner fx:id="cvc" editable="true" prefHeight="37.0" prefWidth="102.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
+      <Button fx:id="back_btn" layoutX="28.0" layoutY="33.0" mnemonicParsing="false" onAction="#redirectToListReservation" prefHeight="41.0" prefWidth="129.0" text="Back ">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/back-arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
