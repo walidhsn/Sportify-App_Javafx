@@ -171,14 +171,20 @@ public class ADD_terrainController implements Initializable {
         //Getting Values :        
         String name = terrain_name.getText();
         Integer capacity = terrain_capacity.getValue();
-        String sport_type = terrain_sportType.getValue();
+        String sport_type = "";
+        if (terrain_sportType.getValue() != null) {
+            sport_type = terrain_sportType.getValue();
+        }
         Double rent_price = terrain_rentPrice.getValue();
         boolean disponibility = terrain_disponibility.isSelected();
         Integer postalCode = terrain_postalCode.getValue();
         String roadName = terrain_roadName.getText();
         Integer roadNumber = terrain_roadNumber.getValue();
         String city = terrain_city.getText();
-        String country = terrain_country.getValue().getName();
+        String country = "";
+        if (terrain_country.getValue() != null) {
+            country = terrain_country.getValue().getName();
+        }
 
         // Control :
         if (name.isEmpty() && name.length() < 3) {
@@ -187,31 +193,46 @@ public class ADD_terrainController implements Initializable {
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            terrain_name.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_name).play();
         } else if (sport_type.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("'Sport Type' must be selected");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
-        } else if (roadName.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("you must input the Terrain 'Road Name'");
-            alert.setTitle("Problem");
-            alert.setHeaderText(null);
-            alert.showAndWait();
-        } else if (city.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("you must input the Terrain 'City'");
-            alert.setTitle("Problem");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+            terrain_sportType.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_sportType).play();
         } else if (country.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("you must input the Terrain 'Country'");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            terrain_country.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_country).play();
+        } else if (city.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("you must input the Terrain 'City'");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            terrain_city.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_city).play();
+        } else if (roadName.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("you must input the Terrain 'Road Name'");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            terrain_roadName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_roadName).play();
         } else {
+            terrain_name.setStyle(null);
+            terrain_sportType.setStyle(null);
+            terrain_country.setStyle(null);
+            terrain_city.setStyle(null);
+            terrain_roadName.setStyle(null);
             verif = ts.find_terrain(name, city, country);
             if (verif == null) {
                 if (file != null) {

@@ -255,4 +255,38 @@ public class TerrainService implements EntityCRUD<Terrain>, ITerrain_service {
         }
         return t;
     }
+
+    @Override
+    public Terrain find_terrain_update(int id_terrain, String name, String city, String country) {
+       Terrain t =null;
+        try {
+            String rq = "SELECT * FROM terrain WHERE name = ? AND city = ? AND country = ? AND id <> ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setString(1, name);
+            pst.setString(2, city);
+            pst.setString(3, country);
+            pst.setInt(4, id_terrain);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                t=new Terrain();
+                t.setId(rs.getInt("id"));
+                t.setOwner_id(rs.getInt("owner_id"));
+                t.setName(rs.getString("name"));
+                t.setCapacity(rs.getInt("capacity"));
+                t.setSportType(rs.getString("sport_type"));
+                t.setRentPrice(rs.getFloat("rent_price"));
+                t.setPostalCode(rs.getInt("postal_code"));
+                t.setRoadName(rs.getString("road_name"));
+                t.setRoadNumber(rs.getInt("road_number"));
+                t.setCity(rs.getString("city"));
+                t.setCountry(rs.getString("country"));
+                t.setImageName(rs.getString("image_name"));
+                t.setDisponibility(rs.getBoolean("disponibility"));
+                t.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return t;
+    }
 }

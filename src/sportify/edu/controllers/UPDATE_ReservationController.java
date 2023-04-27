@@ -119,7 +119,10 @@ public class UPDATE_ReservationController implements Initializable {
                 alert.setTitle("Problem");
                 alert.setHeaderText(null);
                 alert.showAndWait();
+                dateReservation.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                new animatefx.animation.Shake(dateReservation).play();
             } else {
+                dateReservation.setStyle(null);
                 // Create a new Reservation object with the selected values
                 Reservation newReservation = new Reservation();
                 //-----------------------------------------------------------------------------------------------
@@ -149,12 +152,30 @@ public class UPDATE_ReservationController implements Initializable {
                     alert.showAndWait();
                 }
             }
-        }else{
+        }else if (selectedDate == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Please Enter the missing informations");
-                    alert.setTitle("Problem");
-                    alert.setHeaderText(null);
-                    alert.showAndWait();
+            alert.setContentText("Please Enter the missing information (Date) ");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            dateReservation.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(dateReservation).play();
+        } else if (selectedStartTime == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please Enter the missing information (Start Time)");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            startTime.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(startTime).play();
+        } else if (selectedEndTime == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please Enter the missing information (End Time)");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            endTime.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(endTime).play();
         }
     }
     

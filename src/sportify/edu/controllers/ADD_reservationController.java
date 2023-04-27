@@ -56,15 +56,16 @@ public class ADD_reservationController implements Initializable {
     private ChoiceBox<?> equipments;
     @FXML
     private Button book_btn;
-    
+
     private Terrain terrain;
     private int id_client;
-    
-    public void setData(Terrain t,int client_id){
+
+    public void setData(Terrain t, int client_id) {
         this.terrain = t;
         this.id_client = client_id;
-        
+
     }
+
     /**
      * Initializes the controller class.
      */
@@ -101,7 +102,9 @@ public class ADD_reservationController implements Initializable {
         LocalTime selectedStartTime = startTime.getValue();
         LocalTime selectedEndTime = endTime.getValue();
         if (selectedDate != null && selectedStartTime != null && selectedEndTime != null) {
-
+            dateReservation.setStyle(null);
+            startTime.setStyle(null);
+            endTime.setStyle(null);
             // Combine the date and time values to create the start and end date/time objects
             LocalDateTime startDateTime = LocalDateTime.of(selectedDate, selectedStartTime);
             LocalDateTime endDateTime = LocalDateTime.of(selectedDate, selectedEndTime);
@@ -114,13 +117,16 @@ public class ADD_reservationController implements Initializable {
                 alert.setTitle("Problem");
                 alert.setHeaderText(null);
                 alert.showAndWait();
+                dateReservation.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                new animatefx.animation.Shake(dateReservation).play();
             } else {
+                dateReservation.setStyle(null);
                 // Create a new Reservation object with the selected values
                 Reservation newReservation = new Reservation();
                 //-----------------------------------------------------------------------------------------------
                 newReservation.setClient_id(this.id_client);
                 newReservation.setTerrain_id(this.terrain.getId());
-               //-----------------------------------------------------------------------------------------------
+                //-----------------------------------------------------------------------------------------------
                 newReservation.setDateReservation(startDateTime);
                 newReservation.setStartTime(startDateTime);
                 newReservation.setEndTime(endDateTime);
@@ -143,22 +149,40 @@ public class ADD_reservationController implements Initializable {
                     alert.showAndWait();
                 }
             }
-        }else{
+        } else if (selectedDate == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Please Enter the missing informations");
-                    alert.setTitle("Problem");
-                    alert.setHeaderText(null);
-                    alert.showAndWait();
+            alert.setContentText("Please Enter the missing information (Date)");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            dateReservation.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(dateReservation).play();
+        } else if (selectedStartTime == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please Enter the missing information (Start Time)");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            startTime.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(startTime).play();
+        } else if (selectedEndTime == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please Enter the missing information (End Time)");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            endTime.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(endTime).play();
         }
     }
-    
-    private void redirectToListReservation(){
+
+    private void redirectToListReservation() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/reservation/Reservation_view_client.fxml"));
             Parent root = loader.load();
             //UPDATE The Controller with Data :
             Reservation_view_client controller = loader.getController();
-            controller.setData(this.id_client);           
+            controller.setData(this.id_client);
             Scene scene = new Scene(root);
             Stage stage = (Stage) back_btn.getScene().getWindow();
             stage.setScene(scene);
