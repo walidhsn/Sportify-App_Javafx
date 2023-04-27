@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.stage.Stage;
 import sportify.edu.entities.User;
 import sportify.edu.services.SecurityService;
 
@@ -29,7 +30,6 @@ public class ChangerMdpController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
     }
     
     @FXML
@@ -42,6 +42,8 @@ public class ChangerMdpController implements Initializable {
         if (u.getPassword().equals(oldPassword)) {
             boolean updateResult = SecurityService.changePassword(u.getEmail(), newPassword);
             if (updateResult) {
+                Stage stage = (Stage) fxchanger.getScene().getWindow();
+                stage.close();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Changement de mot de passe");
                 alert.setHeaderText("Votre mot de passe a été modifié avec succès.");
