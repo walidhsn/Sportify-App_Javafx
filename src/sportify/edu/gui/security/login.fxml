@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.REGISTER_Controller">
+   <children>
+      <AnchorPane prefHeight="616.0" prefWidth="993.0" style="-fx-background-color: #343a40; -fx-background-radius: 15;">
+         <children>
+            <AnchorPane fx:id="creeruncompte" layoutX="55.0" layoutY="59.0" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #343a40; -fx-background-radius: 10;">
+               <children>
+                  <Label layoutX="39.0" layoutY="34.0" textFill="WHITE">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="73.0" layoutY="8.0" text="Acheter des pièces auto en Tunisie ? C'est           avec nous !" textFill="WHITE">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Line endX="100.0" layoutX="443.0" layoutY="73.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
+                  <Label layoutX="569.0" layoutY="377.0" text="Qui sommes-nous ?" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="675.0" layoutY="377.0" textFill="#fff600">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0">
+                     <top>
+                        <Label alignment="CENTER" prefWidth="265.0" text="Nous sommes un site qui vous permet de louer un ou plusieurs terrains sportif et aussi de gérer vos terrains." textFill="#9a9292" wrapText="true" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                     </top>
+                  </BorderPane>
+                  <Label layoutX="562.0" layoutY="8.0" text="facile" textFill="#ee1e46">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="52.0" layoutY="205.0" text="E-MAIL" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="50.0" layoutY="308.0" text="MOT DE PASSE" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="fxemail" layoutX="220.0" layoutY="202.0" prefHeight="25.0" prefWidth="240.0" promptText="Entrez l'e-mail" />
+                  <PasswordField fx:id="fxpassword" layoutX="220.0" layoutY="305.0" prefHeight="25.0" prefWidth="240.0" promptText="Entrer le mot de passe" />
+                  <Button fx:id="fxlogin" layoutX="261.0" layoutY="378.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="159.0" style="-fx-background-color: #ee1e46;" text="Connexion" textFill="WHITE" />
+                  <Button fx:id="stosignup" blendMode="SCREEN" layoutX="261.0" layoutY="430.0" mnemonicParsing="false" onAction="#redirectToSignUp" prefHeight="25.0" prefWidth="159.0" style="-fx-background-color: 54ff34;" text="Créer un compte" />
+<!--                  <Label fx:id="resetpassword" layoutX="225.0" layoutY="334.0" onMouseClicked="#resetpassword" text="Mot de passe oublié" textFill="WHITE">-->
+<!--                     <font>
+                        <Font size="10.0" />
+                     </font>-->
+<!--                  </Label>-->
+               </children>
+            </AnchorPane>
+            <Label layoutX="132.0" layoutY="17.0" text="Se Connecter" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

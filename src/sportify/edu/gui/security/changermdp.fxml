@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="722.0" prefWidth="887.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.ChangerMdpController">
+   <children>
+      <PasswordField fx:id="fxoldpassword" layoutX="326.0" layoutY="260.0" prefHeight="27.0" prefWidth="222.0" promptText="Entrez le mot de passe actuelle" />
+      <PasswordField fx:id="fxnewpassword" layoutX="326.0" layoutY="381.0" prefHeight="27.0" prefWidth="222.0" promptText="Entrez le nouveau mot de passe" />
+      <Label layoutX="95.0" layoutY="263.0" text="Mot de passe actuelle" />
+      <Label layoutX="95.0" layoutY="383.0" text="Nouveau mot de passe" />
+      <Button fx:id="fxchanger" layoutX="399.0" layoutY="463.0" mnemonicParsing="false" onAction="#changermdp" text="Changer" />
+   </children>
+</AnchorPane>

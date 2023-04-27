@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+
+<AnchorPane id="AnchorPane" prefHeight="722.0" prefWidth="887.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.DISPLAY_User">
+   <children>
+       <MenuButton fx:id="fxmenu" layoutX="37.0" layoutY="47.0" mnemonicParsing="false" text="MenuButton">
+        <items>
+        </items>
+    </MenuButton>
+      <TableView fx:id="fxtableutilisateur" layoutX="30.0" layoutY="183.0" prefHeight="278.0" prefWidth="828.0">
+        <columns>
+          <TableColumn fx:id="fxemail" prefWidth="215.20001220703125" text="EMAIL" />
+          <TableColumn fx:id="fxnom" prefWidth="78.4000244140625" text="NOM" />
+            <TableColumn fx:id="fxprenom" minWidth="0.0" prefWidth="112.800048828125" text="PRENOM" />
+            <TableColumn fx:id="fxusername" prefWidth="152.00006103515625" text="NOM D'UTILISATEUR" />
+            <TableColumn fx:id="fxnum" prefWidth="144.0" text="NUMERO" />
+            <TableColumn fx:id="fxblock" prefWidth="121.5999755859375" text="Block/Unblock" />
+        </columns>
+      </TableView>
+      <TextField fx:id="fxrecherche" layoutX="370.0" layoutY="109.0" promptText="Rechercher par email..." />
+   </children>
+</AnchorPane>

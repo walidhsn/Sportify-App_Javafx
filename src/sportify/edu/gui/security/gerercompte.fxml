@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.GererCompteController">
+   <children>
+      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="626.0" prefWidth="1005.0" style="-fx-background-radius: 20;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="616.0" prefWidth="993.0" style="-fx-background-color: #343a40; -fx-background-radius: 15;">
+               <children>
+                  <VBox prefHeight="544.0" prefWidth="74.0" style="-fx-background-color: #343a40; -fx-background-radius: 15 0 0 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane layoutX="91.0" layoutY="59.0" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #343a40; -fx-background-radius: 10;" stylesheets="@../../../../resources/style.css">
+                     <children>
+                        <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0" />
+                        <TextField fx:id="fxlastname" layoutX="334.0" layoutY="114.0" prefHeight="25.0" prefWidth="219.0" />
+                        <TextField fx:id="fxphone" layoutX="334.0" layoutY="282.0" prefHeight="25.0" prefWidth="219.0" />
+                        <Label layoutX="343.0" layoutY="24.0" text="Mes informations" textFill="WHITE">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="189.0" layoutY="115.0" prefHeight="38.0" prefWidth="68.0" text="Nom" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="189.0" layoutY="227.0" prefHeight="38.0" prefWidth="156.0" text="Nom d'utilisateur" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnEnregistrer" layoutX="351.0" layoutY="437.0" mnemonicParsing="false" onAction="#enregistrer" prefHeight="25.0" prefWidth="185.0" styleClass="button4" stylesheets="@../../../../resources/style.css" text="Enregistrer" textFill="WHITE" />
+                        <TextField fx:id="fxfirstname" layoutX="334.0" layoutY="168.0" prefHeight="25.0" prefWidth="219.0" />
+                        <Label layoutX="189.0" layoutY="169.0" prefHeight="38.0" prefWidth="106.0" text="Prenom" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="fxusername" layoutX="334.0" layoutY="226.0" prefHeight="25.0" prefWidth="219.0" />
+                        <Label layoutX="189.0" layoutY="283.0" prefHeight="38.0" prefWidth="90.0" text="Numero" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

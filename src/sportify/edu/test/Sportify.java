@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.*;
 
 
 
@@ -31,7 +30,7 @@ public class Sportify extends Application{
     @Override
     public void start(Stage stage) throws Exception {
 //        Parent root = FXMLLoader.load(getClass().getResource("../gui/terrain/Home.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("../gui/security/Login_UI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../gui/security/login.fxml"));
         Scene scene = new Scene(root);
         Image icon = new Image("/resources/icon.png");
         stage.getIcons().add(icon);

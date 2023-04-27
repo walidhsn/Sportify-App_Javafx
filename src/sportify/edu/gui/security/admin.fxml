@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane id="AnchorPane" prefHeight="647.0" prefWidth="803.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.AdminController">
+    <MenuButton fx:id="fxmenu" layoutX="37.0" layoutY="47.0" mnemonicParsing="false" text="MenuButton">
+        <items>
+        </items>
+    </MenuButton>
+    <children>
+        <Button fx:id="fxmodifierUtilisateur" layoutX="318.0" layoutY="120.0" mnemonicParsing="false" onAction="#modifierUtilisateur" text="Modifier un utilisateur" />
+        <Button fx:id="fxsupprimerutilisateur" layoutX="312.0" layoutY="207.0" mnemonicParsing="false" onAction="#fxsupprimerUtilisateur" text="Supprimer un utilisateur" />
+        <Button fx:id="fxafficherlisteutilisateur" layoutX="292.0" layoutY="293.0" mnemonicParsing="false" onAction="#fxafficherlisteutilisateur" text="Afficher la liste des utilisateurs" />
+    </children>
+</AnchorPane>
