@@ -60,6 +60,7 @@ public class Terrain_chartController implements Initializable {
     private TerrainService ts;
     private ReservationService rs;
     private Label status;
+
     public void setData(int id_owner) {
         this.id_owner = id_owner;
         barChart();
@@ -174,7 +175,9 @@ public class Terrain_chartController implements Initializable {
             Double app_profit = 0.0;
             List<Reservation> listReservations = rs.terrain_reservations(terrain.getId());
             for (Reservation reservation : listReservations) {
-                revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                if (reservation.isResStatus()) {
+                    revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                }
                 //to Do adding the equipments that has been rented
             }
             app_profit = ((20 * revenue) / 100);
@@ -202,7 +205,9 @@ public class Terrain_chartController implements Initializable {
             Double app_profit = 0.0;
             List<Reservation> listReservations = rs.terrain_reservations(terrain.getId());
             for (Reservation reservation : listReservations) {
-                revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                if (reservation.isResStatus()) {
+                    revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                }
                 //to Do adding the equipments that has been rented
             }
             app_profit = ((20 * revenue) / 100);
@@ -264,7 +269,9 @@ public class Terrain_chartController implements Initializable {
             Double app_profit = 0.0;
             List<Reservation> listReservations = rs.terrain_reservations_by_year(terrain.getId(), year);
             for (Reservation reservation : listReservations) {
-                revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                if (reservation.isResStatus()) {
+                    revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                }
                 //to Do adding the equipments that has been rented
             }
             app_profit = ((20 * revenue) / 100);
@@ -325,7 +332,9 @@ public class Terrain_chartController implements Initializable {
             Double app_profit = 0.0;
             List<Reservation> listReservations = rs.terrain_reservations_by_month(terrain.getId(), year, month);
             for (Reservation reservation : listReservations) {
-                revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                if (reservation.isResStatus()) {
+                    revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                }
                 //to Do adding the equipments that has been rented
             }
             app_profit = ((20 * revenue) / 100);
@@ -384,7 +393,9 @@ public class Terrain_chartController implements Initializable {
             Double app_profit = 0.0;
             List<Reservation> listReservations = rs.terrain_reservations_by_week(terrain.getId(), date);
             for (Reservation reservation : listReservations) {
-                revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                if (reservation.isResStatus()) {
+                    revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                }
                 //to Do adding the equipments that has been rented
             }
             app_profit = ((20 * revenue) / 100);
@@ -452,7 +463,9 @@ public class Terrain_chartController implements Initializable {
             Double app_profit = 0.0;
             List<Reservation> listReservations = rs.terrain_reservations_by_year(terrain.getId(), year);
             for (Reservation reservation : listReservations) {
-                revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                if (reservation.isResStatus()) {
+                    revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                }
                 //to Do adding the equipments that has been rented
             }
             app_profit = ((20 * revenue) / 100);
@@ -490,7 +503,9 @@ public class Terrain_chartController implements Initializable {
             Double app_profit = 0.0;
             List<Reservation> listReservations = rs.terrain_reservations_by_month(terrain.getId(), year, month);
             for (Reservation reservation : listReservations) {
-                revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                if (reservation.isResStatus()) {
+                    revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                }
                 //to Do adding the equipments that has been rented
             }
             app_profit = ((20 * revenue) / 100);
@@ -526,7 +541,9 @@ public class Terrain_chartController implements Initializable {
             Double app_profit = 0.0;
             List<Reservation> listReservations = rs.terrain_reservations_by_week(terrain.getId(), date);
             for (Reservation reservation : listReservations) {
-                revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                if (reservation.isResStatus()) {
+                    revenue += (reservation.getNbPerson() * terrain.getRentPrice());
+                }
                 //to Do adding the equipments that has been rented
             }
             app_profit = ((20 * revenue) / 100);

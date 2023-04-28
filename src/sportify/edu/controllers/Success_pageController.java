@@ -61,7 +61,7 @@ public class Success_pageController implements Initializable {
             value = "This confirms that we've just received your online payment for your Reservation of the Staduim : " + terrain.getName() + ",";
             payment_txt.setText(value);
         }
-        send_sms_to_Client(50190957); // this will be replaced with the client number 
+       // send_sms_to_Client(50190957); // this will be replaced with the client number 
     }
 
     public void export_pdf(String html, String fileName) throws IOException, DocumentException {
