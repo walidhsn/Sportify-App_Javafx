@@ -59,7 +59,8 @@ public class PaymentController implements Initializable {
     private TextField client_name;
     @FXML
     private Button back_btn;
-
+    private TextField spinnerTextField;
+    
     public void setData(Reservation r) {
         this.reservation = r;
         TerrainService ts = new TerrainService();
@@ -75,6 +76,15 @@ public class PaymentController implements Initializable {
         cvc.setValueFactory(valueFactory_cvc);
         String total_txt = "Total : " + String.valueOf(total_pay) + " Dt.";
         total.setText(total_txt);
+        spinnerTextField= cvc.getEditor();
+        spinnerTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                cvc.getValueFactory().setValue(Integer.parseInt(newValue));
+            } catch (NumberFormatException e) {
+                // Handle invalid input
+            }
+        });
+
     }
 
     /**
