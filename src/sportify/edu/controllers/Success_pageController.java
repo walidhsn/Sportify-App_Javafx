@@ -32,6 +32,7 @@ import com.twilio.exception.ApiException;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import java.awt.Desktop;
+import java.util.UUID;
 
 /**
  * FXML Controller class
@@ -201,7 +202,7 @@ public class Success_pageController implements Initializable {
                 + "    </div>\n"
                 + "</body>\n"
                 + "</html>";
-        String txt = "Reservation-" + String.valueOf(reservation.getId()) + ".pdf";
+        String txt = "Reservation-" + String.valueOf(reservation.getId())+"-"+generateUniqueString()+ ".pdf";
         String fileName = txt;
         try {
             export_pdf(html, fileName);
@@ -253,5 +254,9 @@ public class Success_pageController implements Initializable {
             System.err.println(e);
 
         }
+    }
+    private String generateUniqueString() {      
+        String unique = UUID.randomUUID().toString(); // Generate a unique String
+        return unique;
     }
 }

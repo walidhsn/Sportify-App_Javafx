@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -525,12 +526,16 @@ public class Reservation_view_client implements Initializable {
                 + "    </div>\n"
                 + "</body>\n"
                 + "</html>";
-        String txt = "Reservation-" + String.valueOf(reservation.getId()) + ".pdf";
+        String txt = "Reservation-" + String.valueOf(reservation.getId())+"-"+generateUniqueString()+ ".pdf";
         String fileName = txt;
         try {
             export_pdf(html, fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+      private String generateUniqueString() {      
+        String unique = UUID.randomUUID().toString(); // Generate a unique String
+        return unique;
     }
 }
