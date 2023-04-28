@@ -12,19 +12,19 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.TilePane?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Terrain_view_clientController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1400.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Terrain_view_clientController">
    <children>
-      <ScrollPane layoutX="263.0" layoutY="13.0" prefHeight="575.0" prefWidth="932.0">
+      <ScrollPane layoutX="11.0" layoutY="87.0" prefHeight="501.0" prefWidth="1385.0">
          <content>
-            <TilePane fx:id="terrains_TilePane" hgap="10.0" prefHeight="1200.0" prefWidth="895.0" vgap="20.0">
+            <TilePane fx:id="terrains_TilePane" hgap="10.0" prefHeight="1200.0" prefWidth="1363.0" vgap="20.0">
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
             </TilePane>
          </content>
       </ScrollPane>
-      <Button fx:id="myReservation_btn" layoutX="35.0" layoutY="270.0" mnemonicParsing="false" onAction="#redirectToListReservation" text="My Reservation" />
-      <GridPane hgap="5.0" layoutX="23.0" layoutY="35.0">
+      <Button fx:id="myReservation_btn" layoutX="26.0" layoutY="31.0" mnemonicParsing="false" onAction="#redirectToListReservation" text="My Reservation" />
+      <GridPane hgap="5.0" layoutX="929.0" layoutY="31.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -33,7 +33,7 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <TextField fx:id="search_text" promptText="Search" />
+            <TextField fx:id="search_text" prefHeight="37.0" prefWidth="171.0" promptText="Search" />
             <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <image>
                   <Image url="@../../../../resources/search-icon.png" />

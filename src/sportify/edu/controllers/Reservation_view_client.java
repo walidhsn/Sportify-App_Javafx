@@ -6,6 +6,7 @@
 package sportify.edu.controllers;
 
 import com.lowagie.text.DocumentException;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -411,6 +412,10 @@ public class Reservation_view_client implements Initializable {
         // Export to PDF
         try (FileOutputStream os = new FileOutputStream(file)) {
             renderer.createPDF(os);
+        }
+        // Open the PDF file
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().open(file);
         }
     }
 

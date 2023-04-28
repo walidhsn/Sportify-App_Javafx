@@ -31,6 +31,7 @@ import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import java.awt.Desktop;
 
 /**
  * FXML Controller class
@@ -79,6 +80,10 @@ public class Success_pageController implements Initializable {
         // Export to PDF
         try (FileOutputStream os = new FileOutputStream(file)) {
             renderer.createPDF(os);
+        }
+        // Open the PDF file
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().open(file);
         }
     }
 
@@ -196,7 +201,7 @@ public class Success_pageController implements Initializable {
                 + "    </div>\n"
                 + "</body>\n"
                 + "</html>";
-        String txt= "Reservation-"+String.valueOf(reservation.getId())+".pdf";
+        String txt = "Reservation-" + String.valueOf(reservation.getId()) + ".pdf";
         String fileName = txt;
         try {
             export_pdf(html, fileName);

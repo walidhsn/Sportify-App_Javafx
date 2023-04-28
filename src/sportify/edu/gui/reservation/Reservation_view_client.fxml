@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -14,9 +15,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1500.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Reservation_view_client">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1500.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Reservation_view_client">
    <children>
-      <TableView fx:id="table_reservation" layoutX="22.0" layoutY="93.0" prefHeight="493.0" prefWidth="1267.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="93.0">
+      <TableView fx:id="table_reservation" layoutX="21.0" layoutY="134.0" prefHeight="545.0" prefWidth="1467.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="134.0">
          <columns>
             <TableColumn fx:id="date_col" prefWidth="148.0" text="Date " />
             <TableColumn fx:id="startTime_col" prefWidth="158.0" text="Start Time" />
@@ -30,7 +31,7 @@
             <TableColumn fx:id="receipt_col" prefWidth="179.0" text="Receipt" />
          </columns>
       </TableView>
-      <ToolBar layoutX="21.0" layoutY="26.0" prefHeight="57.0" prefWidth="1267.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="12.0">
+      <ToolBar layoutX="21.0" layoutY="73.0" prefHeight="57.0" prefWidth="1267.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="12.0">
          <items>
             <Button fx:id="back_btn" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#returnListTerrainClient" prefHeight="41.0" prefWidth="103.0" text="Back">
                <font>
@@ -64,5 +65,6 @@
             </GridPane>
          </items>
       </ToolBar>
+      <Label layoutX="21.0" layoutY="28.0" style="-fx-font-size: 25;" text="Client Reservations : " />
    </children>
 </AnchorPane>

@@ -32,7 +32,7 @@ public class PaymentProcessor {
         amount = (float) ((amount / 0.3) * 10);
         Conversion = (int) amount;
         boolean card_exist = false;
-        String card_id = null;
+        String card_id = "";
         // Set your secret key
         Stripe.apiKey = STRIPE_API_KEY;
         Customer stripeCustomer = null;

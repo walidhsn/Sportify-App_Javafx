@@ -10,7 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import sportify.edu.entities.Reservation;
@@ -303,6 +306,98 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
     @Override
     public void update_equipment_reservation(int id_reservation) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Reservation> terrain_reservations_by_year(int terrain_id, int year) {
+        List<Reservation> myList = new ArrayList<>();
+
+        try {
+            String rq = "SELECT * FROM reservation WHERE terrain_id = ? AND YEAR(date_reservation) = ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setInt(1, terrain_id);
+            pst.setInt(2, year);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Reservation r = new Reservation();
+                r.setId(rs.getInt("id"));
+                r.setTerrain_id(rs.getInt("terrain_id"));
+                r.setClient_id(rs.getInt("client_id"));
+                r.setDateReservation(rs.getTimestamp("date_reservation").toLocalDateTime());
+                r.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
+                r.setResStatus(rs.getBoolean("res_status"));
+                r.setNbPerson(rs.getInt("nb_person"));
+                myList.add(r);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return myList;
+    }
+
+    @Override
+    public List<Reservation> terrain_reservations_by_month(int terrain_id, int year, int month) {
+        List<Reservation> myList = new ArrayList<>();
+
+        try {
+            String rq = "SELECT * FROM reservation WHERE terrain_id = ? AND YEAR(date_reservation) = ? AND MONTH(date_reservation) = ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setInt(1, terrain_id);
+            pst.setInt(2, year);
+            pst.setInt(3, month);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Reservation r = new Reservation();
+                r.setId(rs.getInt("id"));
+                r.setTerrain_id(rs.getInt("terrain_id"));
+                r.setClient_id(rs.getInt("client_id"));
+                r.setDateReservation(rs.getTimestamp("date_reservation").toLocalDateTime());
+                r.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
+                r.setResStatus(rs.getBoolean("res_status"));
+                r.setNbPerson(rs.getInt("nb_person"));
+                myList.add(r);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return myList;
+    }
+
+    @Override
+    public List<Reservation> terrain_reservations_by_week(int terrain_id, LocalDate date) {
+        List<Reservation> myList = new ArrayList<>();
+
+        // Find the closest Monday before the given date
+        LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+        // Calculate the end of the week (Sunday)
+        LocalDate endOfWeek = startOfWeek.plusDays(6);
+
+        try {
+            String rq = "SELECT * FROM reservation WHERE terrain_id = ? AND date_reservation >= ? AND date_reservation < ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setInt(1, terrain_id);
+            pst.setTimestamp(2, Timestamp.valueOf(startOfWeek.atStartOfDay()));
+            pst.setTimestamp(3, Timestamp.valueOf(endOfWeek.plusDays(1).atStartOfDay()));
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Reservation r = new Reservation();
+                r.setId(rs.getInt("id"));
+                r.setTerrain_id(rs.getInt("terrain_id"));
+                r.setClient_id(rs.getInt("client_id"));
+                r.setDateReservation(rs.getTimestamp("date_reservation").toLocalDateTime());
+                r.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
+                r.setResStatus(rs.getBoolean("res_status"));
+                r.setNbPerson(rs.getInt("nb_person"));
+                myList.add(r);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return myList;
     }
 
 }
