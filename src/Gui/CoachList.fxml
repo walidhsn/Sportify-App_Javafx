@@ -11,14 +11,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Ressource/bg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AcademyList">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Ressource/bg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CoachList">
    <children>
-      <TableView fx:id="tvAcademy" layoutX="37.0" layoutY="124.0" prefHeight="407.0" prefWidth="697.0" stylesheets="@../Ressource/style.css">
+      <TableView fx:id="tvCoach" layoutX="37.0" layoutY="124.0" prefHeight="407.0" prefWidth="697.0" stylesheets="@../Ressource/style.css">
         <columns>
           <TableColumn fx:id="colId" prefWidth="35.999969482421875" text="id" />
-          <TableColumn fx:id="colName" prefWidth="172.79998779296875" text="Name" />
-            <TableColumn fx:id="colCategory" prefWidth="204.0" text="Email" />
-            <TableColumn fx:id="colPhone" prefWidth="284.0000244140625" text="Phone" />
+          <TableColumn fx:id="colName" prefWidth="133.5999755859375" text="Name" />
+            <TableColumn fx:id="colCategory" prefWidth="194.4000244140625" text="Email" />
+            <TableColumn fx:id="colPhone" prefWidth="180.0" text="Phone" />
+            <TableColumn fx:id="colAcademy" prefWidth="154.4000244140625" text="Academy" />
         </columns>
       </TableView>
       <Button fx:id="btnAdd" alignment="TOP_LEFT" layoutX="44.0" layoutY="537.0" mnemonicParsing="false" onAction="#handleAddButtonClick" prefHeight="44.0" prefWidth="97.0" text="Add">
@@ -74,6 +75,18 @@
                </image>
             </ImageView>
          </graphic>
+      </Button>
+      <Button fx:id="btnAcademy" layoutX="43.0" layoutY="29.0" mnemonicParsing="false" onAction="#SwitchToAcademy" prefHeight="47.0" prefWidth="145.0" style="-fx-background-color: cyan;" text="ACADEMIES">
+         <graphic>
+            <ImageView fitHeight="53.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Ressource/icons/switch.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
       </Button>
 
    </children>

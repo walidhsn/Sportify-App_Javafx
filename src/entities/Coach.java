@@ -14,22 +14,45 @@ public class Coach {
     private String name;
     private String email;
     private String phone;
+    private String academy_name;
 
     public Coach() {
     }
 
-    public Coach(int id, String name, String email, String phone) {
+    public Coach(int id, String name, String email, String phone,String academy_name) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.academy_name = academy_name;
+        
     }
+//    public Coach(int id, String name, String email, String phone, Academy academy) {
+//        this.id = id;
+//        this.name = name;
+//        this.email = email;
+//        this.phone = phone;
+//        this.academy = academy;
+//    }
 
+    public Coach(String name, String email, String phone, String academy_name) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.academy_name = academy_name;
+    }
+    
     public Coach(String name, String email, String phone) {
         this.name = name;
         this.email = email;
         this.phone = phone;
     }
+//    public Coach(String name, String email, String phone, Academy academy) {
+//        this.name = name;
+//        this.email = email;
+//        this.phone = phone;
+//        this.academy = academy;
+//    }
 
     public int getId() {
         return id;
@@ -62,9 +85,25 @@ public class Coach {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    
+    public String getAcademyName() {
+        return academy_name;
+    }
+
+    public void setAcademyName(String academy_name) {
+        this.academy_name = academy_name;
+    }
+    
+//    public Academy getAcademy() {
+//        return academy;
+//    }
+//
+//    public void setAcademy(Academy academy) {
+//        this.academy = academy;
+//    }
 
     @Override
     public String toString() {
-        return "Coach{" + "id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + '}';
+        return "Coach{" + "id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", academy_name=" + academy_name + '}';
     }
 }

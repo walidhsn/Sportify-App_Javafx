@@ -71,6 +71,7 @@ public class AcademyEdit implements Initializable {
         this.selectedAcademyId = academyId;
         this.selectedAcademy = academyCRUD.getEntity(academyId);
         txtName.setText(selectedAcademy.getName());
+        categoryField.setValue(selectedAcademy.getCategory());
     }
 
     public void handleSaveButtonClick(ActionEvent event) throws IOException {
@@ -94,7 +95,7 @@ public class AcademyEdit implements Initializable {
             alert.setContentText("Please enter a valid name");
             alert.showAndWait();
 
-        } else if (academyCRUD.academyExists(name)) {
+        } else if (!name.equals(selectedAcademy.getName()) &&academyCRUD.academyExists(name)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Academy Already Exists");
             alert.setHeaderText(null);

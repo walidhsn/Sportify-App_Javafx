@@ -5,7 +5,7 @@
  */
 package Controllers;
 
-import entities.Academy;
+import entities.Coach;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -26,14 +26,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import services.AcademyCRUD;
+import services.CoachCRUD;
 
 /**
  * FXML Controller class
  *
  * @author ramib
  */
-public class AcademyDetails implements Initializable {
+public class CoachDetails implements Initializable {
 
     @FXML
     private TextField txtId;
@@ -45,10 +45,14 @@ public class AcademyDetails implements Initializable {
     private Button btnEdit;
     @FXML
     private Button btnDelete;
-    @FXML
-    private ImageView img;
     
-    private AcademyCRUD academyCRUD = new AcademyCRUD();
+    private CoachCRUD coachCRUD = new CoachCRUD();
+    @FXML
+    private TextField txtCategory1;
+    @FXML
+    private ImageView backIcon;
+    @FXML
+    private TextField txtCategory11;
 
     /**
      * Initializes the controller class.
@@ -58,22 +62,16 @@ public class AcademyDetails implements Initializable {
         // TODO
     }  
     
-    public void setAcademy(Academy academy) {
-        String image_path_directory = "file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
-        String full_path;
-        txtId.setText(String.valueOf(academy.getId()));
-        txtName.setText(academy.getName());
-        txtCategory.setText(academy.getCategory());
-        if (academy.getImageName() != null) {
-            full_path = image_path_directory + academy.getImageName();
-            img.setImage(new Image(full_path));
-        } else {
-            System.out.println("No image");    
-        }
+    public void setCoach(Coach coach) {
+        txtId.setText(String.valueOf(coach.getId()));
+        txtName.setText(coach.getName());
+        txtCategory.setText(coach.getEmail());
+        txtCategory1.setText(coach.getPhone());
+        txtCategory11.setText(coach.getAcademyName());
+        
     }
-
     
-    
+    @FXML
     public void handleEditButtonClick(ActionEvent event) throws IOException, SQLException {
         String idText = txtId.getText();
         if (idText.isEmpty()) {
@@ -93,14 +91,14 @@ public class AcademyDetails implements Initializable {
             return;
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyEdit.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/CoachEdit.fxml"));
         Parent root = loader.load();
 
-        // Get the controller of the AcademyEdit.fxml file
-        AcademyEdit controller = loader.getController();
+        // Get the controller of the CoachEdit.fxml file
+        CoachEdit controller = loader.getController();
 
-        // Set the ID of the selected academy
-        controller.setSelectedAcademyId(id);
+        // Set the ID of the selected coach
+        controller.setSelectedCoachId(id);
 
         Stage stage = (Stage) txtId.getScene().getWindow();
         Scene scene = new Scene(root);
@@ -112,28 +110,29 @@ public class AcademyDetails implements Initializable {
 
 
     
+    @FXML
     public void handleDeleteButtonClick(ActionEvent event) throws IOException { 
-        int academyId = Integer.parseInt(txtId.getText());
+        int coachId = Integer.parseInt(txtId.getText());
 
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Delete Confirmation");
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete the academy?");
+        alert.setContentText("Are you sure you want to delete the coach?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            academyCRUD.deleteEntity(academyId);
+            coachCRUD.deleteEntity(coachId);
 
             Alert alertDeleted = new Alert(AlertType.INFORMATION);
-            alertDeleted.setTitle("Academy Deleted");
+            alertDeleted.setTitle("Coach Deleted");
             alertDeleted.setHeaderText(null);
-            alertDeleted.setContentText("The academy has been deleted successfully.");
+            alertDeleted.setContentText("The coach has been deleted successfully.");
             alertDeleted.showAndWait();
 
             Stage stage = (Stage) btnDelete.getScene().getWindow();
             stage.close();
 
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
             Scene scene = new Scene(root);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -145,7 +144,7 @@ public class AcademyDetails implements Initializable {
     @FXML
     private void handleBackButtonClick(javafx.event.ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

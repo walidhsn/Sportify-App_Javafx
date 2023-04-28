@@ -26,17 +26,20 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
     @Override
     public void addEntity(Coach t) {
         try {
-            String requete = "INSERT INTO coach (name, email, phone) VALUES (?, ?, ?)";
+            String requete = "INSERT INTO coach (name, email, phone, academy_name) VALUES (?, ?, ?, ?)";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, t.getName());
             pst.setString(2, t.getEmail());
             pst.setString(3, t.getPhone());
+            pst.setString(4, t.getAcademyName());
+//            pst.setInt(4, t.getAcademy().getId()); // set academy id
             pst.executeUpdate();
             System.out.println("Coach added");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage()); 
         }
     }
+
 
     @Override
     public void coachDetails(int id) {
@@ -51,6 +54,7 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
                 p.setName(rs.getString("name"));
                 p.setEmail(rs.getString("email"));
                 p.setPhone(rs.getString("phone"));
+                p.setAcademyName(rs.getString("academy_name"));
                 System.out.println("Coach details: " + p.toString());
             } else {
                 System.out.println("No Coach found with ID " + id + ".");
@@ -80,12 +84,13 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
     @Override
     public void updateEntity(Coach t) {
         try {
-            String requete = "UPDATE coach SET name=?, email=?, phone=? WHERE id=?";
+            String requete = "UPDATE coach SET name=?, email=?, phone=?, academy_name=? WHERE id=?";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, t.getName());
             pst.setString(2, t.getEmail());
             pst.setString(3, t.getPhone());
-            pst.setInt(4, t.getId());
+            pst.setString(4, t.getAcademyName());
+            pst.setInt(5, t.getId());
             int nb = pst.executeUpdate();
             if (nb > 0) {
                 System.out.println("Coach with ID " + t.getId() + " updated successfully.");
@@ -116,7 +121,8 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
                 String name = resultSet.getString("name");
                 String email = resultSet.getString("email");
                 String phone = resultSet.getString("phone");
-                coach = new Coach(id, name, email, phone);
+                String academy_name = resultSet.getString("academy_name");
+                coach = new Coach(id, name, email, phone, academy_name);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,6 +164,7 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
                 Coach p = new Coach();
                 p.setId(rs.getInt(1));
                 p.setName(rs.getString("name"));
+                p.setAcademyName(rs.getString("academy_name"));
                 p.setEmail(rs.getString("email"));
                 p.setPhone(rs.getString("phone"));
                 myList.add(p);
@@ -168,4 +175,21 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
         return myList;
     }
     
+    public List<String> findCoachNamesByAcademyName(String academyName) {
+        List<String> coachNames = new ArrayList<>();
+        try {
+            String query = "SELECT name FROM coach WHERE academy_name=?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+            pst.setString(1, academyName);
+            ResultSet resultSet = pst.executeQuery();
+            while (resultSet.next()) {
+                String coachName = resultSet.getString("name");
+                coachNames.add(coachName);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return coachNames;
+    }
+
 }

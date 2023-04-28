@@ -16,6 +16,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entities.Academy;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -79,6 +80,8 @@ public class AcademyList implements Initializable {
     @FXML
     private TableColumn<Academy, String> colCategory;
     @FXML
+    private TableColumn<Academy, String> colCategory1;
+    @FXML
     private TextField searchField;
     @FXML
     private ImageView imgSearch;
@@ -93,12 +96,17 @@ public class AcademyList implements Initializable {
     private AcademyCRUD academyCRUD = new AcademyCRUD();
     @FXML
     private Button btnAdd;
+    @FXML
+    private Button btnChart;
+    @FXML
+    private Button btnCoach;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+        colCategory1.setCellValueFactory(new PropertyValueFactory<>("ImageName"));
         academyList = FXCollections.observableArrayList(academyCRUD.display());
         tvAcademy.setItems(academyList);
 
@@ -192,11 +200,16 @@ public class AcademyList implements Initializable {
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(pdfBytes);
                 fos.close();
+                // open the PDF file
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(file);
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
     
     private byte[] generatePDF() throws Exception {
         Document document = new Document();
@@ -279,6 +292,16 @@ public class AcademyList implements Initializable {
     private void handleChartButtonClick(ActionEvent event) {
         generateCategoryChart(academyList);
     }
+
+    @FXML
+    private void SwitchToCoach(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+    
 
 
 

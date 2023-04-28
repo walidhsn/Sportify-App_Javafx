@@ -5,6 +5,9 @@
  */
 package entities;
 
+import java.util.List;
+import javax.persistence.OneToMany;
+
 /**
  *
  * @author ramib
@@ -14,6 +17,7 @@ public class Academy {
     private String name;
     private String category;
     private String imageName;
+    private List<Coach> coaches;
 
     public Academy() {
     }
@@ -72,5 +76,14 @@ public class Academy {
     @Override
     public String toString() {
         return "Academy{" + "id=" + id + ", name=" + name + ", category=" + category + ", imageName=" + imageName + '}';
+    }
+    
+    @OneToMany(mappedBy = "academy")
+    public List<Coach> getCoaches() {
+        return coaches;
+    }
+
+    public void setCoaches(List<Coach> coaches) {
+        this.coaches = coaches;
     }
 }

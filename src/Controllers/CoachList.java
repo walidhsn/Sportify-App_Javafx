@@ -16,6 +16,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entities.Coach;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -81,6 +82,8 @@ public class CoachList implements Initializable {
     @FXML
     private TableColumn<Coach, String> colPhone;
     @FXML
+    private TableColumn<Coach, String> colAcademy;
+    @FXML
     private TextField searchField;
     @FXML
     private ImageView imgSearch;
@@ -95,6 +98,10 @@ public class CoachList implements Initializable {
     private CoachCRUD coachCRUD = new CoachCRUD();
     @FXML
     private Button btnAdd;
+    @FXML
+    private Button btnChart;
+    @FXML
+    private Button btnAcademy;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,7 +109,9 @@ public class CoachList implements Initializable {
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colCategory.setCellValueFactory(new PropertyValueFactory<>("email"));
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        colAcademy.setCellValueFactory(new PropertyValueFactory<>("AcademyName"));
         coachList = FXCollections.observableArrayList(coachCRUD.display());
+//        System.out.println(coachList);
         tvCoach.setItems(coachList);
 
         // Set the selection mode to MULTIPLE
@@ -195,12 +204,15 @@ public class CoachList implements Initializable {
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(pdfBytes);
                 fos.close();
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(file);
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    
+   
     private byte[] generatePDF() throws Exception {
         Document document = new Document();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -216,10 +228,12 @@ public class CoachList implements Initializable {
         title.setSpacingAfter(20);
         document.add(title);
         // Add table headers
-        PdfPTable table = new PdfPTable(3);
+        PdfPTable table = new PdfPTable(5);
         table.addCell(new Phrase("ID", headerFont));
         table.addCell(new Phrase("Name", headerFont));
-        table.addCell(new Phrase("Category", headerFont));
+        table.addCell(new Phrase("Email", headerFont));
+        table.addCell(new Phrase("Phone", headerFont));
+        table.addCell(new Phrase("Academy", headerFont));
 
         // Define font styles for table data
         Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 10, BaseColor.BLACK);
@@ -229,6 +243,8 @@ public class CoachList implements Initializable {
             table.addCell(new Phrase(String.valueOf(coach.getId()), dataFont));
             table.addCell(new Phrase(coach.getName(), dataFont));
             table.addCell(new Phrase(coach.getEmail(), dataFont));
+            table.addCell(new Phrase(coach.getPhone(), dataFont));
+            table.addCell(new Phrase(coach.getAcademyName(), dataFont));
         }
 
         // Add style to table
@@ -249,7 +265,7 @@ public class CoachList implements Initializable {
         // Create a map to store the count of academies in each category
         Map<String, Integer> categoryCount = new HashMap<>();
         for (Coach coach : coachList) {
-            String category = coach.getEmail();
+            String category = coach.getAcademyName();
             categoryCount.put(category, categoryCount.getOrDefault(category, 0) + 1);
         }
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -257,9 +273,9 @@ public class CoachList implements Initializable {
             dataset.addValue(categoryCount.get(category), "Academies", category);
         }
         JFreeChart chart = ChartFactory.createBarChart(
-                "Number of Academies by Category",
-                "Category",
-                "Number of Academies",
+                "Number of Coaches by Academy",
+                "Academy",
+                "Number of Coaches",
                 dataset,
                 PlotOrientation.VERTICAL,
                 false,
@@ -270,7 +286,7 @@ public class CoachList implements Initializable {
         renderer.setSeriesPaint(0, Color.RED);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(500, 270));
-        JFrame frame = new JFrame("Category Chart");
+        JFrame frame = new JFrame("Coaches Chart");
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(chartPanel);
         frame.pack();
@@ -281,6 +297,15 @@ public class CoachList implements Initializable {
     @FXML
     private void handleChartButtonClick(ActionEvent event) {
         generateCategoryChart(coachList);
+    }
+
+    @FXML
+    private void SwitchToAcademy(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
 

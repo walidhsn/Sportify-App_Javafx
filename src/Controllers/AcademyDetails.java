@@ -6,9 +6,11 @@
 package Controllers;
 
 import entities.Academy;
+import entities.Coach;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -27,6 +29,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import services.AcademyCRUD;
+import services.CoachCRUD;
 
 /**
  * FXML Controller class
@@ -42,6 +45,8 @@ public class AcademyDetails implements Initializable {
     @FXML
     private TextField txtCategory;
     @FXML
+    private TextField txtCategory1;
+    @FXML
     private Button btnEdit;
     @FXML
     private Button btnDelete;
@@ -49,6 +54,11 @@ public class AcademyDetails implements Initializable {
     private ImageView img;
     
     private AcademyCRUD academyCRUD = new AcademyCRUD();
+    private CoachCRUD coachCRUD = new CoachCRUD();
+    @FXML
+    private ImageView backIcon;
+   
+    
 
     /**
      * Initializes the controller class.
@@ -64,8 +74,13 @@ public class AcademyDetails implements Initializable {
         txtId.setText(String.valueOf(academy.getId()));
         txtName.setText(academy.getName());
         txtCategory.setText(academy.getCategory());
+        List<String> coachNames = coachCRUD.findCoachNamesByAcademyName(academy.getName());
+        String coachNamesString = String.join(", ", coachNames);
+        txtCategory1.setText(coachNamesString);
+        System.out.println(academy.getImageName());
         if (academy.getImageName() != null) {
             full_path = image_path_directory + academy.getImageName();
+            System.out.println(full_path);
             img.setImage(new Image(full_path));
         } else {
             System.out.println("No image");    
@@ -74,6 +89,7 @@ public class AcademyDetails implements Initializable {
 
     
     
+    @FXML
     public void handleEditButtonClick(ActionEvent event) throws IOException, SQLException {
         String idText = txtId.getText();
         if (idText.isEmpty()) {
@@ -112,6 +128,7 @@ public class AcademyDetails implements Initializable {
 
 
     
+    @FXML
     public void handleDeleteButtonClick(ActionEvent event) throws IOException { 
         int academyId = Integer.parseInt(txtId.getText());
 

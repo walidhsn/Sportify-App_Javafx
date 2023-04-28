@@ -99,6 +99,7 @@ public class AcademyCRUD implements EntityCRUD<Academy> {
                 p.setId(rs.getInt(1));
                 p.setName(rs.getString("name"));
                 p.setCategory(rs.getString("category"));
+                p.setImageName(rs.getString("image_name"));
                 myList.add(p);
             }
         } catch (SQLException ex) {
@@ -106,6 +107,25 @@ public class AcademyCRUD implements EntityCRUD<Academy> {
         }
         return myList;
     }
+    
+    public void displayAllAcademies() {
+        try {
+            String query = "SELECT * FROM academy";
+            Statement stmt = MyConnection.getInstance().getCnx().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("Name: " + rs.getString("name"));
+                System.out.println("Category: " + rs.getString("category"));
+                System.out.println("Image Name: " + rs.getString("image_name"));
+                System.out.println("-----------------------------");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     
     @Override
     public void deleteEntity(int id) {
