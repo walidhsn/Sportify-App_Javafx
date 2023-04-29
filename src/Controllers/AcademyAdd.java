@@ -7,12 +7,17 @@ package Controllers;
 
 import entities.Academy;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.UUID;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +36,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.AcademyCRUD;
+
+
 
 /**
  * FXML Controller class
@@ -88,6 +95,13 @@ public class AcademyAdd implements Initializable {
             alert.setTitle("Invalid Input");
             alert.setHeaderText("Name Field Can Only Contain Letters");
             alert.setContentText("Please enter a valid name");
+            alert.showAndWait();
+        
+        } else if (containsBadWords(name)) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Academy Name");
+            alert.setContentText("The name contains a bad word");
             alert.showAndWait();
 
         } else if (academyCRUD.academyExists(name)) {
@@ -190,5 +204,33 @@ public class AcademyAdd implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    
+    //Badwords filter
+    private static final Set<String> BAD_WORDS = new HashSet<>();
+
+    static {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Badwords.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                BAD_WORDS.add(line.trim().toLowerCase());
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean containsBadWords(String text) {
+        String[] words = text.split("\\s+");
+        for (String word : words) {
+            if (BAD_WORDS.contains(word.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
 
 }

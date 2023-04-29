@@ -21,11 +21,22 @@ public class MainFx extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("AcademyList.fxml"));
         Scene scene = new Scene(root);
+          // Set minimum and maximum sizes for the scene
+//        scene.setMinWidth(800);
+//        scene.setMinHeight(600);
+//        scene.setMaxWidth(1200);
+//        scene.setMaxHeight(800);
+
+        // Set the minimum size for the stage
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         Image icon = new Image("/Ressource/icons/logo.png");
         stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.setTitle("Academy");
         stage.setResizable(true);
+//        stage.setMinWidth(1024);
+//        stage.setMinHeight(720);
         stage.show();
     }
 

@@ -5,16 +5,24 @@
  */
 package Controllers;
 
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
 import entities.Academy;
 import entities.Coach;
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.UUID;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -89,7 +97,7 @@ public class CoachAdd implements Initializable {
     }
     
     @FXML
-    private void CoachAdd(javafx.event.ActionEvent event) throws IOException {
+    private void CoachAdd(javafx.event.ActionEvent event) throws IOException, GeoIp2Exception {
         String name = nameField.getText();
         String email = nameField1.getText();
         String phone = nameField2.getText();
@@ -109,6 +117,14 @@ public class CoachAdd implements Initializable {
             alert.setHeaderText("Name Field Can Only Contain Letters");
             alert.setContentText("Please enter a valid name");
             alert.showAndWait();
+        
+        } else if (containsBadWords(name)) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Coach Name");
+            alert.setContentText("The name contains a bad word");
+            alert.showAndWait();
+            
         } else if (coachCRUD.coachExists(name)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Coach Already Exists");
@@ -158,5 +174,60 @@ public class CoachAdd implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    
+    
+//Method that generate country code from IP
+    private static final String DATABASE_PATH = "C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Api/GeoLite2-Country.mmdb";
+
+    public static String getCountryCode() throws GeoIp2Exception {
+        try {
+            // Get the user's IP address
+            InetAddress ip = InetAddress.getLocalHost();
+
+            // Load the GeoIP2 database
+            File database = new File(DATABASE_PATH);
+            DatabaseReader reader = new DatabaseReader.Builder(database).build();
+
+            // Look up the user's IP address and get the country code
+            String countryCode = reader.country(ip).getCountry().getIsoCode();
+
+            return countryCode;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (GeoIp2Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
+    //Badwords filter
+    private static final Set<String> BAD_WORDS = new HashSet<>();
+
+    static {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Badwords.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                BAD_WORDS.add(line.trim().toLowerCase());
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean containsBadWords(String text) {
+        String[] words = text.split("\\s+");
+        for (String word : words) {
+            if (BAD_WORDS.contains(word.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
+    
 
 }

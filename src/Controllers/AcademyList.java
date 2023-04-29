@@ -41,10 +41,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -107,6 +109,32 @@ public class AcademyList implements Initializable {
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
         colCategory1.setCellValueFactory(new PropertyValueFactory<>("ImageName"));
+        colCategory1.setCellFactory(column -> new TableCell<Academy, String>() {
+            private final ImageView imageView = new ImageView();
+
+            @Override
+            protected void updateItem(String imageName, boolean empty) {
+                super.updateItem(imageName, empty);
+
+                if (empty || imageName == null) {
+                    imageView.setImage(null);
+                    setGraphic(null);
+                } else {
+                    // Load the image from the file system or a URL
+                    Image image = new Image("file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/" + imageName);
+
+                    // Set the image and adjust its size
+                    imageView.setImage(image);
+                    imageView.setFitWidth(50);
+                    imageView.setFitHeight(50);
+                    setGraphic(imageView);
+                }
+            }
+        });
+
+academyList = FXCollections.observableArrayList(academyCRUD.display());
+tvAcademy.setItems(academyList);
+
         academyList = FXCollections.observableArrayList(academyCRUD.display());
         tvAcademy.setItems(academyList);
 
