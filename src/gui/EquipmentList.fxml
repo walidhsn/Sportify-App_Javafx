@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.EquipmentList">
+   <TableView fx:id="equipmentTable" layoutX="150.0" layoutY="64.0" prefHeight="390.0" prefWidth="604.0">
+      <columns>
+         <TableColumn fx:id="nameColumn" prefWidth="120.0" text="Name" />
+         <TableColumn fx:id="categoryColumn" prefWidth="120.0" text="Category" />
+         <TableColumn fx:id="quantityColumn" prefWidth="120.0" text="Quantity" />
+         <TableColumn fx:id="priceColumn" prefWidth="120.0" text="Price" />
+         <TableColumn fx:id="SupplierColumn" prefWidth="120.0" text="Supplier" />
+      </columns>
+   </TableView>
+   <Button fx:id="btnAdd" layoutX="328.0" layoutY="467.0" mnemonicParsing="false" onAction="#handleAddButtonClick" prefHeight="42.0" prefWidth="128.0" text="Add" textFill="RED">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Button>
+   <TextField fx:id="bar" layoutX="341.0" layoutY="25.0" />
+   <Button fx:id="reherche" layoutX="501.0" layoutY="25.0" mnemonicParsing="false" onAction="#search" text="search" />
+   <Button fx:id="Excel" layoutX="568.0" layoutY="476.0" mnemonicParsing="false" onAction="#AjouterExcel" text="Exel" />
+   <Button fx:id="pdf" layoutX="509.0" layoutY="476.0" mnemonicParsing="false" onAction="#Ajouterpdf" text="pdf" />
+</AnchorPane>
