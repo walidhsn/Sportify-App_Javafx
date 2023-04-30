@@ -19,7 +19,7 @@ public class MainFx extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("AcademyList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Auth.fxml"));
         Scene scene = new Scene(root);
           // Set minimum and maximum sizes for the scene
 //        scene.setMinWidth(800);

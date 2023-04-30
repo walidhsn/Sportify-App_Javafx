@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -93,6 +94,7 @@ public class CoachList implements Initializable {
     private Button btnSearch;
     @FXML
     private Button btnPDF;
+    private List<Coach> Coach_list_search;
 
     
     private CoachCRUD coachCRUD = new CoachCRUD();
@@ -146,6 +148,16 @@ public class CoachList implements Initializable {
                 }
             }
         });
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                Coach_list_search = coachList.stream()
+                        .filter(academy -> String.valueOf(academy.getName()).toLowerCase().contains(newValue.toLowerCase())
+                        || String.valueOf(academy.getEmail()).toLowerCase().contains(newValue.toLowerCase())
+                        || String.valueOf(academy.getPhone()).contains(newValue.toLowerCase())
+                        || String.valueOf(academy.getAcademyName()).toLowerCase().contains(newValue.toLowerCase())
+                        )
+                        .collect(Collectors.toList());
+                tvCoach.setItems(FXCollections.observableArrayList(Coach_list_search));
+            });
     }
     
     @FXML
@@ -153,12 +165,23 @@ public class CoachList implements Initializable {
         String searchText = searchField.getText();
         ObservableList<Coach> filteredList = FXCollections.observableArrayList();
         for (Coach coach : coachList) {
-            if (coach.getName().toLowerCase().contains(searchText.toLowerCase())) {
+            if (coach.getName().toLowerCase().contains(searchText.toLowerCase()) || coach.getAcademyName().toLowerCase().contains(searchText.toLowerCase()) ) {
                 filteredList.add(coach);
             }
         }
         tvCoach.setItems(filteredList);
     }
+//    @FXML
+//    private void handleSearchButtonClick(ActionEvent event) {
+//        String searchText = searchField.getText();
+//        ObservableList<Coach> filteredList = FXCollections.observableArrayList();
+//        for (Coach coach : coachList) {
+//            if (coach.getName().toLowerCase().contains(searchText.toLowerCase())) {
+//                filteredList.add(coach);
+//            }
+//        }
+//        tvCoach.setItems(filteredList);
+//    }
     
     @FXML
     private void handleAddButtonClick(ActionEvent event) throws IOException {
@@ -182,6 +205,7 @@ public class CoachList implements Initializable {
     
     @FXML
     private void handleClearButtonClick(MouseEvent event) throws IOException {
+        
         String searchText = "";
         ObservableList<Coach> filteredList = FXCollections.observableArrayList();
         for (Coach coach : coachList) {
@@ -190,6 +214,7 @@ public class CoachList implements Initializable {
             }
         }
         tvCoach.setItems(filteredList);
+        searchField.clear();
     }
     
     @FXML

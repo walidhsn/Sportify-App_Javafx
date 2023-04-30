@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -93,7 +94,7 @@ public class AcademyList implements Initializable {
     private Button btnSearch;
     @FXML
     private Button btnPDF;
-
+    private List<Academy> academy_list_search;
     
     private AcademyCRUD academyCRUD = new AcademyCRUD();
     @FXML
@@ -132,12 +133,9 @@ public class AcademyList implements Initializable {
             }
         });
 
-academyList = FXCollections.observableArrayList(academyCRUD.display());
-tvAcademy.setItems(academyList);
-
         academyList = FXCollections.observableArrayList(academyCRUD.display());
         tvAcademy.setItems(academyList);
-
+        
         // Set the selection mode to MULTIPLE
         tvAcademy.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -170,6 +168,14 @@ tvAcademy.setItems(academyList);
                 }
             }
         });
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                academy_list_search = academyList.stream()
+                        .filter(academy -> String.valueOf(academy.getName()).toLowerCase().contains(newValue.toLowerCase())
+                        || String.valueOf(academy.getCategory()).toLowerCase().contains(newValue.toLowerCase())
+                        )
+                        .collect(Collectors.toList());
+                tvAcademy.setItems(FXCollections.observableArrayList(academy_list_search));
+            });
     }
     
     @FXML
@@ -214,6 +220,7 @@ tvAcademy.setItems(academyList);
             }
         }
         tvAcademy.setItems(filteredList);
+        searchField.clear();
     }
     
     @FXML
@@ -330,8 +337,17 @@ tvAcademy.setItems(academyList);
         stage.show();
     }
     
-
-
-
+    @FXML
+    private void Auth(ActionEvent event) throws IOException {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../Gui/Auth.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
     
 }
