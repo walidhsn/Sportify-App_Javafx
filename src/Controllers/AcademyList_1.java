@@ -85,65 +85,65 @@ public class AcademyList_1 implements Initializable {
     }
 
     private Node createPage(int pageIndex) {
-    GridPane pageGrid = new GridPane();
-    pageGrid.setVgap(20);
-    pageGrid.setHgap(80);
-    int startIndex = pageIndex * ACADEMIES_PER_PAGE;
-    int endIndex = Math.min(startIndex + ACADEMIES_PER_PAGE, academyList.size());
-    int rowIndex = 0;
-    int colIndex = 0;
-    for (int i = startIndex; i < endIndex; i++) {
-        Academy academy = academyList.get(i);
-        ImageView imageView = new ImageView(new Image("file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/" + academy.getImageName()));
-        imageView.setFitWidth(170);
-        imageView.setFitHeight(150);
-        Label nameLabel = new Label(academy.getName() + " (" + academy.getCategory() + ")");
-        nameLabel.setAlignment(Pos.CENTER);
-        nameLabel.setMaxWidth(Double.MAX_VALUE);
-        GridPane.setHgrow(nameLabel, Priority.ALWAYS);
-        GridPane.setVgrow(nameLabel, Priority.NEVER);
+        GridPane pageGrid = new GridPane();
+        pageGrid.setVgap(20);
+        pageGrid.setHgap(80);
+        int startIndex = pageIndex * ACADEMIES_PER_PAGE;
+        int endIndex = Math.min(startIndex + ACADEMIES_PER_PAGE, academy_list_search.size());
+        int rowIndex = 0;
+        int colIndex = 0;
+        for (int i = startIndex; i < endIndex; i++) {
+            Academy academy = academy_list_search.get(i);
+            ImageView imageView = new ImageView(new Image("file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/" + academy.getImageName()));
+            imageView.setFitWidth(170);
+            imageView.setFitHeight(150);
+            Label nameLabel = new Label(academy.getName() + " (" + academy.getCategory() + ")");
+            nameLabel.setAlignment(Pos.CENTER);
+            nameLabel.setMaxWidth(Double.MAX_VALUE);
+            GridPane.setHgrow(nameLabel, Priority.ALWAYS);
+            GridPane.setVgrow(nameLabel, Priority.NEVER);
 
-        // Add event listener to navigate to academy details
-        imageView.setOnMouseClicked(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyDetails_1.fxml"));
-                Parent root = loader.load();
-                AcademyDetails_1 controller = loader.getController();
-                controller.setAcademy(academy);
-                Stage stage = (Stage) gridAcademy.getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
+            // Add event listener to navigate to academy details
+            imageView.setOnMouseClicked(event -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyDetails_1.fxml"));
+                    Parent root = loader.load();
+                    AcademyDetails_1 controller = loader.getController();
+                    controller.setAcademy(academy);
+                    Stage stage = (Stage) gridAcademy.getScene().getWindow();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            nameLabel.setOnMouseClicked(event -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyDetails_1.fxml"));
+                    Parent root = loader.load();
+                    AcademyDetails_1 controller = loader.getController();
+                    controller.setAcademy(academy);
+                    Stage stage = (Stage) gridAcademy.getScene().getWindow();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            pageGrid.add(imageView, colIndex, rowIndex);
+            pageGrid.add(nameLabel, colIndex, rowIndex + 1);
+            colIndex++;
+            if (colIndex >= numColumns) {
+                colIndex = 0;
+                rowIndex += 2;
             }
-        });
-
-        nameLabel.setOnMouseClicked(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyDetails_1.fxml"));
-                Parent root = loader.load();
-                AcademyDetails_1 controller = loader.getController();
-                controller.setAcademy(academy);
-                Stage stage = (Stage) gridAcademy.getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-        pageGrid.add(imageView, colIndex, rowIndex);
-        pageGrid.add(nameLabel, colIndex, rowIndex + 1);
-        colIndex++;
-        if (colIndex >= numColumns) {
-            colIndex = 0;
-            rowIndex += 2;
         }
+        return pageGrid;
     }
-    return pageGrid;
-}
 
 
 

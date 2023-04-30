@@ -126,8 +126,8 @@ public class AcademyList implements Initializable {
 
                     // Set the image and adjust its size
                     imageView.setImage(image);
-                    imageView.setFitWidth(50);
-                    imageView.setFitHeight(50);
+                    imageView.setFitWidth(80);
+                    imageView.setFitHeight(80);
                     setGraphic(imageView);
                 }
             }

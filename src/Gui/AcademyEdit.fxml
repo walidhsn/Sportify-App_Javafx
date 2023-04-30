@@ -11,14 +11,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Ressource/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AcademyEdit">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Ressource/mycss.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AcademyEdit">
    <children>
-      <Label layoutX="234.0" layoutY="55.0" prefHeight="61.0" prefWidth="330.0" text="Academy Edit" textFill="RED">
-         <font>
-            <Font name="Sitka Text" size="45.0" />
-         </font>
-      </Label>
       <GridPane layoutX="85.0" layoutY="161.0" prefHeight="138.0" prefWidth="458.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.20001220703125" minWidth="10.0" prefWidth="146.40001220703124" />
@@ -47,10 +43,10 @@
             </Label>
             <!--<TextField fx:id="txtId" GridPane.columnIndex="1" />-->
             <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ChoiceBox fx:id="categoryField" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="categoryField" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" stylesheets="@../Ressource/choicebox.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button fx:id="btnSave" layoutX="234.0" layoutY="381.0" mnemonicParsing="false" onAction="#handleSaveButtonClick" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: #4CAF50;" text="Save">
+      <Button fx:id="btnSave" layoutX="234.0" layoutY="381.0" mnemonicParsing="false" onAction="#handleSaveButtonClick" prefHeight="42.0" prefWidth="95.0" style="-fx-background-color: #4CAF50; -fx-font-size: 16;" text="Save">
          <graphic>
             <ImageView fitHeight="23.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -74,5 +70,10 @@
          </graphic>
       </Button>
       <ImageView fx:id="academy_image" fitHeight="223.0" fitWidth="245.0" layoutX="429.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+   <Text fill="RED" layoutX="279.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Academy" wrappingWidth="298.79998779296875">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

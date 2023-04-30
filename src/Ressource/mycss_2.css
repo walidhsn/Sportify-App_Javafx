@@ -3,11 +3,11 @@
 .root {
     -fx-background-color: #343a40;
     -fx-font-family: 'Sofia Sans Condensed SemiBold', sans-serif;
-    /*-fx-font-size: 18px;*/
+    
 }
 /* Apply styles to buttons */
 .button {
-    /*-fx-background-color:#ee1e46;*/
+    -fx-background-color:#ee1e46;
     -fx-background-radius: 10px;
     -fx-text-fill: #ffffff;
     /*-fx-font-size: 16px;*/
@@ -19,49 +19,47 @@
     -fx-background-color: #900a24;
 }
 
-/* Apply styles to text fields */
+
 .text-field {
-    -fx-background-color: #6c757d;
-    -fx-text-fill: #ffffff;
-    /*-fx-font-size: 16px;*/
+    -fx-background-color: #ffffff;
+    -fx-text-fill: black;
     -fx-padding: 8px;
     -fx-border-radius: 4px;
 }
 
-.text-field:focused {
-    -fx-background-color:#868b8f;
-}
-/* Apply styles to labels */
+/*.text-field:focused {
+    -fx-background-color:#FAEBD7;
+}*/
+ 
 .label {
-    -fx-text-fill: black;
-    -fx-font-size: 16px;
+    -fx-text-fill: #ee1e46;
+    -fx-font-size: 20px;
 }
 
-/* Apply styles to combo boxes */
+
 /*.combo-box {
-    -fx-background-color: red;
+    -fx-background-color: #6c757d;
     -fx-font-size: 15px;
     -fx-padding: 8px;
     -fx-border-radius: 4px;
 }
 
 .combo-box:focused {
-    -fx-text-fill: black;;
-    -fx-background-color: #9e978e; 
+    -fx-background-color: #9E978E; 
 }
 
- Apply styles to check boxes 
+ 
 .check-box {
-    -fx-text-fill: black;
+    -fx-text-fill: #ffffff;
     -fx-font-size: 14px;
-}*/
+}
 
-/* Apply styles to progress bars */
-/*.progress-bar {
+ 
+.progress-bar {
     -fx-accent: #2ecc71;
 }
 
- Apply styles to sliders 
+
 .slider {
     -fx-background-color: #6c757d;
     -fx-text-fill: #fff;
@@ -70,9 +68,9 @@
 
 .slider .thumb {
     -fx-background-color: #ee1e46;
-}
+}*/
 
- Apply styles to scroll bars 
+/*
 .scroll-bar:vertical .thumb {
     -fx-background-color: #ee1e46;
 }
@@ -81,7 +79,7 @@
     -fx-background-color: #ee1e46;
 }
 
- Apply styles to toolbars 
+
 .tool-bar {
     -fx-background-color: #4f5257;
     -fx-text-fill: #ffffff;
@@ -89,7 +87,7 @@
     -fx-padding: 8px;
     -fx-border-radius: 4px;
 }
- Apply styles to text areas 
+
 .text-area {
     -fx-background-color: #6c757d;
     -fx-text-fill: #ffffff;
@@ -104,10 +102,6 @@
 .table-view .column-header-background {
     -fx-background-color: #262829;
     -fx-background-color: #00FF00;
-}
-.label {
-    -fx-text-fill: #FFFFFF;
-    -fx-font-size: 20px;
 }
 
 .table-view .column-header .label {

@@ -1,0 +1,7 @@
+.label {
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+}
+.combo-box:focused {
+    -fx-background-color: #9e978e; 
+}
