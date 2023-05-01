@@ -14,21 +14,24 @@ public class Apply {
     private String name;
     private int age;
     private String imageName;
+    private String academy_name;
     
     public Apply() {
     }
 
-    public Apply(int id, String name, int age, String imageName) {
+    public Apply(int id, String name, int age, String imageName, String academy_name) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.imageName = imageName;
+        this.academy_name = academy_name;
     }
 
-    public Apply(String name, int age, String imageName) {
+    public Apply(String name, int age, String imageName, String academy_name) {
         this.name = name;
         this.age = age;
         this.imageName = imageName;
+        this.academy_name = academy_name;
     }
 
     public int getId() {
@@ -63,9 +66,19 @@ public class Apply {
         this.imageName = imageName;
     }
 
+    public String getAcademy_name() {
+        return academy_name;
+    }
+
+    public void setAcademy_name(String academy_name) {
+        this.academy_name = academy_name;
+    }
+
     @Override
     public String toString() {
-        return "Apply{" + "id=" + id + ", name=" + name + ", age=" + age + ", imageName=" + imageName + '}';
-    } 
+        return "Apply{" + "id=" + id + ", name=" + name + ", age=" + age + ", imageName=" + imageName + ", academy_name=" + academy_name + '}';
+    }
+
+    
        
 }

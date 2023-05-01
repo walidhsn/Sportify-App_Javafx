@@ -5,7 +5,7 @@
  */
 package interfaces;
 
-import entities.Coach;
+import entities.Apply;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -18,8 +18,8 @@ public interface ApplyInt<T> {
     public void addEntity(T t);
     public void applyDetails(int id);
     public void deleteEntity(int id);
-    public void updateEntity(T t);
-    public Coach getEntity(int applyId) throws SQLException;
+//    public void updateEntity(T t);
+    public Apply getEntity(int applyId) throws SQLException;
     public List<T> display();
 }
     

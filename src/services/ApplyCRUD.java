@@ -18,6 +18,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import tools.MyConnection;
 
 /**
@@ -29,11 +31,12 @@ public class ApplyCRUD implements ApplyInt<Apply> {
     @Override
     public void addEntity(Apply t) {
         try {
-            String requete = "INSERT INTO apply (name, age, image_name) VALUES (?, ?, ?)";
+            String requete = "INSERT INTO apply (name, age, image_name, academy_name) VALUES (?, ?, ?, ?)";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, t.getName());
             pst.setInt(2, t.getAge());
             pst.setString(3, t.getImageName());
+            pst.setString(4, t.getAcademy_name());
             pst.executeUpdate();
             System.out.println("Application added");
         } catch (SQLException ex) {
@@ -69,24 +72,24 @@ public class ApplyCRUD implements ApplyInt<Apply> {
 //        }
 //    }
     
-    public void addEntity2() {
-    try {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Academy name: ");
-        String name = scanner.nextLine();
-        System.out.println("Enter Academy category: ");
-        String category = scanner.nextLine();
-        
-        String requete = "INSERT INTO academy (name, category) VALUES (?,?)";
-        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
-        pst.setString(1, name);
-        pst.setString(2, category);
-        pst.executeUpdate();
-        System.out.println("Success");
-    } catch (SQLException ex) {
-        System.out.println(ex.getMessage()); 
-    }
-}
+//    public void addEntity2() {
+//    try {
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Enter Academy name: ");
+//        String name = scanner.nextLine();
+//        System.out.println("Enter Academy category: ");
+//        String category = scanner.nextLine();
+//        
+//        String requete = "INSERT INTO academy (name, category) VALUES (?,?)";
+//        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
+//        pst.setString(1, name);
+//        pst.setString(2, category);
+//        pst.executeUpdate();
+//        System.out.println("Success");
+//    } catch (SQLException ex) {
+//        System.out.println(ex.getMessage()); 
+//    }
+//}
 
    
 
@@ -103,6 +106,7 @@ public class ApplyCRUD implements ApplyInt<Apply> {
                 p.setName(rs.getString("name"));
                 p.setAge(rs.getInt("age"));
                 p.setImageName(rs.getString("image_name"));
+                p.setAcademy_name(rs.getString("academy_name"));
                 myList.add(p);
             }
         } catch (SQLException ex) {
@@ -122,6 +126,7 @@ public class ApplyCRUD implements ApplyInt<Apply> {
                 System.out.println("Name: " + rs.getString("name"));
                 System.out.println("Age: " + rs.getString("age"));
                 System.out.println("Image Name: " + rs.getString("image_name"));
+                System.out.println("Academy name: " + rs.getString("academy_name"));
                 System.out.println("-----------------------------");
             }
         } catch (SQLException ex) {
@@ -182,6 +187,7 @@ public class ApplyCRUD implements ApplyInt<Apply> {
                 p.setName(rs.getString("name"));
                 p.setAge(rs.getInt("age"));
                 p.setImageName(rs.getString("image_name"));
+                p.setAcademy_name(rs.getString("academy_name"));
                 System.out.println("Academy details: " + p.toString());
             } else {
                 System.out.println("No Academy found with ID " + id + ".");
@@ -206,70 +212,66 @@ public class ApplyCRUD implements ApplyInt<Apply> {
 //        }
 //    }
     
-//    @Override
-//    public Academy getEntity(int academyId) throws SQLException {
-//        String query = "SELECT * FROM academy WHERE id = ?";
-//        Connection connection = null;
-//        PreparedStatement statement = null;
-//        ResultSet resultSet = null;
-//        Academy academy = null;
-//
-//        try {
-//            connection = MyConnection.getInstance().getCnx();
-//            statement = connection.prepareStatement(query);
-//            statement.setInt(1, academyId);
-//            resultSet = statement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                int id = resultSet.getInt("id");
-//                String name = resultSet.getString("name");
-//                String category = resultSet.getString("category");
-//                String imageName = resultSet.getString("image_name");
-//                academy = new Academy(id, name, category, imageName);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (resultSet != null) {
-//                resultSet.close();
-//            }
-//            if (statement != null) {
-//                statement.close();
-//            }
-//        }
-//
-//        return academy;
-//    }
-
-//    @Override
-//    public void coachDetails(int id) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void addEntity(Apply t) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void updateEntity(Apply t) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-
     @Override
-    public void updateEntity(Apply t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Apply getEntity(int applyId) throws SQLException {
+        String query = "SELECT * FROM apply WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Apply apply = null;
+
+        try {
+            connection = MyConnection.getInstance().getCnx();
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, applyId);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+                String imageName = resultSet.getString("image_name");
+                String academyName = resultSet.getString("academy_name");
+                apply = new Apply(id, name, age, imageName, academyName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+        }
+
+        return apply;
+    }  
+    
+    public List<Apply> findApplyByAcademyName(String academyName) {
+    List<Apply> applyList = new ArrayList<>();
+    try {
+        String query = "SELECT * FROM apply WHERE academy_name=?";
+        PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
+        pst.setString(1, academyName);
+        ResultSet resultSet = pst.executeQuery();
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            int age = resultSet.getInt("age");
+            String imageName = resultSet.getString("image_name");
+            String academy_name = resultSet.getString("academy_name");
+
+            applyList.add(new Apply(id, name, age, imageName, academy_name));
+        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
-
-    @Override
-    public Coach getEntity(int applyId) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
-
+    return applyList;
+}
 
     
+
 
 
     

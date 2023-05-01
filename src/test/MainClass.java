@@ -8,6 +8,7 @@ package test;
 import entities.Academy;
 import java.util.List;
 import services.AcademyCRUD;
+import services.ApplyCRUD;
 import services.CoachCRUD;
 
 /**
@@ -20,6 +21,7 @@ public class MainClass {
 //        Academy p = new Academy("Molka","rami");
         AcademyCRUD pcd = new AcademyCRUD();
         CoachCRUD cd = new CoachCRUD();
+        ApplyCRUD ap = new ApplyCRUD();
 //        List<String> coachNames = cd.findCoachNamesByAcademyName("Rami");
 //        System.out.println(coachNames);
 //        Academy p = new Academy();
@@ -35,8 +37,9 @@ public class MainClass {
 //        pcd.addEntity(p);
 //        pcd.addEntity2();
 //        pcd.deleteEntity(1); // Delete academy with ID 1
-
-        System.out.println(cd.display());
+        
+        System.out.println(ap.findApplyByAcademyName("Etoile"));
+//        System.out.println(ap.display());
 //        System.out.println(pcd.academyDetails(2));
     }
     

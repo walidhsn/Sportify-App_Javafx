@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import entities.Academy;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,6 +43,7 @@ import services.AcademyCRUD;
 import services.ApplyCRUD;
 import services.CoachCRUD;
 import entities.Apply;
+import java.sql.SQLException;
 import javafx.scene.control.Spinner;
 
 
@@ -51,7 +53,10 @@ import javafx.scene.control.Spinner;
  * @author ramib
  */
 public class ApplyController implements Initializable {
-
+    
+    private int selectedAcademyId;
+    private Academy selectedAcademy;
+    private AcademyCRUD academyCRUD;
     @FXML
     private TextField nameField;
     @FXML
@@ -69,19 +74,28 @@ public class ApplyController implements Initializable {
     private File imageFile;
     
     private ApplyCRUD applyCRUD = new ApplyCRUD();
+    @FXML
+    private TextField academyField;
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         SpinnerValueFactory<Integer> spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 9999999, 1, 1);
         nameField1.setValueFactory(spinner);
-        
+        academyCRUD = new AcademyCRUD();
+    }
+    
+    public void setSelectedAcademyId(int academyId) throws SQLException {
+        this.selectedAcademyId = academyId;
+        this.selectedAcademy = academyCRUD.getEntity(academyId);
+        academyField.setText(selectedAcademy.getName());
     }
     
     @FXML
     private void Apply(javafx.event.ActionEvent event) throws IOException {
         String name = nameField.getText();
         Integer age = nameField1.getValue();
+        String academyName = academyField.getText();
 
         if (name.trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -112,7 +126,7 @@ public class ApplyController implements Initializable {
                 File dest = new File(destPath + imageName); // Set the destination path for the image
                 try {
                     Files.copy(imageFile.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    Apply apply = new Apply(name, age, imageName);
+                    Apply apply = new Apply(name, age, imageName, academyName);
                     apply.setImageName(imageName);
                     applyCRUD.addEntity(apply);
                     System.out.println("Application added successfully");
@@ -129,7 +143,7 @@ public class ApplyController implements Initializable {
                     File dest = new File(destPath + imageName); 
                     try {
                         Files.copy(defaultImageFile.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        Apply academy = new Apply(name, age, imageName);
+                        Apply academy = new Apply(name, age, imageName, academyName);
                         applyCRUD.addEntity(academy);
                         System.out.println("Apply added successfully");
                         redirect();

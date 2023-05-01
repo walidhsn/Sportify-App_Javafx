@@ -51,6 +51,7 @@ public class AcademyDetails_1 implements Initializable {
     private CoachCRUD coachCRUD = new CoachCRUD();
     @FXML
     private ImageView backIcon;
+    private String txtId;
     
    
     
@@ -66,6 +67,7 @@ public class AcademyDetails_1 implements Initializable {
     public void setAcademy(Academy academy) {
         String image_path_directory = "file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
         String full_path;
+        txtId = String.valueOf(academy.getId());
         txtName.setText(academy.getName());
         txtCategory.setText(academy.getCategory());
         List<String> coachNames = coachCRUD.findCoachNamesByAcademyName(academy.getName());
@@ -82,11 +84,35 @@ public class AcademyDetails_1 implements Initializable {
     }
     
     @FXML
-    public void handleApplyButtonClick(javafx.event.ActionEvent event) throws IOException {
+    public void handleApplyButtonClick(javafx.event.ActionEvent event) throws IOException, SQLException {
+        if (txtId.isEmpty()) {
+            // Display an error message to the user
+            Alert alert = new Alert(AlertType.ERROR, "Please enter an ID");
+            alert.showAndWait();
+            return;
+        }
+
+        int id;
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/Apply.fxml"));
+            id = Integer.parseInt(txtId);
+        } catch (NumberFormatException e) {
+            // Display an error message to the user
+            Alert alert = new Alert(AlertType.ERROR, "Invalid ID: " + txtId);
+            alert.showAndWait();
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/Apply.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller of the AcademyEdit.fxml file
+            ApplyController controller = loader.getController();
+
+            // Set the ID of the selected academy
+            controller.setSelectedAcademyId(id);
+
+            Stage stage = (Stage) txtName.getScene().getWindow();
             Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {

@@ -171,6 +171,42 @@ public class AcademyDetails implements Initializable {
             System.out.println(ex.getMessage());
         }
     }
+    
+    @FXML
+    private void Members(javafx.event.ActionEvent event) throws IOException, SQLException {
+        String idText = txtId.getText();
+        if (idText.isEmpty()) {
+            // Display an error message to the user
+            Alert alert = new Alert(AlertType.ERROR, "Please enter an ID");
+            alert.showAndWait();
+            return;
+        }
+
+        int id;
+        try {
+            id = Integer.parseInt(idText);
+        } catch (NumberFormatException e) {
+            // Display an error message to the user
+            Alert alert = new Alert(AlertType.ERROR, "Invalid ID: " + idText);
+            alert.showAndWait();
+            return;
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/Members.fxml"));
+        Parent root = loader.load();
+
+        // Get the controller of the AcademyEdit.fxml file
+        Members controller = loader.getController();
+
+        // Set the ID of the selected academy
+        controller.setSelectedAcademyId(id);
+
+        Stage stage = (Stage) txtId.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+       
 
     
 }
