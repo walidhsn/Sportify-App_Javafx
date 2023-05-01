@@ -82,8 +82,18 @@ public class AcademyDetails_1 implements Initializable {
     }
     
     @FXML
-    public void handleApplyButtonClick(ActionEvent event) throws IOException { 
+    public void handleApplyButtonClick(javafx.event.ActionEvent event) throws IOException {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../Gui/Apply.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
+
 
     
     @FXML

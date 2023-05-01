@@ -11,17 +11,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Ressource/bg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AcademyList">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../Ressource/bg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AcademyList">
    <children>
-      <TableView fx:id="tvAcademy" layoutX="37.0" layoutY="124.0" prefHeight="407.0" prefWidth="697.0" stylesheets="@../Ressource/style.css">
+      <TableView fx:id="tvAcademy" layoutX="59.0" layoutY="155.0" prefHeight="538.0" prefWidth="1162.0" stylesheets="@../Ressource/style.css">
         <columns>
           <TableColumn fx:id="colId" prefWidth="35.999969482421875" text="id" />
-          <TableColumn fx:id="colName" prefWidth="172.79998779296875" text="Name" />
-            <TableColumn fx:id="colCategory" prefWidth="204.0" text="Category" />
-            <TableColumn fx:id="colCategory1" prefWidth="284.0000244140625" text="Image" />
+          <TableColumn fx:id="colName" prefWidth="296.8000030517578" text="Name" />
+            <TableColumn fx:id="colCategory" prefWidth="358.39996337890625" text="Category" />
+            <TableColumn fx:id="colCategory1" minWidth="7.199951171875" prefWidth="470.39996337890625" text="Image" />
         </columns>
       </TableView>
-      <Button fx:id="btnAdd" alignment="TOP_LEFT" layoutX="44.0" layoutY="537.0" mnemonicParsing="false" onAction="#handleAddButtonClick" prefHeight="50.0" prefWidth="103.0" style="-fx-text-fill: black;" stylesheets="@../Ressource/mycss.css" text="Add">
+      <Button fx:id="btnAdd" alignment="TOP_LEFT" layoutX="62.0" layoutY="706.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="103.0" style="-fx-text-fill: black;" stylesheets="@../Ressource/mycss.css" onAction="#handleAddButtonClick" text="Add">
     <font>
         <Font size="16.0" />
     </font>
@@ -38,13 +38,13 @@
          </graphic>
 </Button>
 
-      <Label layoutX="234.0" layoutY="25.0" text="Academies list" textFill="RED">
+      <Label layoutX="488.0" layoutY="64.0" text="Academies list" textFill="RED">
          <font>
             <Font name="Sitka Text" size="45.0" />
          </font>
       </Label>
-      <TextField fx:id="searchField" layoutX="37.0" layoutY="88.0" prefHeight="26.0" prefWidth="167.0" promptText="Search..." />
-      <Button fx:id="btnSearch" layoutX="212.0" layoutY="88.0" mnemonicParsing="false" onAction="#handleSearchButtonClick" prefHeight="26.0" prefWidth="28.0">
+      <TextField fx:id="searchField" layoutX="62.0" layoutY="94.0" prefHeight="44.0" prefWidth="210.0" promptText="Search..." />
+      <Button fx:id="btnSearch" layoutX="285.0" layoutY="93.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="52.0" onAction="#handleSearchButtonClick">
          <graphic>
           <ImageView fx:id="imgSearch" fitHeight="20.0" fitWidth="20.0">
               <image>
@@ -52,12 +52,12 @@
               </image>
           </ImageView>
          </graphic></Button>
-      <ImageView fx:id="btnClear" fitHeight="20.0" fitWidth="20.0" layoutX="184.0" layoutY="91.0" onMouseClicked="#handleClearButtonClick" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnClear" fitHeight="21.0" fitWidth="25.0" layoutX="251.0" layoutY="105.0" onMouseClicked="#handleClearButtonClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Ressource/icons/clear.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnPDF" layoutX="158.0" layoutY="540.0" mnemonicParsing="false" onAction="#handlePDFButtonClick" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #CD5C5C;">
+      <Button fx:id="btnPDF" layoutX="184.0" layoutY="709.0" mnemonicParsing="false" onAction="#handlePDFButtonClick" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #CD5C5C;">
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -66,7 +66,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btnChart" layoutX="651.0" layoutY="67.0" mnemonicParsing="false" onAction="#handleChartButtonClick" prefHeight="48.0" prefWidth="67.0" style="-fx-background-color: #7FFFD4;">
+      <Button fx:id="btnChart" layoutX="1109.0" layoutY="90.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="86.0" style="-fx-background-color: #7FFFD4;" onAction="#handleChartButtonClick" >
          <graphic>
             <ImageView fitHeight="56.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -75,7 +75,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btnCoach" layoutX="43.0" layoutY="29.0" mnemonicParsing="false" onAction="#SwitchToCoach" prefHeight="47.0" prefWidth="145.0" style="-fx-background-color: cyan;" text="COACHES">
+      <Button fx:id="btnCoach" layoutX="1050.0" layoutY="706.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="170.0" style="-fx-background-color: cyan;" text="COACHES" onAction="#SwitchToCoach">
          <graphic>
             <ImageView fitHeight="53.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -89,7 +89,7 @@
       </Button>
       <Button layoutX="-4.0" mnemonicParsing="false" onAction="#Auth" prefHeight="26.0" prefWidth="36.0" style="-fx-background-color: transparent;">
          <graphic>
-            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Ressource/icons/back.png" />
                </image>

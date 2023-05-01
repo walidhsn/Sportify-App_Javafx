@@ -64,8 +64,8 @@ public class AcademyList_1 implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        gridAcademy.setVgap(20);
-        gridAcademy.setHgap(80);
+        gridAcademy.setVgap(40);
+        gridAcademy.setHgap(120);
         academyList = FXCollections.observableArrayList(academyCRUD.display());
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -86,8 +86,8 @@ public class AcademyList_1 implements Initializable {
 
     private Node createPage(int pageIndex) {
         GridPane pageGrid = new GridPane();
-        pageGrid.setVgap(20);
-        pageGrid.setHgap(80);
+        pageGrid.setVgap(25);
+        pageGrid.setHgap(200);
         int startIndex = pageIndex * ACADEMIES_PER_PAGE;
         int endIndex = Math.min(startIndex + ACADEMIES_PER_PAGE, academy_list_search.size());
         int rowIndex = 0;
@@ -95,8 +95,8 @@ public class AcademyList_1 implements Initializable {
         for (int i = startIndex; i < endIndex; i++) {
             Academy academy = academy_list_search.get(i);
             ImageView imageView = new ImageView(new Image("file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/" + academy.getImageName()));
-            imageView.setFitWidth(170);
-            imageView.setFitHeight(150);
+            imageView.setFitWidth(200);
+            imageView.setFitHeight(200);
             Label nameLabel = new Label(academy.getName() + " (" + academy.getCategory() + ")");
             nameLabel.setAlignment(Pos.CENTER);
             nameLabel.setMaxWidth(Double.MAX_VALUE);

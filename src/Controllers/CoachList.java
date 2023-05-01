@@ -310,7 +310,7 @@ public class CoachList implements Initializable {
         CategoryItemRenderer renderer = plot.getRenderer();
         renderer.setSeriesPaint(0, Color.RED);
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(500, 270));
+        chartPanel.setPreferredSize(new Dimension(1156, 800));
         JFrame frame = new JFrame("Coaches Chart");
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(chartPanel);

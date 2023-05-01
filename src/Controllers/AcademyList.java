@@ -63,7 +63,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
-//import javax.swing.text.Document;
+import javafx.geometry.Pos;
 import services.AcademyCRUD;
 
 /**
@@ -126,9 +126,10 @@ public class AcademyList implements Initializable {
 
                     // Set the image and adjust its size
                     imageView.setImage(image);
-                    imageView.setFitWidth(80);
-                    imageView.setFitHeight(80);
+                    imageView.setFitWidth(100);
+                    imageView.setFitHeight(100);
                     setGraphic(imageView);
+                    setAlignment(Pos.CENTER);
                 }
             }
         });
@@ -314,7 +315,7 @@ public class AcademyList implements Initializable {
         CategoryItemRenderer renderer = plot.getRenderer();
         renderer.setSeriesPaint(0, Color.RED);
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(500, 270));
+        chartPanel.setPreferredSize(new Dimension(1156, 800));
         JFrame frame = new JFrame("Category Chart");
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(chartPanel);
