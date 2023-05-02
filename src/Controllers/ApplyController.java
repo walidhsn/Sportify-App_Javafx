@@ -45,6 +45,7 @@ import services.CoachCRUD;
 import entities.Apply;
 import java.sql.SQLException;
 import javafx.scene.control.Spinner;
+import Ressource.Constants;
 
 
 /**
@@ -92,7 +93,7 @@ public class ApplyController implements Initializable {
     }
     
     @FXML
-    private void Apply(javafx.event.ActionEvent event) throws IOException {
+    private void Apply(javafx.event.ActionEvent event) throws IOException, SQLException {
         String name = nameField.getText();
         Integer age = nameField1.getValue();
         String academyName = academyField.getText();
@@ -120,7 +121,7 @@ public class ApplyController implements Initializable {
             
         } else {
             if (imageFile != null) {
-                String destPath = "C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
+                String destPath = Constants.DEST_PATH;
 //                String destPath = "C:/Users/ramib/Desktop/";
                 String imageName = generateUniqueName(imageFile); // Generate a unique name for the image
                 File dest = new File(destPath + imageName); // Set the destination path for the image
@@ -136,10 +137,10 @@ public class ApplyController implements Initializable {
                 }
             } else {
                 String imageName = "nophoto.png";
-                URL defaultImageUrl = getClass().getResource("../Ressource/icons/" + imageName);
+                URL defaultImageUrl = getClass().getResource(Constants.Icons + imageName);
                 if (defaultImageUrl != null) {
                     File defaultImageFile = new File(defaultImageUrl.getPath());
-                    String destPath = "C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
+                    String destPath = Constants.DEST_PATH;;
                     File dest = new File(destPath + imageName); 
                     try {
                         Files.copy(defaultImageFile.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -195,7 +196,7 @@ public class ApplyController implements Initializable {
     @FXML
     private void handleBackButtonClick(javafx.event.ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList_1.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyList_1));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -205,12 +206,30 @@ public class ApplyController implements Initializable {
         }
     }
     
-    private void redirect() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList_1.fxml"));
-        Scene scene = new Scene(root);
+//    private void redirect() throws IOException {
+//        Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList_1.fxml"));
+//        Scene scene = new Scene(root);
+//        Stage stage = (Stage) nameField.getScene().getWindow();
+//        stage.setScene(scene);
+//        stage.show();
+//    }
+    
+    private void redirect() throws IOException, SQLException {
+        String name = nameField.getText();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.Receipt));
+        Parent root = loader.load();
+
+        // Get the controller of the AcademyEdit.fxml file
+        Receipt controller = loader.getController();
+
+        // Set the ID of the selected academy
+        controller.setSelectedApplyName(name);
+
         Stage stage = (Stage) nameField.getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    
     }
     
     //Badwords filter
@@ -218,7 +237,7 @@ public class ApplyController implements Initializable {
 
     static {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Badwords.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader(Constants.Badwords));
             String line;
             while ((line = reader.readLine()) != null) {
                 BAD_WORDS.add(line.trim().toLowerCase());

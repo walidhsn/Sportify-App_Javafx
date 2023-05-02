@@ -26,7 +26,7 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
     @Override
     public void addEntity(Coach t) {
         try {
-            String requete = "INSERT INTO coach (name, email, phone, academy_name) VALUES (?, ?, ?, ?)";
+            String requete = "INSERT INTO coach (name, email, telephone, academy_name) VALUES (?, ?, ?, ?)";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, t.getName());
             pst.setString(2, t.getEmail());
@@ -53,7 +53,7 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
                 p.setId(rs.getInt(1));
                 p.setName(rs.getString("name"));
                 p.setEmail(rs.getString("email"));
-                p.setPhone(rs.getString("phone"));
+                p.setPhone(rs.getString("telephone"));
                 p.setAcademyName(rs.getString("academy_name"));
                 System.out.println("Coach details: " + p.toString());
             } else {
@@ -84,7 +84,7 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
     @Override
     public void updateEntity(Coach t) {
         try {
-            String requete = "UPDATE coach SET name=?, email=?, phone=?, academy_name=? WHERE id=?";
+            String requete = "UPDATE coach SET name=?, email=?, telephone=?, academy_name=? WHERE id=?";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, t.getName());
             pst.setString(2, t.getEmail());
@@ -120,7 +120,7 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String email = resultSet.getString("email");
-                String phone = resultSet.getString("phone");
+                String phone = resultSet.getString("telephone");
                 String academy_name = resultSet.getString("academy_name");
                 coach = new Coach(id, name, email, phone, academy_name);
             }
@@ -166,7 +166,7 @@ public class CoachCRUD implements CoachIntCRUD<Coach> {
                 p.setName(rs.getString("name"));
                 p.setAcademyName(rs.getString("academy_name"));
                 p.setEmail(rs.getString("email"));
-                p.setPhone(rs.getString("phone"));
+                p.setPhone(rs.getString("telephone"));
                 myList.add(p);
             }
         } catch (SQLException ex) {

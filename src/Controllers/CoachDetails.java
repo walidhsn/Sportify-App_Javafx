@@ -27,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import services.CoachCRUD;
+import Ressource.Constants;
 
 /**
  * FXML Controller class
@@ -91,7 +92,7 @@ public class CoachDetails implements Initializable {
             return;
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/CoachEdit.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.CoachEdit));
         Parent root = loader.load();
 
         // Get the controller of the CoachEdit.fxml file
@@ -132,7 +133,7 @@ public class CoachDetails implements Initializable {
             Stage stage = (Stage) btnDelete.getScene().getWindow();
             stage.close();
 
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.CoachList));
             Scene scene = new Scene(root);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -144,7 +145,7 @@ public class CoachDetails implements Initializable {
     @FXML
     private void handleBackButtonClick(javafx.event.ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.CoachList));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

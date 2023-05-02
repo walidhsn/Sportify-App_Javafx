@@ -71,6 +71,7 @@ import services.AcademyCRUD;
 import services.ApplyCRUD;
 //import javax.swing.text.Document;
 import services.CoachCRUD;
+import Ressource.Constants;
 
 /**
  *
@@ -142,7 +143,7 @@ public class Members implements Initializable {
                     setGraphic(null);
                 } else {
                     // Load the image from the file system or a URL
-                    Image image = new Image("file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/" + imageName);
+                    Image image = new Image("file:"+Constants.DEST_PATH + imageName);
 
                     // Set the image and adjust its size
                     imageView.setImage(image);
@@ -307,7 +308,7 @@ public class Members implements Initializable {
     @FXML
     private void handleBackButtonClick(javafx.event.ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyList));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

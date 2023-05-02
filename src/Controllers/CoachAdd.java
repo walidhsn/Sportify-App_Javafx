@@ -43,6 +43,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import services.AcademyCRUD;
 import services.CoachCRUD;
+import Ressource.Constants;
 
 /**
  * FXML Controller class
@@ -157,7 +158,7 @@ public class CoachAdd implements Initializable {
     @FXML
     private void handleBackButtonClick(javafx.event.ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.CoachList));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -168,7 +169,7 @@ public class CoachAdd implements Initializable {
     }
     
     private void redirect() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource(Constants.CoachList));
         Scene scene = new Scene(root);
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.setScene(scene);
@@ -206,7 +207,7 @@ public class CoachAdd implements Initializable {
 
     static {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Badwords.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader(Constants.Badwords));
             String line;
             while ((line = reader.readLine()) != null) {
                 BAD_WORDS.add(line.trim().toLowerCase());

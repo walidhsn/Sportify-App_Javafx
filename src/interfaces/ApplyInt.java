@@ -19,7 +19,7 @@ public interface ApplyInt<T> {
     public void applyDetails(int id);
     public void deleteEntity(int id);
 //    public void updateEntity(T t);
-    public Apply getEntity(int applyId) throws SQLException;
+    public Apply getEntity(String applyName) throws SQLException;
     public List<T> display();
 }
     

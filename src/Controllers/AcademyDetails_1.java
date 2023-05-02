@@ -30,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import services.AcademyCRUD;
 import services.CoachCRUD;
+import Ressource.Constants;
 
 /**
  * FXML Controller class
@@ -65,7 +66,7 @@ public class AcademyDetails_1 implements Initializable {
     }  
     
     public void setAcademy(Academy academy) {
-        String image_path_directory = "file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
+        String image_path_directory = "file:"+Constants.DEST_PATH;
         String full_path;
         txtId = String.valueOf(academy.getId());
         txtName.setText(academy.getName());
@@ -102,7 +103,7 @@ public class AcademyDetails_1 implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/Apply.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.Apply));
             Parent root = loader.load();
 
             // Get the controller of the AcademyEdit.fxml file
@@ -125,7 +126,7 @@ public class AcademyDetails_1 implements Initializable {
     @FXML
     private void handleBackButtonClick(javafx.event.ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList_1.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyList_1));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

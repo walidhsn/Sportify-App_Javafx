@@ -39,6 +39,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import services.AcademyCRUD;
+import Ressource.Constants;
 
 /**
  *
@@ -94,7 +95,7 @@ public class AcademyList_1 implements Initializable {
         int colIndex = 0;
         for (int i = startIndex; i < endIndex; i++) {
             Academy academy = academy_list_search.get(i);
-            ImageView imageView = new ImageView(new Image("file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/" + academy.getImageName()));
+            ImageView imageView = new ImageView(new Image("file:"+Constants.DEST_PATH + academy.getImageName()));
             imageView.setFitWidth(200);
             imageView.setFitHeight(200);
             Label nameLabel = new Label(academy.getName() + " (" + academy.getCategory() + ")");
@@ -106,7 +107,7 @@ public class AcademyList_1 implements Initializable {
             // Add event listener to navigate to academy details
             imageView.setOnMouseClicked(event -> {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyDetails_1.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.AcademyDetails_1));
                     Parent root = loader.load();
                     AcademyDetails_1 controller = loader.getController();
                     controller.setAcademy(academy);
@@ -121,7 +122,7 @@ public class AcademyList_1 implements Initializable {
 
             nameLabel.setOnMouseClicked(event -> {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyDetails_1.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.AcademyDetails_1));
                     Parent root = loader.load();
                     AcademyDetails_1 controller = loader.getController();
                     controller.setAcademy(academy);
@@ -160,7 +161,7 @@ public class AcademyList_1 implements Initializable {
     @FXML
     private void Auth(ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/Auth.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.Auth));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

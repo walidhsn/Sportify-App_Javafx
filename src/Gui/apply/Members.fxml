@@ -10,14 +10,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../Ressource/mycss.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Members">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../../Ressource/mycss.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Members">
    <children>
-      <TableView fx:id="tvApply" layoutX="59.0" layoutY="155.0" prefHeight="538.0" prefWidth="1162.0" stylesheets="@../Ressource/table.css">
+      <TableView fx:id="tvApply" layoutX="59.0" layoutY="155.0" prefHeight="538.0" prefWidth="1162.0" stylesheets="@../../Ressource/table.css">
         <columns>
           <TableColumn fx:id="colId" prefWidth="35.999969482421875" text="id" />
-          <TableColumn fx:id="colName" prefWidth="339.1999969482422" text="Name" />
-            <TableColumn fx:id="colCategory" prefWidth="145.5999755859375" text="Age" />
-            <TableColumn fx:id="colPhone" prefWidth="634.4000244140625" text="Image" />
+            <TableColumn fx:id="colName" prefWidth="331.1999969482422" text="Name" />
+            <TableColumn fx:id="colCategory" prefWidth="213.5999755859375" text="Age" />
+            <TableColumn fx:id="colPhone" prefWidth="557.5999755859375" text="Image" />
         </columns>
       </TableView>
       <TextField fx:id="searchField" layoutX="62.0" layoutY="94.0" prefHeight="44.0" prefWidth="210.0" promptText="Search..." />
@@ -25,43 +25,43 @@
          <graphic>
           <ImageView fx:id="imgSearch" fitHeight="20.0" fitWidth="20.0">
               <image>
-                  <Image url="@../Ressource/icons/search.png" />
+                  <Image url="@../../Ressource/icons/search.png" />
               </image>
           </ImageView>
          </graphic></Button>
       <ImageView fx:id="btnClear" fitHeight="21.0" fitWidth="25.0" layoutX="251.0" layoutY="105.0" onMouseClicked="#handleClearButtonClick" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Ressource/icons/clear.png" />
+            <Image url="@../../Ressource/icons/clear.png" />
          </image>
       </ImageView>
+      <Text fill="RED" layoutX="378.0" layoutY="112.0" text="Members of the academy" wrappingWidth="644.4000854492188">
+         <font>
+            <Font name="Sofia Sans Condensed SemiBold" size="55.0" />
+         </font>
+      </Text>
       <Button fx:id="btnPDF" layoutX="62.0" layoutY="705.0" mnemonicParsing="false" onAction="#handlePDFButtonClick" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #CD5C5C;">
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Ressource/icons/pdf.png" />
+                  <Image url="@../../Ressource/icons/pdf.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="RED" layoutX="415.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Members of the academy">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Text>
       <Button fx:id="btnChart" layoutX="1109.0" layoutY="90.0" mnemonicParsing="false" onAction="#handleChartButtonClick" prefHeight="50.0" prefWidth="86.0" style="-fx-background-color: #7FFFD4;">
          <graphic>
             <ImageView fitHeight="56.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Ressource/icons/bar-graph-vector-icon-removebg-preview.png" />
+                  <Image url="@../../Ressource/icons/bar-graph-vector-icon-removebg-preview.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button alignment="CENTER_RIGHT" layoutX="18.0" layoutY="25.0" onAction="#handleBackButtonClick" prefHeight="42.0" prefWidth="100.0" style="-fx-background-color: #00BFFF; -fx-text-fill: white;" text="Back" textAlignment="RIGHT">
+      <Button alignment="CENTER_RIGHT" layoutX="19.0" layoutY="19.0" onAction="#handleBackButtonClick" prefHeight="53.0" prefWidth="110.0" style="-fx-background-color: #00BFFF; -fx-text-fill: black; -fx-font-size: 16;" text="Back" textAlignment="RIGHT">
          <graphic>
                 <ImageView fx:id="backIcon" fitHeight="26.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Ressource/icons/back.png" />
+                  <Image url="@../../Ressource/icons/back.png" />
                </image>
             </ImageView>
          </graphic></Button>

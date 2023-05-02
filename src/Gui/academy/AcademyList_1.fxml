@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../Ressource/stylew.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AcademyList_1">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../../Ressource/stylew.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AcademyList_1">
     <children>
         <GridPane alignment="CENTER" hgap="10" layoutX="38.0" layoutY="119.0" prefHeight="642.0" prefWidth="1203.0" vgap="10">
     <children>
@@ -38,7 +38,7 @@
                <graphic>
                       <ImageView fitHeight="31.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                           <image>
-                              <Image url="@../Ressource/icons/back.png" />
+                              <Image url="@../../Ressource/icons/back.png" />
                           </image>
                       </ImageView>
                </graphic>
@@ -47,14 +47,14 @@
               <TextField fx:id="searchField" prefHeight="46.0" prefWidth="244.0" promptText="Search..." />
               <ImageView fx:id="btnClear" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#handleClearButtonClick" pickOnBounds="true" preserveRatio="true">
                   <image>
-                      <Image url="@../Ressource/icons/clear.png" />
+                      <Image url="@../../Ressource/icons/clear.png" />
                   </image>
               </ImageView>
             <Separator layoutX="302.0" layoutY="10.0" orientation="VERTICAL" prefHeight="59.0" prefWidth="43.0" />
       
               <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Academies " textAlignment="CENTER" wrappingWidth="297.6439757347107">
                   <font>
-                      <Font size="44.0" />
+                      <Font name="Sofia Sans Condensed SemiBold" size="55.0" />
                   </font>
               </Text>
          </items>

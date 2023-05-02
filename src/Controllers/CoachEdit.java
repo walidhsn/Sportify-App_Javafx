@@ -36,6 +36,7 @@ import javafx.util.StringConverter;
 import javax.swing.JOptionPane;
 import services.AcademyCRUD;
 import services.CoachCRUD;
+import Ressource.Constants;
 
 /**
  * FXML Controller class
@@ -160,7 +161,7 @@ public class CoachEdit implements Initializable {
             // Close the window
             Stage stage = (Stage) txtName.getScene().getWindow();
             stage.close();
-            Parent coachListParent = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
+            Parent coachListParent = FXMLLoader.load(getClass().getResource(Constants.CoachList));
             Scene coachListScene = new Scene(coachListParent);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(coachListScene);
@@ -172,7 +173,7 @@ public class CoachEdit implements Initializable {
     @FXML
     private void handleBackButtonClick(javafx.event.ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.CoachList));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

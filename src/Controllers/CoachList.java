@@ -63,6 +63,7 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 //import javax.swing.text.Document;
 import services.CoachCRUD;
+import Ressource.Constants;
 
 /**
  *
@@ -126,7 +127,7 @@ public class CoachList implements Initializable {
                 if (selectedCoach != null) {
                     try {
                         // Load the CoachDetails FXML file
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/CoachDetails.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.CoachDetails));
                         Parent root = loader.load();
 
                         // Get a reference to the CoachDetails controller
@@ -193,7 +194,7 @@ public class CoachList implements Initializable {
 //        stage.setScene(scene);
 //        stage.show();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachAdd.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.CoachAdd));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -326,7 +327,7 @@ public class CoachList implements Initializable {
 
     @FXML
     private void SwitchToAcademy(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyList));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);

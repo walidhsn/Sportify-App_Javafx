@@ -32,6 +32,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import services.AcademyCRUD;
+import Ressource.Constants;
 
 /**
  * FXML Controller class
@@ -58,13 +59,12 @@ public class AcademyEdit implements Initializable {
 
     @FXML
     private ChoiceBox<String> categoryField;
-    private final String[] types = {"football", "handball", "basketball", "volleyball", "baseball", "tennis", "golf"};
     private File imageFile;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         academyCRUD = new AcademyCRUD();
-        categoryField.getItems().addAll(types);
+        categoryField.getItems().addAll(Constants.categories);
     }
 
     public void setSelectedAcademyId(int academyId) throws SQLException {
@@ -110,7 +110,7 @@ public class AcademyEdit implements Initializable {
 
             // Update the image if a new one is selected
             if (imageFile != null) {
-                String destPath = "C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
+                String destPath = Constants.DEST_PATH;
                 String imageName = generateUniqueName(imageFile); // Generate a unique name for the image
                 File dest = new File(destPath + imageName); // Set the destination path for the image
                 try {
@@ -128,7 +128,7 @@ public class AcademyEdit implements Initializable {
             // Close the window
             Stage stage = (Stage) txtName.getScene().getWindow();
             stage.close();
-            Parent academyListParent = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+            Parent academyListParent = FXMLLoader.load(getClass().getResource(Constants.AcademyList));
             Scene academyListScene = new Scene(academyListParent);
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(academyListScene);
@@ -176,7 +176,7 @@ public class AcademyEdit implements Initializable {
     @FXML
     private void handleBackButtonClick(javafx.event.ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyList));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

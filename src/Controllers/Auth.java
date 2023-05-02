@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import Ressource.Constants;
 
 /**
  *
@@ -29,7 +30,7 @@ public class Auth {
     @FXML
     private void Client(ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList_1.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyList_1));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -42,7 +43,7 @@ public class Auth {
     @FXML
     private void Owner(ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyList));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

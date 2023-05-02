@@ -36,6 +36,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.AcademyCRUD;
+import Ressource.Constants;
 
 
 
@@ -50,8 +51,6 @@ public class AcademyAdd implements Initializable {
     private TextField nameField;
     @FXML
     private ChoiceBox<String> categoryField;
-    private final String[] types = {"football", "handball", "basketball", "volleyball", "baseball", "tennis", "golf"};
-        
     @FXML
     private Button btnSubmit;
     @FXML
@@ -72,7 +71,7 @@ public class AcademyAdd implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        categoryField.getItems().addAll(types);
+        categoryField.getItems().addAll(Constants.categories);
 //        Image btn_icon = new Image("/resources/icons/back.png");
 //        backIcon.setImage(btn_icon);
 
@@ -112,7 +111,8 @@ public class AcademyAdd implements Initializable {
             alert.showAndWait();
         } else {
             if (imageFile != null) {
-                String destPath = "C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
+//                String destPath = "C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
+                String destPath = Constants.DEST_PATH;
 //                String destPath = "C:/Users/ramib/Desktop/";
                 String imageName = generateUniqueName(imageFile); // Generate a unique name for the image
                 File dest = new File(destPath + imageName); // Set the destination path for the image
@@ -128,10 +128,11 @@ public class AcademyAdd implements Initializable {
                 }
             } else {
                 String imageName = "nophoto.png";
-                URL defaultImageUrl = getClass().getResource("../Ressource/icons/" + imageName);
+                URL defaultImageUrl = getClass().getResource(Constants.Icons + imageName);
                 if (defaultImageUrl != null) {
                     File defaultImageFile = new File(defaultImageUrl.getPath());
-                    String destPath = "C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
+//                    String destPath = "C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/";
+                    String destPath = Constants.DEST_PATH;
                     File dest = new File(destPath + imageName); 
                     try {
                         Files.copy(defaultImageFile.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -187,7 +188,7 @@ public class AcademyAdd implements Initializable {
     @FXML
     private void handleBackButtonClick(javafx.event.ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyList));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -198,7 +199,7 @@ public class AcademyAdd implements Initializable {
     }
     
     private void redirect() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyList));
         Scene scene = new Scene(root);
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.setScene(scene);
@@ -210,7 +211,7 @@ public class AcademyAdd implements Initializable {
 
     static {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Badwords.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader(Constants.Badwords));
             String line;
             while ((line = reader.readLine()) != null) {
                 BAD_WORDS.add(line.trim().toLowerCase());

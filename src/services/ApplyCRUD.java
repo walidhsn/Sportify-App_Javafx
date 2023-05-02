@@ -31,7 +31,7 @@ public class ApplyCRUD implements ApplyInt<Apply> {
     @Override
     public void addEntity(Apply t) {
         try {
-            String requete = "INSERT INTO apply (name, age, image_name, academy_name) VALUES (?, ?, ?, ?)";
+            String requete = "INSERT INTO application (appname, appage, image_name, academy_name) VALUES (?, ?, ?, ?)";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, t.getName());
             pst.setInt(2, t.getAge());
@@ -97,14 +97,14 @@ public class ApplyCRUD implements ApplyInt<Apply> {
     public List<Apply> display() {
         List<Apply> myList = new ArrayList<>();
         try {
-            String requete = "SELECT * FROM apply";
+            String requete = "SELECT * FROM application";
             Statement st = MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()){
                 Apply p = new Apply();
                 p.setId(rs.getInt(1));
-                p.setName(rs.getString("name"));
-                p.setAge(rs.getInt("age"));
+                p.setName(rs.getString("appname"));
+                p.setAge(rs.getInt("appage"));
                 p.setImageName(rs.getString("image_name"));
                 p.setAcademy_name(rs.getString("academy_name"));
                 myList.add(p);
@@ -117,14 +117,14 @@ public class ApplyCRUD implements ApplyInt<Apply> {
     
     public void displayAllApplications() {
         try {
-            String query = "SELECT * FROM apply";
+            String query = "SELECT * FROM application";
             Statement stmt = MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
                 System.out.println("ID: " + rs.getInt("id"));
-                System.out.println("Name: " + rs.getString("name"));
-                System.out.println("Age: " + rs.getString("age"));
+                System.out.println("Name: " + rs.getString("appname"));
+                System.out.println("Age: " + rs.getString("appage"));
                 System.out.println("Image Name: " + rs.getString("image_name"));
                 System.out.println("Academy name: " + rs.getString("academy_name"));
                 System.out.println("-----------------------------");
@@ -138,7 +138,7 @@ public class ApplyCRUD implements ApplyInt<Apply> {
     @Override
     public void deleteEntity(int id) {
         try {
-            String requete = "DELETE FROM apply WHERE id=?";
+            String requete = "DELETE FROM application WHERE id=?";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setInt(1, id);
             int nb = pst.executeUpdate();
@@ -177,15 +177,15 @@ public class ApplyCRUD implements ApplyInt<Apply> {
     @Override
     public void applyDetails(int id) {
         try {
-            String requete = "SELECT * FROM apply WHERE id=?";
+            String requete = "SELECT * FROM application WHERE id=?";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()){
                 Apply p = new Apply();
                 p.setId(rs.getInt(1));
-                p.setName(rs.getString("name"));
-                p.setAge(rs.getInt("age"));
+                p.setName(rs.getString("appname"));
+                p.setAge(rs.getInt("appage"));
                 p.setImageName(rs.getString("image_name"));
                 p.setAcademy_name(rs.getString("academy_name"));
                 System.out.println("Academy details: " + p.toString());
@@ -213,8 +213,8 @@ public class ApplyCRUD implements ApplyInt<Apply> {
 //    }
     
     @Override
-    public Apply getEntity(int applyId) throws SQLException {
-        String query = "SELECT * FROM apply WHERE id = ?";
+    public Apply getEntity(String applyName) throws SQLException {
+        String query = "SELECT * FROM application WHERE appname = ?";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -223,13 +223,13 @@ public class ApplyCRUD implements ApplyInt<Apply> {
         try {
             connection = MyConnection.getInstance().getCnx();
             statement = connection.prepareStatement(query);
-            statement.setInt(1, applyId);
+            statement.setString(1, applyName);
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                int age = resultSet.getInt("age");
+                String name = resultSet.getString("appname");
+                int age = resultSet.getInt("appage");
                 String imageName = resultSet.getString("image_name");
                 String academyName = resultSet.getString("academy_name");
                 apply = new Apply(id, name, age, imageName, academyName);
@@ -246,19 +246,20 @@ public class ApplyCRUD implements ApplyInt<Apply> {
         }
 
         return apply;
-    }  
+    }
+
     
     public List<Apply> findApplyByAcademyName(String academyName) {
     List<Apply> applyList = new ArrayList<>();
     try {
-        String query = "SELECT * FROM apply WHERE academy_name=?";
+        String query = "SELECT * FROM application WHERE academy_name=?";
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(query);
         pst.setString(1, academyName);
         ResultSet resultSet = pst.executeQuery();
         while (resultSet.next()) {
             int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            int age = resultSet.getInt("age");
+            String name = resultSet.getString("appname");
+            int age = resultSet.getInt("appage");
             String imageName = resultSet.getString("image_name");
             String academy_name = resultSet.getString("academy_name");
 

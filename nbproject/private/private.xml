@@ -5,14 +5,17 @@
         <group>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Controllers/AcademyDetails_1.java</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Controllers/AcademyList_1.java</file>
+            <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/Members.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/CoachAdd.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Ressource/choicebox.css</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/entities/Academy.java</file>
+            <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Ressource/Constants.java</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/services/CoachCRUD.java</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/Auth.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/interfaces/EntityCRUD.java</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/CoachList.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Ressource/stylew.css</file>
+            <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Controllers/Receipt.java</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Ressource/bg.css</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Controllers/CoachDetails.java</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Controllers/CoachList.java</file>
@@ -36,11 +39,14 @@
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Controllers/ApplyController.java</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Controllers/AcademyEdit.java</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/interfaces/CoachIntCRUD.java</file>
+            <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/Receipt.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/Apply.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/AcademyList_1.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/AcademyDetails_1.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/entities/Apply.java</file>
+            <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Ressource/table.css</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/AcademyDetails.fxml</file>
+            <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Controllers/Members.java</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/AcademyList.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/CoachEdit.fxml</file>
             <file>file:/C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/PiAcademy/src/Gui/AcademyAdd.fxml</file>

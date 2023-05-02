@@ -65,6 +65,7 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import javafx.geometry.Pos;
 import services.AcademyCRUD;
+import Ressource.Constants;
 
 /**
  *
@@ -122,7 +123,7 @@ public class AcademyList implements Initializable {
                     setGraphic(null);
                 } else {
                     // Load the image from the file system or a URL
-                    Image image = new Image("file:C:/Users/ramib/Desktop/Study/Pidev/Java/Projects/Uploads/" + imageName);
+                    Image image = new Image("file:"+Constants.DEST_PATH + imageName);
 
                     // Set the image and adjust its size
                     imageView.setImage(image);
@@ -147,7 +148,7 @@ public class AcademyList implements Initializable {
                 if (selectedAcademy != null) {
                     try {
                         // Load the AcademyDetails FXML file
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Gui/AcademyDetails.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.AcademyDetails));
                         Parent root = loader.load();
 
                         // Get a reference to the AcademyDetails controller
@@ -201,7 +202,7 @@ public class AcademyList implements Initializable {
 //        stage.setScene(scene);
 //        stage.show();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/AcademyAdd.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.AcademyAdd));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -331,7 +332,7 @@ public class AcademyList implements Initializable {
 
     @FXML
     private void SwitchToCoach(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../Gui/CoachList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource(Constants.CoachList));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -341,7 +342,7 @@ public class AcademyList implements Initializable {
     @FXML
     private void Auth(ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../Gui/Auth.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(Constants.Auth));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
