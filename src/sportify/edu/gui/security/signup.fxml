@@ -17,13 +17,13 @@
          <children>
             <AnchorPane layoutX="54.0" layoutY="59.0" prefHeight="531.0" prefWidth="886.0" style="-fx-background-color: #343a40; -fx-background-radius: 10;">
                <children>
-                  <Label layoutX="73.0" layoutY="8.0" text="vous voulez louer un terrain sportif ? C'est           avec nous !" textFill="WHITE">
+                  <Label layoutX="73.0" layoutY="8.0" text="Voulez vous louer un terrain sportif ? C'est           avec nous !" textFill="WHITE">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Label>
-                  <Line endX="100.0" layoutX="443.0" layoutY="73.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
-                  <Label layoutX="569.0" layoutY="377.0" text="Qui sommes-nous ?" textFill="WHITE">
+                  <Line endX="100.0" layoutX="390.0" layoutY="76.0" startX="100.0" startY="418.0" stroke="#b9b1b1" strokeDashOffset="2.0" />
+                  <Label layoutX="562.0" layoutY="393.0" text="Qui sommes-nous ?" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -33,16 +33,8 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0">
-                     <top>
-                        <Label alignment="CENTER" prefWidth="265.0" text="Nous sommes un site qui vous permet de louer un ou plusieurs terrains sportif et aussi de gérer vos terrains." textFill="#9a9292" wrapText="true" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                     </top>
-                  </BorderPane>
-                  <Label layoutX="562.0" layoutY="8.0" text="facile" textFill="#ee1e46">
+                  <BorderPane layoutX="569.0" layoutY="404.0" prefHeight="66.0" prefWidth="270.0" />
+                  <Label layoutX="562.0" layoutY="8.0" text=" facile" textFill="#ee1e46">
                      <font>
                         <Font size="26.0" />
                      </font>
@@ -66,7 +58,7 @@
                      </font>
                   </Label>
                   <TextField fx:id="snom" layoutX="221.0" layoutY="63.0" prefHeight="25.0" prefWidth="240.0" promptText="Entrez le nom" />
-                  <TextField fx:id="sprenom" layoutX="221.0" layoutY="113.0" prefHeight="25.0" prefWidth="240.0" promptText="Entre le prénom" />
+                  <TextField fx:id="sprenom" layoutX="221.0" layoutY="113.0" onInputMethodTextChanged="#generateUsername" prefHeight="25.0" prefWidth="240.0" promptText="Entre le prénom" />
                   <Label layoutX="88.0" layoutY="116.0" text="PRENOM" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="13.0" />
@@ -98,6 +90,17 @@
                      </toggleGroup>
                   </RadioButton>
                   <RadioButton layoutX="359.0" layoutY="168.0" mnemonicParsing="false" text="Propriétaire" textFill="WHITE" toggleGroup="$srole" />
+                  <Label alignment="CENTER" layoutX="532.0" layoutY="440.0" prefWidth="265.0" text="Nous sommes un site qui vous permet de louer un ou plusieurs terrains sportif et aussi de gérer vos terrains." textFill="#9a9292" wrapText="true">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="515.0" layoutY="167.0" text="ADRESSE :" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="fxadresse" blendMode="SCREEN" layoutX="585.0" layoutY="164.0" mnemonicParsing="false" onAction="#openMap" prefHeight="26.0" prefWidth="201.0" style="-fx-background-color: 54ff34;" text="Choisir sur GoogleMap..." />
 
 </children>
             </AnchorPane>
