@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox fx:id="produit_Hbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="louaypi.controllers.Produit_cardController">
+   <children>
+      <ImageView fx:id="prod_image" fitHeight="221.0" fitWidth="183.0" pickOnBounds="true" preserveRatio="true" />
+      <VBox prefHeight="280.0" prefWidth="223.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="197.0" spacing="5.0">
+               <children>
+                  <Label fx:id="lib" prefHeight="21.0" prefWidth="188.0" text="name" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="58.0" prefHeight="44.0" prefWidth="197.0" spacing="5.0">
+               <children>
+                  <Label fx:id="prix" prefHeight="21.0" prefWidth="188.0" style="-fx-text-fill: white;" text="prix" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="102.0" prefHeight="44.0" prefWidth="197.0" spacing="5.0">
+               <children>
+                  <Label fx:id="sto" prefHeight="21.0" prefWidth="188.0" style="-fx-text-fill: white;" text="quantité" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="146.0" prefHeight="44.0" prefWidth="197.0" spacing="5.0">
+               <children>
+                  <Label fx:id="ref" prefHeight="21.0" prefWidth="188.0" style="-fx-text-fill: white;" text="refrence" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="69.0" prefWidth="218.0">
+               <children>
+                  <Button fx:id="btn_addcart" mnemonicParsing="false" onAction="#addToCart" text="add to cart" />
+               </children></HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="900.0" stylesheets="@../../../resources/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="louaypi.controllers.panierController">
+   <children>
+      <ScrollPane layoutX="22.0" layoutY="29.0" prefHeight="279.0" prefWidth="665.0">
+         <content>
+            <VBox fx:id="vbox_card" prefHeight="294.0" prefWidth="643.0" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="commander_btn" layoutX="773.0" layoutY="333.0" mnemonicParsing="false" onAction="#RedirectToCommander" text="Commander" />
+      <Button fx:id="supprimerCard_btn" layoutX="773.0" layoutY="29.0" mnemonicParsing="false" onAction="#supprimerCard" text="Supprimer Card" />
+      <GridPane hgap="10.0" layoutX="33.0" layoutY="346.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label text="Total :" />
+            <TextField fx:id="total" editable="false" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <Button fx:id="list" layoutX="660.0" layoutY="334.0" mnemonicParsing="false" onAction="#oList" text="Liste produit" />
+   </children>
+</AnchorPane>
