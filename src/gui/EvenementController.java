@@ -192,12 +192,16 @@ public class EvenementController implements Initializable {
 
     public void setEvennement(Equipment e) throws IOException {
         // this.eve=e;
-        nomLabel.setText("nom equipement : " + e.getName());
-        prixLabel.setText(String.valueOf(e.getPrice()));
-        QuantiteLabel.setText(String.valueOf(e.getQuantity()));
+       nomLabel.setText("Nom d'équipement : " + e.getName());
+    nomLabel.setStyle("-fx-font-family: 'Arial Black'; -fx-font-size: 14; -fx-text-fill: #2c3e50;");
+       prixLabel.setText("Prix : " +String.valueOf(e.getPrice()) + " DT");
+    prixLabel.setStyle("-fx-font-size: 12;");
+        QuantiteLabel.setText("Quantité Disponible: " +String.valueOf(e.getQuantity()));
         ideventF.setText(String.valueOf(e.getId()));
 //        iduserF.setText(String.valueOf(1));
+    
         String path = e.getImageName();
+        System.out.println(e.getName());
         File file = new File(path);
         Image img = new Image(file.toURI().toString());
         imageview.setImage(img);
@@ -386,7 +390,7 @@ public class EvenementController implements Initializable {
 // Définir les variables à utiliser dans le template
             Map<String, Object> variables = new HashMap<>();
             variables.put("name", "Mme Mola");
-            variables.put("message", "Vous Avez reserver un equipeent!");
+            variables.put("message", "Vous Avez reserver un equipeent on vous remercis pour votre confiance amusez vous bien !");
 
             //String idE= EventIdLabelId.getText();
             Equipment eq;

@@ -21,7 +21,7 @@
       </Label>
       <ScrollPane layoutX="42.0" layoutY="141.0" prefHeight="472.0" prefWidth="768.0" style="-fx-background-color: #FFE4B5;">
          <content>
-            <GridPane fx:id="gridEvent" prefHeight="494.0" prefWidth="782.0" style="-fx-background-color: #FFE4B5;">
+            <GridPane fx:id="gridEvent" prefHeight="494.0" prefWidth="782.0" stylesheets="@../resources/styles.css">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

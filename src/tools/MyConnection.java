@@ -21,7 +21,7 @@ public class MyConnection {
  */
 
    
-    private String url="jdbc:mysql://localhost:3306/mlk";
+    private String url="jdbc:mysql://localhost:3306/sportify_integration";
     private String login="root";
     private String pwd="";
     Connection cnx;

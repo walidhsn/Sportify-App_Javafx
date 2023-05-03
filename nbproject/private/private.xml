@@ -7,15 +7,22 @@
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/entities/Supplier.java</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/Controller/EquipmentAdd.java</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/entities/Equipment.java</file>
+            <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/gui/AfficherEvenementController.java</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/tests/MainClass.java</file>
+            <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/Controller/SupplierAdd.java</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/Controller/SupplierDetails.java</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/gui/MainFx.java</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/gui/EvenementController.java</file>
+            <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/services/AvisService.java</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/Controller/EquipmentList.java</file>
+            <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/gui/AjouterAvisController.java</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/Controller/EquipmentDetails.java</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/Controller/EqListClient.java</file>
+            <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/gui/templateMail.html</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/entities/Avis.java</file>
+            <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/resources/Avis.css</file>
             <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/services/EquipmentCRUD.java</file>
+            <file>file:/C:/Users/MOLKA/OneDrive/Documents/NetBeansProjects/Sportify_Desktop/src/Controller/EquipmentEdit.java</file>
         </group>
     </open-files>
 </project-private>

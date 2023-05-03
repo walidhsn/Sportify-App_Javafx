@@ -25,7 +25,7 @@ public class SupplierCRUD implements EntityCRUD2<Supplier> {
     @Override
     public void addEntity(Supplier s) {
         try {
-            String requete = "INSERT INTO supplier(name,adresse,phone,Email) "
+            String requete = "INSERT INTO suppliers(name,adress,phone,email) "
                     + "VALUES ("
                     + "'" + s.getName() + "','" + s.getAdresse() + "','" + s.getPhone() + "','" + s.getEmail() + "')";
             Statement st;
@@ -42,7 +42,7 @@ public class SupplierCRUD implements EntityCRUD2<Supplier> {
 
         try {
 
-            String req = "select id from supplier where  name = '" + t + "'";
+            String req = "select id from suppliers where  name = '" + t + "'";
 
             Statement st = MyConnection.getInstance().getCnx()
                     .createStatement();
@@ -67,7 +67,7 @@ return id;
     public List<Supplier> display() {
         List<Supplier> myList = new ArrayList<>();
         try {
-            String requete = "SELECT * FROM supplier";
+            String requete = "SELECT * FROM suppliers";
             Statement st = MyConnection.getInstance().getCnx()
                     .createStatement();
             ResultSet rs = st.executeQuery(requete);
@@ -76,9 +76,9 @@ return id;
                 s = new Supplier();
                 s.setId(rs.getInt(1));
                 s.setName(rs.getString("name"));
-                s.setAdresse(rs.getString("adresse"));
+                s.setAdresse(rs.getString("adress"));
                 s.setPhone(rs.getString("phone"));
-                s.setEmail(rs.getString("Email"));
+                s.setEmail(rs.getString("email"));
 
                 myList.add(s);
             }
@@ -90,7 +90,7 @@ return id;
 
     public void deleteEntity(int id) {
         try {
-            String requete = "DELETE FROM supplier WHERE id=?";
+            String requete = "DELETE FROM suppliers WHERE id=?";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setInt(1, id);
             int nb = pst.executeUpdate();
@@ -126,7 +126,7 @@ return id;
 
     @Override
     public Supplier getEntity(int supplierId) throws SQLException {
-        String query = "SELECT * FROM supplier WHERE id = ?";
+        String query = "SELECT * FROM suppliers WHERE id = ?";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -141,9 +141,9 @@ return id;
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                String adresse = resultSet.getString("adresse");
+                String adresse = resultSet.getString("adress");
                 String phone = resultSet.getString("phone");
-                String Email = resultSet.getString("Email");
+                String Email = resultSet.getString("email");
 
                 supplier = new Supplier(id, name, adresse, phone, Email);
             }

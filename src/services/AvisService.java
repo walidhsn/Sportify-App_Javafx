@@ -48,7 +48,7 @@ public class AvisService {
             pst.setString(2, A.getContenu());
 
             pst.executeUpdate();
-            System.out.println("Avis de l'event" + A.getIdEvent() + " ajouté avec succe");
+            System.out.println("Donner nous votre avis sur notre equipment" + A.getIdEvent() + " ajouté avec succe");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

@@ -5,14 +5,18 @@
  */
 package Controller;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entities.Equipment;
 import java.awt.Desktop;
+import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -195,15 +199,17 @@ String filename="C:\\xampp\\htdocs\\fichierExcelJava\\dataEvent.xls" ;
     HSSFWorkbook hwb=new HSSFWorkbook();
     HSSFSheet sheet =  hwb.createSheet("new sheet");
     HSSFRow rowhead=   sheet.createRow((short)0);
-rowhead.createCell((short) 0).setCellValue("nom evenement");
-rowhead.createCell((short) 1).setCellValue("type d'evenement");
-rowhead.createCell((short) 2).setCellValue("description ");
+rowhead.createCell((short) 0).setCellValue("name");
+rowhead.createCell((short) 1).setCellValue("category");
+rowhead.createCell((short) 2).setCellValue("quantity ");
+rowhead.createCell((short) 3).setCellValue("price");
 List<Equipment> evenements = Ev.display();
   for (int i = 0; i < evenements.size(); i++) {          
 HSSFRow row=   sheet.createRow((short)i);
 row.createCell((short) 0).setCellValue(evenements.get(i).getName());
-row.createCell((short) 1).setCellValue(evenements.get(i).getPrice());
+row.createCell((short) 1).setCellValue(evenements.get(i).getCategory());
 row.createCell((short) 2).setCellValue(evenements.get(i).getQuantity());
+row.createCell((short) 3).setCellValue(evenements.get(i).getPrice());
 //row.createCell((short) 3).setCellValue((evenements.get(i).getDate()));
 i++;
             }
@@ -223,59 +229,188 @@ System.out.println("Your excel file has been generated!");
         
     }
 
-    @FXML
-    private void Ajouterpdf(ActionEvent event) throws FileNotFoundException, DocumentException, IOException {
-        
-        
-                  long millis = System.currentTimeMillis();
-        java.sql.Date DateRapport = new java.sql.Date(millis);
-
-        String DateLyoum = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH).format(DateRapport);//yyyyMMddHHmmss
-        System.out.println("Date d'aujourdhui : " + DateLyoum);
-
-        com.itextpdf.text.Document document = new com.itextpdf.text.Document();
-
-//        try {
-            PdfWriter.getInstance(document, new FileOutputStream(String.valueOf(DateLyoum + ".pdf")));//yyyy-MM-dd
-            document.open();
-            Paragraph ph1 = new Paragraph("Voici un rapport détaillé de notre application qui contient tous les événements . Pour chaque événement, nous fournissons des informations telles que la date d'aujourdhui :" + DateRapport );
-            Paragraph ph2 = new Paragraph(".");
-            PdfPTable table = new PdfPTable(3);
-            //On créer l'objet cellule.
-            PdfPCell cell;
-            //contenu du tableau.
-            table.addCell("nom_event");
-            table.addCell("type_event");
-            table.addCell("description_event");
-            Equipment r = new Equipment();
-            Ev.display().forEach(e
-                    -> {
-                table.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(String.valueOf(e.getName()));
-                table.addCell(String.valueOf(e.getCategory()));
-                table.addCell(String.valueOf(e.getPrice()));    
-            }
-            );
-            
-//            Image img = Image.getInstance("C:\\Users\\msi\\Desktop\\projet yocef\\reclamation\\src\\com\\img\\Exchange.png12.png");
-//       img.scaleAbsoluteHeight(60);
-//       img.scaleAbsoluteWidth(100);
-//       img.setAlignment(Image.ALIGN_RIGHT);
-//       document.add(img);
-            document.add(ph1);
-            document.add(ph2);
-            document.add(table);
-//             } catch (Exception e) {
-//            System.out.println(e);
+//    @FXML
+//    private void Ajouterpdf(ActionEvent event) throws FileNotFoundException, DocumentException, IOException {
+//        
+//        
+//                  long millis = System.currentTimeMillis();
+//        java.sql.Date DateRapport = new java.sql.Date(millis);
+//
+//        String DateLyoum = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH).format(DateRapport);//yyyyMMddHHmmss
+//        System.out.println("Date d'aujourdhui : " + DateLyoum);
+//
+//        com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+//
+////        try {
+//            PdfWriter.getInstance(document, new FileOutputStream(String.valueOf(DateLyoum + ".pdf")));//yyyy-MM-dd
+//            document.open();
+//            Paragraph ph1 = new Paragraph("Voici un rapport détaillé de la miste des equipment disponible dans votre  terrain. date  d'aujourdhui :" + DateRapport );
+//            Paragraph ph2 = new Paragraph(".");
+//            PdfPTable table = new PdfPTable(3);
+//            //On créer l'objet cellule.
+//            PdfPCell cell;
+//            //contenu du tableau.
+//            table.addCell("nom_event");
+//            table.addCell("type_event");
+//            table.addCell("description_event");
+//            Equipment r = new Equipment();
+//            Ev.display().forEach(e
+//                    -> {
+//                table.setHorizontalAlignment(Element.ALIGN_CENTER);
+//                table.addCell(String.valueOf(e.getName()));
+//                table.addCell(String.valueOf(e.getCategory()));
+//                table.addCell(String.valueOf(e.getPrice()));    
+//            }
+//            );
+//            
+////            Image img = Image.getInstance("C:\\Users\\msi\\Desktop\\projet yocef\\reclamation\\src\\com\\img\\Exchange.png12.png");
+////       img.scaleAbsoluteHeight(60);
+////       img.scaleAbsoluteWidth(100);
+////       img.setAlignment(Image.ALIGN_RIGHT);
+////       document.add(img);
+//            document.add(ph1);
+//            document.add(ph2);
+//            document.add(table);
+////             } catch (Exception e) {
+////            System.out.println(e);
+////        }
+//        document.close();
+//
+//        ///Open FilePdf
+//        File file = new File(DateLyoum + ".pdf");
+//        Desktop desktop = Desktop.getDesktop();
+//        if (file.exists()) //checks file exists or not  
+//        {
+//            desktop.open(file); //opens the specified file   
 //        }
-        document.close();
+//    }
+//    @FXML
+//private void Ajouterpdf(ActionEvent event) throws FileNotFoundException, DocumentException, IOException {
+//        
+//    long millis = System.currentTimeMillis();
+//    java.sql.Date DateRapport = new java.sql.Date(millis);
+//
+//    String DateLyoum = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH).format(DateRapport);
+//    System.out.println("Date d'aujourd'hui : " + DateLyoum);
+//
+//    com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+//    PdfWriter.getInstance(document, new FileOutputStream(String.valueOf(DateLyoum + ".pdf")));
+//    document.open();
+//    
+//    // Add a title to the document
+//    com.itextpdf.text.Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK);
+//    Paragraph title = new Paragraph("Rapport détaillé des équipements disponibles sur votre terrain", titleFont);
+//    title.setAlignment(Element.ALIGN_CENTER);
+//    document.add(title);
+//    
+//    // Add a subtitle with the current date
+//    com.itextpdf.text.Font subtitleFont = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.GRAY);
+//    Paragraph subtitle = new Paragraph("Date d'aujourd'hui : " + DateRapport, subtitleFont);
+//    subtitle.setAlignment(Element.ALIGN_CENTER);
+//    document.add(subtitle);
+//    
+//    // Add a space between the title and the table
+//    document.add(new Paragraph(" "));
+//    
+//    // Create a table with headers and content
+//    PdfPTable table = new PdfPTable(3);
+//    com.itextpdf.text.Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
+//    table.addCell(new Phrase("Nom de l'équipement", headerFont));
+//    table.addCell(new Phrase("Type d'équipement", headerFont));
+//    table.addCell(new Phrase("Prix de l'équipement", headerFont));
+//    
+//    // Add data from the database to the table
+//    Equipment r = new Equipment();
+//    Ev.display().forEach(e -> {
+//        table.addCell(String.valueOf(e.getName()));
+//        table.addCell(String.valueOf(e.getCategory()));
+//        table.addCell(String.valueOf(e.getPrice()));    
+//    });
+//    
+//    // Add the table to the document
+//    table.setHorizontalAlignment(Element.ALIGN_CENTER);
+//    document.add(table);
+//
+//    document.close();
+//
+//    // Open the generated PDF file
+//    File file = new File(DateLyoum + ".pdf");
+//    Desktop desktop = Desktop.getDesktop();
+//    if (file.exists()) {
+//        desktop.open(file);
+//    }
+    @FXML
+private void Ajouterpdf(ActionEvent event) throws FileNotFoundException, DocumentException, IOException {
+        
+    long millis = System.currentTimeMillis();
+    java.sql.Date DateRapport = new java.sql.Date(millis);
 
-        ///Open FilePdf
-        File file = new File(DateLyoum + ".pdf");
-        Desktop desktop = Desktop.getDesktop();
-        if (file.exists()) //checks file exists or not  
-        {
-            desktop.open(file); //opens the specified file   
-        }
+    String DateLyoum = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH).format(DateRapport);
+    System.out.println("Date d'aujourd'hui : " + DateLyoum);
+
+    com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+    PdfWriter.getInstance(document, new FileOutputStream(String.valueOf(DateLyoum + ".pdf")));
+    document.open();
+    
+    // Define styles for the title and the subtitle
+    com.itextpdf.text.Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.DARK_GRAY);
+    com.itextpdf.text.Font subtitleFont = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.GRAY);
+    
+    // Add a title to the document
+    Paragraph title = new Paragraph("Rapport détaillé des équipements disponibles sur votre terrain", titleFont);
+    title.setAlignment(Element.ALIGN_CENTER);
+    document.add(title);
+    
+    // Add a subtitle with the current date
+    Paragraph subtitle = new Paragraph("Date d'aujourd'hui : " + DateRapport, subtitleFont);
+    subtitle.setAlignment(Element.ALIGN_CENTER);
+    document.add(subtitle);
+    
+    // Add a space between the title and the table
+    document.add(new Paragraph(" "));
+    
+    // Create a table with headers and content
+    PdfPTable table = new PdfPTable(3);
+    
+    // Set the border color and width of the table
+    table.getDefaultCell().setBorderColor(BaseColor.GRAY);
+    table.getDefaultCell().setBorderWidth(1f);
+    
+    // Set the background color of the headers
+    table.setHeaderRows(1);
+
+    
+    // Define styles for the headers and the content
+    com.itextpdf.text.Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.BLACK);
+    com.itextpdf.text.Font contentFont = FontFactory.getFont(FontFactory.HELVETICA, 10, BaseColor.BLACK);
+    
+    // Add headers to the table
+    table.addCell(new Phrase("Nom de l'équipement", headerFont));
+    table.addCell(new Phrase("Type d'équipement", headerFont));
+    table.addCell(new Phrase("Prix de l'équipement", headerFont));
+    
+    // Add data from the database to the table
+    Equipment r = new Equipment();
+    Ev.display().forEach(e -> {
+        table.addCell(new Phrase(String.valueOf(e.getName()), contentFont));
+        table.addCell(new Phrase(String.valueOf(e.getCategory()), contentFont));
+        table.addCell(new Phrase(String.valueOf(e.getPrice()), contentFont));    
+    });
+    
+    // Add the table to the document
+    table.setHorizontalAlignment(Element.ALIGN_CENTER);
+    document.add(table);
+
+    document.close();
+
+    // Open the generated PDF file
+    File file = new File(DateLyoum + ".pdf");
+    Desktop desktop = Desktop.getDesktop();
+    if (file.exists()) {
+        desktop.open(file);
     }
 }
+
+}
+
+
