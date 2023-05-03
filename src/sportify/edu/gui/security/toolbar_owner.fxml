@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<ToolBar prefHeight="110.0" prefWidth="900.0" style="-fx-background-radius: 15px;" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.toolbar_ownerController">
+   <items>
+      <ImageView fx:id="img_sportify" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../resources/icon.png" />
+         </image>
+      </ImageView>
+      <Separator orientation="VERTICAL" prefHeight="60.0" />
+      <Button fx:id="btn_home" mnemonicParsing="false" onAction="#goToHome" text="Home" />
+      <Separator orientation="VERTICAL" prefHeight="60.0" />
+      <Button fx:id="btn_events" mnemonicParsing="false" onAction="#goToEventsOwner" text="Events" />
+      <Separator orientation="VERTICAL" prefHeight="60.0" />
+      <Button fx:id="btn_products" mnemonicParsing="false" onAction="#goToEventsOwner" text="Products" />
+      <Separator orientation="VERTICAL" prefHeight="60.0" />
+      <Button fx:id="btn_equipment" mnemonicParsing="false" onAction="#goToEquipmentsOwner" text="Equipments" />
+      <Separator orientation="VERTICAL" prefHeight="60.0" />
+      <Button fx:id="btn_academy" mnemonicParsing="false" onAction="#goToAcademyOwner" text="Academy" />
+      <Separator orientation="VERTICAL" prefHeight="60.0" />
+      <Button fx:id="btn_coach" mnemonicParsing="false" onAction="#goToCoachOwner" text="Coach" />
+      <Separator orientation="VERTICAL" prefHeight="60.0" />
+      <MenuButton fx:id="fxmenu" mnemonicParsing="false" text="MenuButton" />
+   </items>
+</ToolBar>

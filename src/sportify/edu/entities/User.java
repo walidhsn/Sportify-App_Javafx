@@ -32,6 +32,8 @@ public class User {
     private List<Terrain> terrains;
     private List<Reservation> reservations;
     private String imageName;
+    private boolean isVerified;
+    private String verifCode;
     
     public User() {
         this.terrains= new ArrayList<>();
@@ -184,6 +186,24 @@ public class User {
     public void addRole(String role){
         this.roles.add(role);
     }
+
+    public boolean isIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(boolean isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    public String getVerifCode() {
+        return verifCode;
+    }
+
+    public void setVerifCode(String verifCode) {
+        this.verifCode = verifCode;
+    }
+    
+    
     
     public static User getUserById(int id) {
         Connection conn = null;
@@ -204,6 +224,7 @@ public class User {
                 user.setFirstname(rs.getString(4));
                 user.setLastname(rs.getString(5));
                 user.setPhone(rs.getString(6));
+                
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -240,6 +261,8 @@ public class User {
             user.setPassword(rs.getString("password"));
             user.setPhone(rs.getString("phone"));
             user.setStatus(rs.getBoolean("status"));
+            user.setIsVerified(rs.getBoolean("is_verified"));
+            user.setVerifCode(rs.getString("verif_code"));
             
 //                String json = rs.getString("roles");
 //                JSONArray jsonArray = new JSONArray(json);

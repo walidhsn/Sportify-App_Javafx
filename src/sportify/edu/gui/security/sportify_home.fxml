@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane fx:id="home_page" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.sportify_homeController">
+   <children>
+      <Pane layoutX="84.0" layoutY="172.0" prefHeight="350.0" prefWidth="750.0" style="-fx-background-color: #4f5257; -fx-background-radius: 15px;">
+         <children>
+            <Label fx:id="title_1" layoutX="36.0" layoutY="41.0" prefHeight="51.0" prefWidth="699.0" style="-fx-text-fill: white; -fx-font-size: 60;" text="Find Your Playground" />
+            <Label fx:id="title_2" layoutX="36.0" layoutY="113.0" prefHeight="33.0" prefWidth="699.0" style="-fx-text-fill: white; -fx-font-size: 30;" text="The Scene is set for your Epic match." />
+            <Label fx:id="title_3" layoutX="36.0" layoutY="151.0" prefHeight="33.0" prefWidth="699.0" style="-fx-text-fill: white; -fx-font-size: 22;" text="Book Sport Pitches and Courts." />
+            <Button fx:id="btn_role" layoutX="36.0" layoutY="260.0" mnemonicParsing="false" onAction="#redirectByRole" prefHeight="51.0" prefWidth="116.0" text="Explore now" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

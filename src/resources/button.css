@@ -1,0 +1,19 @@
+/* Apply styles to buttons */
+.button {
+    -fx-background-color:#ee1e46;
+    -fx-background-radius: 10px;
+    -fx-font-size: 16px;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 4px;
+    -fx-text-fill: #ffffff;
+    -fx-graphic: url("path/to/icon.png");
+}
+
+.button:hover {
+    -fx-background-color: #900a24;
+}
+
+/* Add padding between icon and text */
+.button .label {
+    -fx-graphic-text-gap: 5px;
+}

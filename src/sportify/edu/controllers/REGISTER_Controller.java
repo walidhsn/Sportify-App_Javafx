@@ -6,6 +6,7 @@
 package sportify.edu.controllers;
 
 //import models.MailSender;
+import com.jfoenix.controls.JFXSnackbar;
 import sportify.edu.entities.User;
 import sportify.edu.services.SecurityService;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * FXML Controller class
@@ -84,7 +86,7 @@ public class REGISTER_Controller implements Initializable {
                     }
                 } else if (currentUtilisateur.getRoles().contains("ROLE_OWNER")) {
                     try {
-                        Parent root = FXMLLoader.load(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+                        Parent root = FXMLLoader.load(getClass().getResource("../gui/security/sportify_home.fxml"));
                         Scene scene = new Scene(root);
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(scene);
@@ -94,7 +96,7 @@ public class REGISTER_Controller implements Initializable {
                     }
                 }else {
                     try {
-                        Parent root = FXMLLoader.load(getClass().getResource("../gui/terrain/Terrain_view_client.fxml"));
+                        Parent root = FXMLLoader.load(getClass().getResource("../gui/security/sportify_home.fxml"));
                         Scene scene = new Scene(root);
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(scene);
@@ -109,7 +111,6 @@ public class REGISTER_Controller implements Initializable {
 
     @FXML
     private void redirectToSignUp(ActionEvent event) {
-        
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../gui/security/signup.fxml"));
             Scene scene = new Scene(root);
@@ -121,16 +122,6 @@ public class REGISTER_Controller implements Initializable {
         }
     }
 
-//    @FXML
-//    private void resetpassword(MouseEvent event) {
-//        
-//        try {
-//            MailSender.sendMail("dhiasaibi@yahoo.com", "Dhia", "s");
-//        } catch (Exception ex) {
-//            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//    }
 }
 
 

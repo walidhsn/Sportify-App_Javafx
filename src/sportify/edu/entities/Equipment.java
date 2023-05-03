@@ -1,59 +1,67 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sportify.edu.entities;
 
-/**
- *
- * @author WALID
- */
 public class Equipment {
-    int id,suppliers_id,categorie_id;
-    String name,address,type,image;
-    float price;
-    int quantity,like,dislike;
+    private int id;
+    private String name;
+    private String category;
+    private int quantity;
+    private int price;
+    private String imageName;
+    private int id_supp;
 
     public Equipment() {
     }
 
-    public Equipment(int id, int suppliers_id, int categorie_id, String name, String address, String type, String image, float price, int quantity, int like, int dislike) {
+    public Equipment(int id, String name, String category, int quantity, int price,String imageName) {
         this.id = id;
-        this.suppliers_id = suppliers_id;
-        this.categorie_id = categorie_id;
         this.name = name;
-        this.address = address;
-        this.type = type;
-        this.image = image;
-        this.price = price;
+        this.category = category;
         this.quantity = quantity;
-        this.like = like;
-        this.dislike = dislike;
+        this.price = price;
+        this.imageName = imageName;
     }
 
-    public Equipment(String name, String address, String type, String image, float price, int quantity, int like, int dislike) {
+    public Equipment(String name, String category, int quantity, int price,String imageName) {
         this.name = name;
-        this.address = address;
-        this.type = type;
-        this.image = image;
-        this.price = price;
+        this.category = category;
         this.quantity = quantity;
-        this.like = like;
-        this.dislike = dislike;
+        this.price = price;
+        this.imageName = imageName;
+    }
+    
+    public Equipment(String name, String category, int quantity, int price) {
+        this.name = name;
+        this.category = category;
+        this.quantity = quantity;
+        this.price = price;
+        
     }
 
-    public Equipment(int suppliers_id, int categorie_id, String name, String address, String type, String image, float price, int quantity, int like, int dislike) {
-        this.suppliers_id = suppliers_id;
-        this.categorie_id = categorie_id;
+    public Equipment(String name, String category, int quantity, int price, String imageName, int id_supp) {
         this.name = name;
-        this.address = address;
-        this.type = type;
-        this.image = image;
-        this.price = price;
+        this.category = category;
         this.quantity = quantity;
-        this.like = like;
-        this.dislike = dislike;
+        this.price = price;
+        this.imageName = imageName;
+        this.id_supp = id_supp;
+    }
+
+    public int getId_supp() {
+        return id_supp;
+    }
+
+    public void setId_supp(int id_supp) {
+        this.id_supp = id_supp;
+    }
+    
+    
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageName() {
+        return imageName;
     }
 
     public int getId() {
@@ -64,22 +72,6 @@ public class Equipment {
         this.id = id;
     }
 
-    public int getSuppliers_id() {
-        return suppliers_id;
-    }
-
-    public void setSuppliers_id(int suppliers_id) {
-        this.suppliers_id = suppliers_id;
-    }
-
-    public int getCategorie_id() {
-        return categorie_id;
-    }
-
-    public void setCategorie_id(int categorie_id) {
-        this.categorie_id = categorie_id;
-    }
-
     public String getName() {
         return name;
     }
@@ -88,36 +80,12 @@ public class Equipment {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCategory() {
+        return category;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getQuantity() {
@@ -128,25 +96,28 @@ public class Equipment {
         this.quantity = quantity;
     }
 
-    public int getLike() {
-        return like;
+    public int getPrice() {
+        return price;
     }
 
-    public void setLike(int like) {
-        this.like = like;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public int getDislike() {
-        return dislike;
-    }
+   public double getPriceInDollars(double exchangeRate) {
+    return price * exchangeRate;
+}
 
-    public void setDislike(int dislike) {
-        this.dislike = dislike;
-    }
+  @Override
+public String toString() {
+    return "Equipment{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", category='" + category + '\'' +
+            ", quantity=" + quantity +
+            ", price=" + price +
+            ", imageName='" + imageName + '\'' +
+            '}';
+}
 
-    @Override
-    public String toString() {
-        return "Equipment{" + "id=" + id + ", suppliers_id=" + suppliers_id + ", categorie_id=" + categorie_id + ", name=" + name + ", address=" + address + ", type=" + type + ", image=" + image + ", price=" + price + ", quantity=" + quantity + ", like=" + like + ", dislike=" + dislike + '}';
-    }
-    
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.ExpansionPanel?>
+<?import com.gluonhq.charm.glisten.control.ExpansionPanel.CollapsedPanel?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../Ressource/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AcademyAdd">
+   <children>
+      <VBox layoutX="60.0" layoutY="14.0" prefHeight="542.0" prefWidth="693.0" spacing="10.0">
+         <children>
+             <Label prefHeight="62.0" prefWidth="414.0" textFill="RED">
+               <font>
+                  <Font name="Sitka Text" size="45.0" />
+               </font>
+            </Label>
+            <ExpansionPanel.CollapsedPanel prefHeight="0.0" prefWidth="694.0">
+                <titleNodes>
+                    <Label text="TripName" />
+                    <Label text="Caribbean cruise" />
+                </titleNodes>
+            </ExpansionPanel.CollapsedPanel>
+            <ScrollPane prefHeight="405.0" prefWidth="694.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+      <Button fx:id="btnSubmit" alignment="BOTTOM_LEFT" layoutX="631.0" layoutY="514.0" onAction="#AcademyAdd" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Submit" />
+      <Button alignment="CENTER_RIGHT" layoutX="51.0" layoutY="38.0" onAction="#handleBackButtonClick" prefHeight="42.0" prefWidth="88.0" style="-fx-background-color: #00BFFF; -fx-text-fill: white;" text="Back" textAlignment="RIGHT" />
+          <ImageView fx:id="backIcon" fitHeight="26.0" fitWidth="25.0" layoutX="60.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Ressource/icons/back.png" />
+         </image></ImageView>
+      <ImageView fitHeight="30.0" fitWidth="25.0" layoutX="267.0" layoutY="414.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Ressource/icons/apply.png" />
+         </image>
+      </ImageView>
+      <ExpansionPanel layoutX="500.0" layoutY="310.0" />
+   </children>
+</AnchorPane>

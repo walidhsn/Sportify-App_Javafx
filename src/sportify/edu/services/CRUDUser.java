@@ -39,12 +39,12 @@ public class CRUDUser {
         }
     }
 
-    public void ajouterUtilisateur2(User u) {
-
+    public void ajouterUtilisateur2(User u,String verifCode) {
+        
         try {
-            String requete2 = "INSERT INTO User (email,password,roles,firstname,lastname,phone,status,nomutilisateur) VALUES (?,?,?,?,?,?,?,?)";
+            String requete2 = "INSERT INTO User (email,password,roles,firstname,lastname,phone,status,nomutilisateur,is_verified,verif_code,adresse) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = cnx.prepareStatement(requete2);
-
+            
             JSONObject jsonRolesObject = new JSONObject();
             jsonRolesObject.put("roles", u.getRoles());
 
@@ -56,6 +56,9 @@ public class CRUDUser {
             pst.setString(6, u.getPhone());
             pst.setBoolean(7, false);
             pst.setString(8, u.getNomUtilisateur());
+            pst.setBoolean(9, u.isIsVerified());
+            pst.setString(10, verifCode);
+            pst.setString(11,SecurityService.getCurrentAdresse());
             pst.executeUpdate();
 
             System.out.println("Utilisateur ajoute ");
@@ -79,6 +82,19 @@ public class CRUDUser {
         try {
             String Requete5 = "UPDATE user SET nomutilisateur='" + username + "',password='" + mdp + "', email='" + email + "' where id=" + id;
             PreparedStatement st4 = cnx.prepareStatement(Requete5);
+            st4.executeUpdate();
+            System.out.println("Utilisateur modifié");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void emailVerified(String email) {
+        try {
+            String Requete5 = "UPDATE user SET is_verified=? where email=?";
+            PreparedStatement st4 = cnx.prepareStatement(Requete5);
+            st4.setBoolean(1, true);
+            st4.setString(2,email);
             st4.executeUpdate();
             System.out.println("Utilisateur modifié");
         } catch (SQLException ex) {

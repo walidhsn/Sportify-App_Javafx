@@ -5,6 +5,7 @@
  */
 package sportify.edu.test;
 
+import com.jfoenix.controls.JFXSnackbar;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 import sportify.edu.entities.User;
 import sportify.edu.services.SecurityService;
 
@@ -31,15 +32,15 @@ public class ChangerMdpController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
-    
+
     @FXML
-    public void changermdp(){
+    public void changermdp() {
         String oldPassword = fxoldpassword.getText();
         String newPassword = fxnewpassword.getText();
 
         User u = SecurityService.getCurrentUtilisateur();
-
-        if (u.getPassword().equals(oldPassword)) {
+        if (verifyPassword(oldPassword, u.getPassword())) {
+            newPassword = hashPassword(newPassword);
             boolean updateResult = SecurityService.changePassword(u.getEmail(), newPassword);
             if (updateResult) {
                 Stage stage = (Stage) fxchanger.getScene().getWindow();
@@ -62,4 +63,12 @@ public class ChangerMdpController implements Initializable {
         }
     }
 
+    public String hashPassword(String plainPassword) {
+        String salt = BCrypt.gensalt(13);
+        return BCrypt.hashpw(plainPassword, salt);
+    }
+
+    public static boolean verifyPassword(String candidatePassword, String hashedPassword) {
+        return BCrypt.checkpw(candidatePassword, hashedPassword);
+    }
 }

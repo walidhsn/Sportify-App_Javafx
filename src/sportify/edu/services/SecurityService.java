@@ -7,7 +7,9 @@ package sportify.edu.services;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Random;
 import javafx.scene.control.Alert;
+import org.mindrot.jbcrypt.BCrypt;
 import sportify.edu.entities.User;
 import sportify.edu.tools.MyConnection;
 
@@ -18,10 +20,18 @@ import sportify.edu.tools.MyConnection;
 public class SecurityService {
 
     private static User currentUtilisateur;
-
+    private static String currentAdresse = "";
     public static User getCurrentUtilisateur() {
         return currentUtilisateur;
     }
+    public static String getCurrentAdresse(){
+        return currentAdresse;
+    }
+    
+    public static void setCurrentAdresse(String adresse){
+        currentAdresse = adresse;
+    }
+    
 
     public static User signIn(String email, String password) {
         User user = User.getUserByEmail(email);
@@ -29,7 +39,7 @@ public class SecurityService {
         System.out.println(currentUtilisateur);
         System.out.println("Password written : " + password);
         if (user != null) {
-            if (user.getPassword().equals(password)) {
+            if (verifyPassword(password,user.getPassword())) {
                 if(user.isStatus()){
                 System.out.println(SecurityService.getCurrentUtilisateur());
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -64,7 +74,7 @@ public class SecurityService {
         }
     }
 
-    public static boolean signUp(String lastname, String firstname, String email, String password, String phone, String role, String username) {
+    public static boolean signUp(String lastname, String firstname, String email, String password, String phone, String role, String username,String verifCode) {
 
         if (User.getUserByEmail(email) == null) {
             User currentUtilisateur = new User();
@@ -76,9 +86,10 @@ public class SecurityService {
             currentUtilisateur.addRole(role);
             currentUtilisateur.setStatus(false);
             currentUtilisateur.setNomUtilisateur(username);
+            currentUtilisateur.setIsVerified(false);
             System.out.println(currentUtilisateur);
             CRUDUser cu = new CRUDUser();
-            cu.ajouterUtilisateur2(currentUtilisateur);
+            cu.ajouterUtilisateur2(currentUtilisateur,verifCode);
             return true;
         } else {
             return false;
@@ -91,7 +102,6 @@ public class SecurityService {
 
     public static boolean changePassword(String email, String newPassword) {
         try {
-
             Connection conn = MyConnection.getInstance().getCnx();
             String query = "UPDATE user SET password=? WHERE email=?";
             PreparedStatement pstmt = conn.prepareStatement(query);
@@ -126,5 +136,25 @@ public class SecurityService {
             System.out.println(ex.getMessage());
         }
         return exists;
+    }
+    public String hashPassword(String plainPassword) {
+        String salt = BCrypt.gensalt(13);
+        return BCrypt.hashpw(plainPassword, salt);
+    }
+
+    public static boolean verifyPassword(String candidatePassword, String hashedPassword) {
+        return BCrypt.checkpw(candidatePassword, hashedPassword);
+    }
+    public static String generateCode() {
+        Random RANDOM = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            sb.append(RANDOM.nextInt(10));
+        }
+        return sb.toString();
+    }
+    public static void emailVerified(String email){
+        CRUDUser cu = new CRUDUser();
+        cu.emailVerified(email);
     }
 }
