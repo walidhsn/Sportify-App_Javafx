@@ -168,6 +168,29 @@ public class ProduitCRUD {
         return myList;
     }
     
+    public ObservableList<Produit> getByOwn(int owner_id) {
+        ObservableList<Produit> myList = FXCollections.observableArrayList();
+        try {
+            PreparedStatement ps = MyConnection.getInstance().getCnx().prepareStatement("SELECT * FROM produit WHERE owner_id = ?");
+            ps.setInt(1, owner_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Produit rec = new Produit();
+                rec.setId(rs.getInt("id"));
+                rec.setRefernce(rs.getString("ref"));
+                rec.setLibelle(rs.getString("libelle"));
+                rec.setPrix(rs.getFloat("prix"));
+                rec.setImage(rs.getString("image_name"));
+                rec.setQuantite(rs.getInt("stock"));
+                rec.setCategorie(rs.getInt("categorie_id"));
+                myList.add(rec);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return myList;
+    }
+    
     public void modifier_produit(Produit r) {
         try {
             String requete4 = "UPDATE produit SET ref=?,libelle=?,prix=?,image_name=?,stock=?,categorie_id=? WHERE id=?";

@@ -20,7 +20,8 @@
          <children>
             <Button fx:id="btn_home" mnemonicParsing="false" onAction="#goToHome" text="Home" />
             <Button fx:id="btn_events" mnemonicParsing="false" onAction="#goToEventsOwner" text="Events" />
-            <Button fx:id="btn_products" mnemonicParsing="false" onAction="#goToEventsOwner" text="Products" />
+            <Button fx:id="btn_products" mnemonicParsing="false" onAction="#goToProductsOwner" text="Products" />
+            <Button fx:id="btn_commands" mnemonicParsing="false" onAction="#goToCommands" text="Commands" />
             <Button fx:id="btn_equipment" mnemonicParsing="false" onAction="#goToEquipmentsOwner" text="Equipments" />
             <Button fx:id="btn_academy" mnemonicParsing="false" onAction="#goToAcademyOwner" text="Academy" />
             <Button fx:id="btn_coach" mnemonicParsing="false" onAction="#goToCoachOwner" text="Coach" />

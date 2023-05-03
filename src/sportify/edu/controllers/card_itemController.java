@@ -66,6 +66,7 @@ public class card_itemController implements Initializable {
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
                 card_item.setQuantite(newValue);
                 cic.modifier_card_item(card_item);
+                
                 controller.updateTotal();
             }
         });
@@ -87,7 +88,7 @@ public class card_itemController implements Initializable {
         cic.supprimer_card_item(card_item.getId());
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louaypi/gui/produit/panier.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/panier.fxml"));
             Parent root = loader.load();
             //UPDATE The Controller with Data :
             panierController controller = loader.getController();

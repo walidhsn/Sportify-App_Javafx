@@ -35,15 +35,20 @@ public class Produit_view_clientController implements Initializable {
     private List<Produit> list_produits;
     private int id_client;
     private Card c;
-    @FXML
     private Button panier_btn;
     @FXML
     private TextField search_text;
     @FXML
     private Button search_btn;
+    private CardCrud cc;
+    @FXML
+    private Button home_btn;
+    @FXML
+    private Button panier_btn1;
+    public void setData(int id) {
+        this.id_client = id;
+        loadProducts();
 
-    public void setData(int id_client) {
-        this.id_client = id_client;
     }
 
     /**
@@ -51,19 +56,24 @@ public class Produit_view_clientController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadProducts();
+        cc = new CardCrud();
+        c = new Card();
     }
 
     private void loadProducts() {
         ProduitCRUD ps = new ProduitCRUD();
         list_produits = ps.listerProduits();
-        id_client = 2;
-        CardCrud cc = new CardCrud();
-        c = cc.trouver_card_par_user_id(id_client);
+        
+        c = cc.trouver_card_par_user_id(this.id_client);
+                    System.out.println("11111111111 :"+c);
+
         if (c == null) {
+
+
             c = new Card(id_client, 0.0f);
             cc.ajouter_card(c);
             c = cc.trouver_card_par_user_id(id_client);
+            System.out.println("2222222222222222222"+c);
         }
 
         if (!list_produits.isEmpty()) {
@@ -85,10 +95,14 @@ public class Produit_view_clientController implements Initializable {
 
     @FXML
     private void redirectToPanier(ActionEvent event) {
+         c = cc.trouver_card_par_user_id(this.id_client);
+         System.out.println("55555555555- : "+c);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/panier.fxml"));
             Parent root = loader.load();
             // UPDATE The Controller with Data :
+                   
+
             panierController controller = loader.getController();
             controller.setData(c);
             Scene scene = new Scene(root);
@@ -154,10 +168,23 @@ private void SearchProducts(ActionEvent event) {
     }
 }
 
-    @FXML
     private void redirectToOwner(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../gui/produit/Produit_view_client.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void redirectToHome(ActionEvent event) {
+         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/security/sportify_home.fxml"));
+            Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

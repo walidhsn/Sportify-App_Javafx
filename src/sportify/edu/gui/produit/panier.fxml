@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="900.0" stylesheets="@../../../resources/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.panierController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="900.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.panierController">
    <children>
       <ScrollPane layoutX="22.0" layoutY="29.0" prefHeight="279.0" prefWidth="665.0">
          <content>

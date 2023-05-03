@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.UPDATE_produitController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.UPDATE_produitController">
    <children>
       <GridPane hgap="10.0" layoutX="114.0" layoutY="98.0" prefHeight="301.0" prefWidth="343.0" vgap="10.0">
          <columnConstraints>

@@ -17,6 +17,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sportify.edu.entities.User;
+import sportify.edu.services.SecurityService;
 
 /**
  * FXML Controller class
@@ -25,12 +27,14 @@ import javafx.stage.Stage;
  */
 public class toolbar_clientController implements Initializable {
 
+    private User user;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        user = new User();
+        user = SecurityService.getCurrentUtilisateur();
     }
 
     @FXML
@@ -43,16 +47,18 @@ public class toolbar_clientController implements Initializable {
 
     @FXML
     private void goToProductsClient(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/Produit_view_client.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(toolbar_clientController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/Produit_view_client.fxml"));
+                Parent root = loader.load();
+                //UPDATE The Controller with Data :
+                Produit_view_clientController controller = loader.getController();
+                controller.setData(user.getId());
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
     }
 
     @FXML

@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import sportify.edu.entities.Produit;
 import sportify.edu.services.CategorieCrud;
 import sportify.edu.services.ProduitCRUD;
+import sportify.edu.services.SecurityService;
 
 /**
  * FXML Controller class
@@ -85,7 +86,7 @@ public class Produit_view_ownerController implements Initializable {
         pc= new ProduitCRUD();
        Produit p=new Produit();
        
-        list_prod=pc.listerProduits();
+        list_prod=pc.getByOwn(SecurityService.getCurrentUtilisateur().getId());
         table_prod.setItems(FXCollections.observableArrayList(list_prod));
         name_col.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         prix_col.setCellValueFactory(new PropertyValueFactory<>("prix"));
@@ -174,7 +175,7 @@ public class Produit_view_ownerController implements Initializable {
                             System.out.println("selectedData: " + data.getId());                           
                             if (btn.get() == ButtonType.OK) {
                                 try {
-                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/louaypi/gui/produit/UPDATE_produit.fxml"));
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/UPDATE_produit.fxml"));
                                     Parent root = loader.load();
                                     //UPDATE The Controller with Data :
                                     UPDATE_produitController controller = loader.getController();
@@ -199,10 +200,9 @@ public class Produit_view_ownerController implements Initializable {
         
     }
                 
-    @FXML
     private void returnListProduitClient(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/Produit_view_client.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../gui/produit/Produit_view_client.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -215,7 +215,7 @@ public class Produit_view_ownerController implements Initializable {
     @FXML
     private void redirectToAddProduit(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/Add_produit.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../gui/produit/Add_produit.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -227,7 +227,7 @@ public class Produit_view_ownerController implements Initializable {
     private void refresh() {
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/Produit_view_owner.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../gui/produit/Produit_view_owner.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) table_prod.getScene().getWindow();
             stage.setScene(scene);
@@ -239,7 +239,21 @@ public class Produit_view_ownerController implements Initializable {
     @FXML
     private void redirectToChart(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/stat.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../gui/produit/stat.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void returnHome(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/security/sportify_home.fxml"));
+            Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

@@ -6,6 +6,7 @@
 package sportify.edu.controllers;
 
 import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import java.awt.Desktop;
 import java.io.File;
@@ -14,6 +15,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,10 +34,12 @@ import sportify.edu.entities.Card;
 import sportify.edu.entities.CardItem;
 import sportify.edu.entities.Commande;
 import sportify.edu.entities.Historique;
+import sportify.edu.entities.User;
 import sportify.edu.services.CardCrud;
 import sportify.edu.services.CardItemCrud;
 import sportify.edu.services.CommandeCrud;
 import sportify.edu.services.HistoriquesCrud;
+import sportify.edu.services.SecurityService;
 
 /**
  * FXML Controller class
@@ -62,6 +67,8 @@ public class form_commande implements Initializable {
     private Card card ;
     @FXML
     private Button btn_retour;
+    private User user;
+    private CommandeCrud cc;
     public void setData(Card c){
         this.card = c;
     }
@@ -70,13 +77,13 @@ public class form_commande implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        int id_client =2;
-       this.card = cx.trouver_card_par_user_id(id_client);
+       user = SecurityService.getCurrentUtilisateur();
+       cc = new CommandeCrud();
     }    
 
     @FXML
     private void add_commande(ActionEvent event) throws DocumentException, FileNotFoundException, BadElementException, IOException {
-        CommandeCrud cc = new CommandeCrud();
+        
         Commande c = new Commande();
         c.setTotal(card.getTotal());
         //Thot les valeur o controle de saisir
@@ -131,7 +138,8 @@ public class form_commande implements Initializable {
                 c.setAdresse(adre);
                 c.setCard_id(card.getId());
                 c.setUser_id(card.getUser_id());
-                String pdfpath = "C:/Users/louay/OneDrive/Documents/NetBeansProjects/louayPi/" + c.getFirstname()+".pdf";
+                String pdfpath = "C:/Users/moata/Desktop/Sportify-App_Javafx-master/" + c.getFirstname()+".pdf";
+                
                 cc.ajouter_commande(c);
                 Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
     confirmationAlert.setTitle("Confirmation");
@@ -148,7 +156,7 @@ public class form_commande implements Initializable {
             // User clicked "Pay Now"
             // Load another GUI
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/louaypi/gui/commande/Payment.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/commande/Payment.fxml"));
                 Parent paymentRoot = loader.load();
                 PayController paymentController = loader.getController();
                 
@@ -169,7 +177,14 @@ public class form_commande implements Initializable {
             successAlert.setHeaderText(null);
             successAlert.setContentText("Command created successfully!");
             successAlert.showAndWait();
-            
+            try {
+                cc.createPDF(finalC);
+            } catch (DocumentException ex) {
+                Logger.getLogger(form_commande.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(form_commande.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             // Open the PDF file
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
             try {
@@ -217,15 +232,18 @@ public class form_commande implements Initializable {
 
     @FXML
     private void retour(ActionEvent event) {
-        try {
-            Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/panier.fxml"));
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/panier.fxml"));
+                Parent root = loader.load();
+                //UPDATE The Controller with Data :
+                panierController controller = loader.getController();
+                controller.setData(this.card);
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
     }
     private void showErrorAlert(String message) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -235,15 +253,18 @@ public class form_commande implements Initializable {
     alert.showAndWait();
 }
     private void redirectToHomePage(ActionEvent event) {
-    try {
-        Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/Produit_view_client.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    } catch (IOException ex) {
-        System.out.println(ex.getMessage());
-    }
+        try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/Produit_view_client.fxml"));
+                Parent root = loader.load();
+                //UPDATE The Controller with Data :
+                Produit_view_clientController controller = loader.getController();
+                controller.setData(user.getId());
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            } 
     
     
     

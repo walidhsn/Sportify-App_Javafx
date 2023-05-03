@@ -140,7 +140,7 @@ public class Add_produitController implements Initializable {
             alert.showAndWait();
         } else {
             if (file != null) {
-                String destPath = "C:/Users/louay/OneDrive/Bureau/WEBPI(finale)/WEBPI(finale)/public/uploads/produit/";
+                String destPath = "C:/Users/moata/PhpStormProjects/WEBPI(finale)/WEBPI(finale)/public/uploads/produit/";
                 String imageName = generateUniqueName(file); // Generate a unique name for the image
                 File dest = new File(destPath + imageName); // Set the destination path for the image
                 try {
@@ -174,7 +174,7 @@ public class Add_produitController implements Initializable {
     @FXML
     private void redirectToListProduit(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/Produit_view_client.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../gui/produit/Produit_view_client.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -194,7 +194,7 @@ public class Add_produitController implements Initializable {
     @FXML
     private void ajouter_Cat(ActionEvent event) {
         try {
-            Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/louaypi/gui/categorie/ADD_categorie.fxml"));
+            Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("../gui/categorie/ADD_categorie.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

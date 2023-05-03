@@ -84,7 +84,7 @@ public class StatController implements Initializable {
     @FXML
     private void redirectToBack(ActionEvent event) {
          try {
-            Parent root = FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/Produit_view_owner.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../gui/produit/Produit_view_owner.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

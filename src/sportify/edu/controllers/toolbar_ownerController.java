@@ -44,6 +44,8 @@ public class toolbar_ownerController implements Initializable {
     private Button btn_coach;
     @FXML
     private MenuButton fxmenu;
+    @FXML
+    private Button btn_commands;
 
     /**
      * Initializes the controller class.
@@ -94,6 +96,34 @@ public class toolbar_ownerController implements Initializable {
     @FXML
     private void goToCoachOwner(ActionEvent event) {
 
+    }
+
+    @FXML
+    private void goToProductsOwner(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/Produit_view_owner.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(toolbar_clientController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void goToCommands(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/commande/commande_view.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(toolbar_clientController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

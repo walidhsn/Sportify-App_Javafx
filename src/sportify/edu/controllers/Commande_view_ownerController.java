@@ -161,7 +161,7 @@ public class Commande_view_ownerController implements Initializable {
                                 Commande data = getTableView().getItems().get(getIndex());
                                 System.out.println(data.getId());
                                 System.out.println("selectedData: " + data.getId()); 
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/louaypi/gui/commande/commande_items_view.fxml"));
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/commande/commande_items_view.fxml"));
                                 Parent root = loader.load();
                                 //UPDATE The Controller with Data :
                                 view_listController controller = loader.getController();
@@ -185,7 +185,7 @@ public class Commande_view_ownerController implements Initializable {
     @FXML
     private void returnListProduitClient(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/Produit_view_owner.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../gui/produit/Produit_view_owner.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

@@ -4,18 +4,13 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../resources/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.categorie_view_controller">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.categorie_view_controller">
    <children>
       <TableView fx:id="table_cat" layoutX="26.0" layoutY="92.0" prefHeight="497.0" prefWidth="1167.0">
          <columns>
@@ -34,30 +29,12 @@
                <graphic>
                   <ImageView fx:id="backBtn_icon" fitHeight="31.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../Downloads/Sportify_java/Sportify_java/Sportify/src/resources/back-arrow.png" />
+                        <Image url="@../../../../resources/back-arrow.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
             <Separator prefWidth="200.0" />
-            <GridPane hgap="5.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <TextField fx:id="search_text" promptText="Search" />
-                  <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                     <image>
-                        <Image url="@../../../../../../../../Downloads/Sportify_java/Sportify_java/Sportify/src/resources/search-icon.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </GridPane>
-            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="17.0" />
             <Button fx:id="add_btn" mnemonicParsing="false" onAction="#redirectToAddCategorie" prefHeight="30.0" prefWidth="155.0" text="Add categorie">
                <graphic>
                   <ImageView fx:id="add_icon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />

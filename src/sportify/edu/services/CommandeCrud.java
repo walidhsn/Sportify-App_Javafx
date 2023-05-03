@@ -175,7 +175,7 @@ public class CommandeCrud {
         document.add(title);
 
         // Image
-        Image logo = Image.getInstance("file:C:/Users/louay/OneDrive/Documents/NetBeansProjects/louayPi/src/resources/icon_1.png");
+        Image logo = Image.getInstance("file:C:/Users/moata/Desktop/Sportify-App_Javafx-master/src/resources/icon.png");
         logo.setAbsolutePosition(document.left(),document.bottomMargin());
         logo.scalePercent(10);
         document.add(logo);
@@ -233,7 +233,7 @@ public class CommandeCrud {
         text1.setSpacingAfter(20);
         document.add(text1);
         // Image
-        Image logo = Image.getInstance("file:C:/Users/louay/OneDrive/Documents/NetBeansProjects/louayPi/src/resources/icon_1.png");
+        Image logo = Image.getInstance("file:C:/Users/moata/Desktop/Sportify-App_Javafx-master/src/resources/icon.png");
         logo.setAbsolutePosition(document.left(),document.bottomMargin());
         logo.scalePercent(10);
         document.add(logo);

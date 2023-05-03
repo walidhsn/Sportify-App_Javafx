@@ -8,7 +8,6 @@ package sportify.edu.controllers;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
 import com.stripe.exception.StripeException;
-import static com.stripe.param.PaymentLinkCreateParams.ShippingAddressCollection.AllowedCountry.MM;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -29,8 +29,10 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sportify.edu.entities.Commande;
+import sportify.edu.entities.User;
 import sportify.edu.services.CommandeCrud;
 import sportify.edu.services.Payement;
+import sportify.edu.services.SecurityService;
 
 /**
  * FXML Controller class
@@ -58,10 +60,12 @@ public class PayController implements Initializable {
     @FXML
     private Button back_btn;
     private float total_pay;
-    
+
     private TextField spinnerTextField;
     private Commande cmd;
     private CommandeCrud cc;
+    private User user;
+
     /**
      * Initializes the controller class.
      */
@@ -79,7 +83,7 @@ public class PayController implements Initializable {
         cvc.setValueFactory(valueFactory_cvc);
         String total_txt = "Total : " + String.valueOf(total_pay) + " Dt.";
         total.setText(total_txt);
-        spinnerTextField= cvc.getEditor();
+        spinnerTextField = cvc.getEditor();
         spinnerTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 cvc.getValueFactory().setValue(Integer.parseInt(newValue));
@@ -91,8 +95,9 @@ public class PayController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
+        user = new User();
+        user = SecurityService.getCurrentUtilisateur();
+    }
 
     @FXML
     private void payment(ActionEvent event) throws DocumentException, BadElementException, IOException {
@@ -115,22 +120,23 @@ public class PayController implements Initializable {
 
         try {
             boolean paymentSuccess = Payement.processPayment(customerName, customerEmail, total_pay, cardNumber, cardExpMonth, cardExpYear, cardCvc);
-               String pdfpath = "C:/Users/louay/OneDrive/Documents/NetBeansProjects/louaypii/" + cmd.getFirstname()+".pdf";
+            String pdfpath = "C:/Users/moata/Desktop/Sportify-App_Javafx-master/" + cmd.getFirstname() + ".pdf";
+
             if (paymentSuccess) {
                 cc.createPDFP(cmd);
                 redirectToHomePage(event);
-                
-            //if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
-            try {
-                File file = new File(pdfpath);
-                Desktop.getDesktop().open(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // GÃ©rez les erreurs liÃ©es Ã  l'ouverture du fichier PDF
-            }
-        //} else {
-            // Desktop ou l'action OPEN n'est pas pris en charge sur la plate-forme actuelle
-           /* Alert alert = new Alert(Alert.AlertType.ERROR);
+
+                //if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+                try {
+                    File file = new File(pdfpath);
+                    Desktop.getDesktop().open(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // GÃ©rez les erreurs liÃ©es Ã  l'ouverture du fichier PDF
+                }
+                //} else {
+                // Desktop ou l'action OPEN n'est pas pris en charge sur la plate-forme actuelle
+                /* Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("we have an error while we open the file try later");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
@@ -139,11 +145,11 @@ public class PayController implements Initializable {
             } else {
                 // Payment failed
                 // Handle the failure scenario, show an error message, etc.
-               Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("You payement failed");
-            alert.setTitle("Problem");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("You payement failed");
+                alert.setTitle("Problem");
+                alert.setHeaderText(null);
+                alert.showAndWait();
             }
         } catch (StripeException e) {
             // Exception occurred during payment processing
@@ -151,19 +157,20 @@ public class PayController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     private void redirectToHomePage(ActionEvent event) {
-    try {
-        Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/Produit_view_client.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    } catch (IOException ex) {
-        System.out.println(ex.getMessage());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/Produit_view_client.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Produit_view_clientController controller = loader.getController();
+            controller.setData(user.getId());
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
-    
-    
-    
-}
 }

@@ -87,6 +87,24 @@ public class HistoriquesCrud {
         }
         return historique;
     }
+    
+    public List<Historique> trouver_historique_par_userid(int owner_id) {
+        List<Historique> historiques = new ArrayList<>();
+        try {
+            String requete = "SELECT * FROM historique WHERE owner_id = ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
+            pst.setInt(1, owner_id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Historique h = new Historique(rs.getInt("id"), rs.getInt("commande_id"), rs.getString("libelle"),
+                                              rs.getFloat("prix"), rs.getInt("quantity"),rs.getInt("owner_id"));
+                historiques.add(h);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return historiques;
+    }
     // UPDATE operation
     public void modifier_historique(Historique h) {
         try {

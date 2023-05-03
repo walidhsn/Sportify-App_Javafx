@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 import sportify.edu.entities.Commande;
 import sportify.edu.entities.Historique;
 import sportify.edu.services.HistoriquesCrud;
+import sportify.edu.services.SecurityService;
 
 /**
  * FXML Controller class
@@ -64,7 +65,7 @@ public class view_listController implements Initializable {
         //list_Com=cc.trouver_historique_par_commande_id(c.getId());
          hist=cc.trouver_historique_par_commande_id2(c.getId());
         System.out.println(c.getId());
-        list_Com=cc.trouver_tous_les_historiques();
+        list_Com=cc.trouver_historique_par_userid(SecurityService.getCurrentUtilisateur().getId());
         table_com.setItems(FXCollections.observableArrayList(list_Com));
         name_col.setCellValueFactory(new PropertyValueFactory<>("libelle"));
         pr_col.setCellValueFactory(new PropertyValueFactory<>(String.valueOf("prix")));
@@ -178,7 +179,7 @@ public class view_listController implements Initializable {
     @FXML
     private void returnListCommande(ActionEvent event) {
         try {
-            Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/louaypi/gui/commande/commande_view.fxml"));
+            Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("../gui/commande/commande_view.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

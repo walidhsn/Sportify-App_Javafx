@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="produit_Hbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Produit_cardController">
+<HBox fx:id="produit_Hbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Produit_cardController">
    <children>
       <ImageView fx:id="prod_image" fitHeight="221.0" fitWidth="183.0" pickOnBounds="true" preserveRatio="true" />
-      <VBox prefHeight="280.0" prefWidth="223.0">
+      <VBox prefHeight="280.0" prefWidth="223.0" stylesheets="@../../../../resources/style.css">
          <children>
             <HBox alignment="CENTER" prefHeight="44.0" prefWidth="197.0" spacing="5.0">
                <children>

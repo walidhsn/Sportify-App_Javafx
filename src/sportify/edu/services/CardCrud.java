@@ -27,7 +27,7 @@ public class CardCrud {
         pst.setInt(2, c.getUser_id());
         pst.setFloat(3, c.getTotal());
         pst.executeUpdate();
-        System.out.println("Panier ajoutÃ© !");
+        System.out.println("Panier ajoute !");
     } catch (SQLException ex) {
         System.out.println(ex.getMessage());
     }
@@ -53,7 +53,7 @@ public void supprimer_card(int id) {
         PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
         pst.setInt(1, id);
         pst.executeUpdate();
-        System.out.println("Panier supprimÃ© !");
+        System.out.println("Panier supprimer !");
     } catch (SQLException ex) {
         System.out.println(ex.getMessage());
     }

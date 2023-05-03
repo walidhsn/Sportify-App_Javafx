@@ -158,7 +158,7 @@ public class categorie_view_controller implements Initializable {
                             System.out.println("selectedData: " + data.getId());                           
                             if (btn.get() == ButtonType.OK) {
                                 try {
-                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/louaypi/gui/categorie/Update_Categorie.fxml"));
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/categorie/Update_Categorie.fxml"));
                                     Parent root = loader.load();
                                     //UPDATE The Controller with Data :
                                     Update_categorieController controller = loader.getController();
@@ -188,7 +188,7 @@ public class categorie_view_controller implements Initializable {
     @FXML
     private void returnListCategorie(ActionEvent event) {
          try {
-            Parent root = FXMLLoader.load(getClass().getResource("/louaypi/gui/produit/Produit_view_owner.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../gui/produit/Produit_view_owner.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -201,7 +201,7 @@ public class categorie_view_controller implements Initializable {
     @FXML
     private void redirectToAddCategorie(ActionEvent event) {
          try {
-            Parent root = FXMLLoader.load(getClass().getResource("/louaypi/gui/categorie/ADD_categorie.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../gui/categorie/ADD_categorie.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -213,7 +213,7 @@ public class categorie_view_controller implements Initializable {
     private void refresh() {
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("/louaypi/gui/Produit/Categorie_view.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../gui/Produit/Categorie_view.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage) table_cat.getScene().getWindow();
             stage.setScene(scene);
