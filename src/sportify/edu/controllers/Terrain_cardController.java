@@ -21,7 +21,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import sportify.edu.entities.Terrain;
 
@@ -53,7 +52,7 @@ public class Terrain_cardController implements Initializable {
     private int id_client;
 
     public void setData(Terrain t, int client_id) {
-        String image_directory_path = "file:C:/Users/WALID/Desktop/WEBPI/WEBPI/public/uploads/terrain/";
+        String image_directory_path = "file:C:/Users/moata/PhpstormProjects/WEBPI(finale)/WEBPI(finale)/public/uploads/terrain/";
         String full_path;
         this.terrain = t;
         this.id_client = client_id;

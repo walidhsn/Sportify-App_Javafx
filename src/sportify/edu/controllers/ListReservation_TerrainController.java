@@ -20,7 +20,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -32,6 +31,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import sportify.edu.entities.Reservation;
 import sportify.edu.entities.Terrain;
+import sportify.edu.entities.User;
+import sportify.edu.services.CRUDUser;
 import sportify.edu.services.ReservationService;
 
 /**
@@ -44,7 +45,7 @@ public class ListReservation_TerrainController implements Initializable {
     @FXML
     private TableView<Reservation> table_reservation;
     @FXML
-    private TableColumn<Reservation, String> client_col;
+    private TableColumn<Reservation, Integer> client_col;
     @FXML
     private TableColumn<Reservation, String> dateReservation_col;
     @FXML
@@ -64,9 +65,12 @@ public class ListReservation_TerrainController implements Initializable {
     private Terrain terrain;
     @FXML
     private TextField search_text;
+    private int id_owner;
 
-    public void setData(Terrain terrain) {
+    public void setData(Terrain terrain, int id) {
+        this.id_owner = id;
         this.terrain = terrain;
+        CRUDUser Cu = new CRUDUser();
         ReservationService rs = new ReservationService();
         reservation_list = rs.terrain_reservations(terrain.getId());
         System.out.println(reservation_list);
@@ -77,19 +81,24 @@ public class ListReservation_TerrainController implements Initializable {
             endTime_col.setCellValueFactory(new PropertyValueFactory<>("endTime"));
             status_col.setCellValueFactory(new PropertyValueFactory<>("resStatus"));
             nbPerson_col.setCellValueFactory(new PropertyValueFactory<>("nbPerson"));
-            /*client_col.setCellFactory(column -> {
-                return new TableCell<Reservation, String>() {
+            client_col.setCellValueFactory(new PropertyValueFactory<>("client_id"));
+            client_col.setCellFactory(column -> {
+                return new TableCell<Reservation, Integer>() {
+
                     @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
+                    protected void updateItem(Integer client_id, boolean empty) {
+                        super.updateItem(client_id, empty);
+                       
+                        if (empty || client_id == null) {
                             setText(null);
+                       
                         } else {
-                            setText("To-DO");
+                            User u= Cu.getUser(client_id);
+                            setText(u.getFirstname() + " "+u.getLastname());
                         }
                     }
                 };
-            });*/
+            });
             status_col.setCellFactory(column -> {
                 return new TableCell<Reservation, Boolean>() {
 
@@ -145,7 +154,7 @@ public class ListReservation_TerrainController implements Initializable {
             Parent root = loader.load();
             //UPDATE The Controller with Data :
             DETAILS_TerrainController controller = loader.getController();
-            controller.setInformation_Terrain(this.terrain);
+            controller.setInformation_Terrain(this.terrain, id_owner);
             //-----
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -21,6 +21,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import sportify.edu.entities.Terrain;
+import sportify.edu.entities.User;
+import sportify.edu.services.CRUDUser;
 
 /**
  * FXML Controller class
@@ -60,9 +62,12 @@ public class DETAILS_TerrainController implements Initializable {
     private Terrain terrain;
     @FXML
     private Button reservation_btn;
-
-    public void setInformation_Terrain(Terrain terrain) {
-        String image_path_directory = "file:C:/Users/WALID/Desktop/WEBPI/WEBPI/public/uploads/terrain/";
+    private int id_owner;
+    public void setInformation_Terrain(Terrain terrain,int id) {
+        CRUDUser Cu = new CRUDUser();
+        User u = Cu.getUser(id);
+        this.id_owner = id;
+        String image_path_directory = "file:C:/Users/moata/PhpstormProjects/WEBPI(finale)/WEBPI(finale)/public/uploads/terrain/";
         String full_path;
         this.terrain = terrain;
         terrain_name.setText(this.terrain.getName());
@@ -79,7 +84,8 @@ public class DETAILS_TerrainController implements Initializable {
         terrain_roadNumber.setText(String.valueOf(this.terrain.getRoadNumber()));
         terrain_city.setText(this.terrain.getCity());
         terrain_country.setText(this.terrain.getCountry());
-        terrain_ownername.setText("");// to do with a function in the userService
+        String user_name = u.getFirstname()+"  "+u.getLastname();
+        terrain_ownername.setText(user_name);
         if (this.terrain.getImageName() != null) {
             full_path = image_path_directory + this.terrain.getImageName();
             terrain_image.setImage(new Image(full_path));
@@ -98,14 +104,17 @@ public class DETAILS_TerrainController implements Initializable {
 
     @FXML
     private void returnToListTerrain(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+   try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Terrain_view_ownerController controller = loader.getController();
+            controller.setData(this.id_owner);
             Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) back_btn.getScene().getWindow();
             stage.setScene(scene);
-            stage.show();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -117,7 +126,7 @@ public class DETAILS_TerrainController implements Initializable {
             Parent root = loader.load();
             //UPDATE The Controller with Data :
            ListReservation_TerrainController controller = loader.getController();
-            controller.setData(this.terrain);
+            controller.setData(this.terrain,id_owner);
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

@@ -22,7 +22,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -93,15 +92,16 @@ public class UPDATE_TerrainController implements Initializable {
 
     private TerrainService ts;
     private Set<String> possible_suggestions;
+    private int id_owner;
 
-    public void setTerrain(Terrain terrain) {
+    public void setTerrain(Terrain terrain, int id_user) {
         this.terrain = terrain;
+        this.id_owner = id_user;
         Image image;
         String url_imageDirectory = "file:C:/Users/WALID/Desktop/WEBPI/WEBPI/public/uploads/terrain/";
         terrain_name.setText(this.terrain.getName());
         terrain_roadName.setText(this.terrain.getRoadName());
         terrain_city.setText(this.terrain.getCity());
-        // terrain_country.setText(this.terrain.getCountry());
         if (this.terrain.getImageName() != null) {
             String url_image = url_imageDirectory + this.terrain.getImageName();
             System.out.println(url_image);
@@ -155,7 +155,6 @@ public class UPDATE_TerrainController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         terrain = new Terrain();
@@ -164,39 +163,44 @@ public class UPDATE_TerrainController implements Initializable {
         Image btn_upload_img_icon = new Image("/resources/upload-image-icon.png");
         backBtn_icon.setImage(btn_icon);
         upload_img_icon.setImage(btn_upload_img_icon);
-//        // setting the auto-Complete :
-//        possible_suggestions = ts.get_autoCompleteWords();
-//        autoCompletionBinding = TextFields.bindAutoCompletion(terrain_city, possible_suggestions);
-//        terrain_city.setOnKeyPressed(new EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(KeyEvent event) {
-//                switch (event.getCode()) {
-//                    case ENTER:
-//                        autoCompleteLearn(terrain_city.getText().trim());
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-//
-//        });
+        // setting the auto-Complete :
+        possible_suggestions = ts.get_autoCompleteWords();
+        autoCompletionBinding = TextFields.bindAutoCompletion(terrain_city, possible_suggestions);
+        terrain_city.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case ENTER:
+                        autoCompleteLearn(terrain_city.getText().trim());
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        });
     }
 
     @FXML
     private void update_terrain(ActionEvent event) {
-        int id_user = 1; // Just For Test will be replaced
-        //Getting Values : 
-
+        Terrain verif;
+        //Getting Values :        
         String name = terrain_name.getText();
         Integer capacity = terrain_capacity.getValue();
-        String sport_type = terrain_sportType.getValue();
+        String sport_type = "";
+        if (terrain_sportType.getValue() != null) {
+            sport_type = terrain_sportType.getValue();
+        }
         Double rent_price = terrain_rentPrice.getValue();
         boolean disponibility = terrain_disponibility.isSelected();
         Integer postalCode = terrain_postalCode.getValue();
         String roadName = terrain_roadName.getText();
         Integer roadNumber = terrain_roadNumber.getValue();
         String city = terrain_city.getText();
-        String country = terrain_country.getValue().getName();
+        String country = "";
+        if (terrain_country.getValue() != null) {
+            country = terrain_country.getValue().getName();
+        }
         // Control :
         if (name.isEmpty() && name.length() < 3) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -204,52 +208,87 @@ public class UPDATE_TerrainController implements Initializable {
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            terrain_name.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_name).play();
         } else if (sport_type.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("'Sport Type' must be selected");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
-        } else if (roadName.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("you must input the Terrain 'Road Name'");
-            alert.setTitle("Problem");
-            alert.setHeaderText(null);
-            alert.showAndWait();
-        } else if (city.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("you must input the Terrain 'City'");
-            alert.setTitle("Problem");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+            terrain_sportType.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_sportType).play();
         } else if (country.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("you must input the Terrain 'Country'");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            terrain_country.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_country).play();
+        } else if (city.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("you must input the Terrain 'City'");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            terrain_city.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_city).play();
+        } else if (roadName.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("you must input the Terrain 'Road Name'");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            terrain_roadName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_roadName).play();
         } else {
-            if (file != null) {
-                String destPath = "C:/Users/WALID/Desktop/WEBPI/WEBPI/public/uploads/terrain/";
-                String imageName = generateUniqueName(file); // Generate a unique name for the image
-                String oldImageName = this.terrain.getImageName();
-                String oldImagePath;
-                if (oldImageName != null) {
-                    oldImagePath = destPath + oldImageName;
-                    File oldImageFile = new File(oldImagePath);
-                    if (oldImageFile.exists()) { // Check if the old image file exists
-                        try {
-                            Files.delete(oldImageFile.toPath()); // Delete the old image file
-                        } catch (IOException ex) {
-                            System.out.println(ex.getMessage());
+            terrain_name.setStyle(null);
+            terrain_sportType.setStyle(null);
+            terrain_country.setStyle(null);
+            terrain_city.setStyle(null);
+            terrain_roadName.setStyle(null);
+            verif = ts.find_terrain_update(this.terrain.getId(), name, city, country);
+            if (verif == null) {
+                if (file != null) {
+                    String destPath = "C:/Users/WALID/Desktop/WEBPI/WEBPI/public/uploads/terrain/";
+                    String imageName = generateUniqueName(file); // Generate a unique name for the image
+                    String oldImageName = this.terrain.getImageName();
+                    String oldImagePath;
+                    if (oldImageName != null) {
+                        oldImagePath = destPath + oldImageName;
+                        File oldImageFile = new File(oldImagePath);
+                        if (oldImageFile.exists()) { // Check if the old image file exists
+                            try {
+                                Files.delete(oldImageFile.toPath()); // Delete the old image file
+                            } catch (IOException ex) {
+                                System.out.println(ex.getMessage());
+                            }
                         }
                     }
-                }
-                File dest = new File(destPath + imageName); // Set the destination path for the image
-                try {
-                    Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING); // Copy the image to the destination folder
+                    File dest = new File(destPath + imageName); // Set the destination path for the image
+                    try {
+                        Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING); // Copy the image to the destination folder
 
-                    Terrain t = new Terrain(this.terrain.getId(), id_user, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, imageName, LocalDateTime.now());
+                        Terrain t = new Terrain(this.terrain.getId(), this.id_owner, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, imageName, LocalDateTime.now());
+                        ts.updateEntity(t);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Success");
+                        alert.setContentText("Updated .");
+                        alert.setHeaderText(null);
+                        alert.show();
+                        redirectToListTerrain();
+                    } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+
+                } else {
+                    Terrain t;
+                    if (this.terrain.getImageName() == null) {
+                        t = new Terrain(this.terrain.getId(), this.id_owner, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, null, LocalDateTime.now());
+                    } else {
+                        t = new Terrain(this.terrain.getId(), this.id_owner, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, this.terrain.getImageName(), LocalDateTime.now());
+                    }
                     ts.updateEntity(t);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
@@ -257,30 +296,20 @@ public class UPDATE_TerrainController implements Initializable {
                     alert.setHeaderText(null);
                     alert.show();
                     redirectToListTerrain();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
                 }
-
             } else {
-                Terrain t;
-                if (this.terrain.getImageName() == null) {
-                    t = new Terrain(this.terrain.getId(), id_user, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, null, LocalDateTime.now());
-                } else {
-                    t = new Terrain(this.terrain.getId(), id_user, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, this.terrain.getImageName(), LocalDateTime.now());
-                }
-                ts.updateEntity(t);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setContentText("Updated .");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("The Stadium Already Exist,try another one.");
+                alert.setTitle("Problem");
                 alert.setHeaderText(null);
-                alert.show();
-                redirectToListTerrain();
+                alert.showAndWait();
             }
         }
     }
 
     @FXML
-    private void upload_imageAction(ActionEvent event) {
+    private void upload_imageAction(ActionEvent event
+    ) {
         FileChooser fileChooser = new FileChooser();
         //Set extension filter
         FileChooser.ExtensionFilter extFilterJPG
@@ -316,23 +345,29 @@ public class UPDATE_TerrainController implements Initializable {
 
     @FXML
     private void returnToListTerrain(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+          try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Terrain_view_ownerController controller = loader.getController();
+            controller.setData(this.id_owner);
             Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) back_btn.getScene().getWindow();
             stage.setScene(scene);
-            stage.show();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
     private void redirectToListTerrain() {
-        Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Terrain_view_ownerController controller = loader.getController();
+            controller.setData(this.id_owner);
             Scene scene = new Scene(root);
-            Stage stage = (Stage) terrain_updateBtn.getScene().getWindow();
+            Stage stage = (Stage) back_btn.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -360,14 +395,14 @@ public class UPDATE_TerrainController implements Initializable {
         }
     }
 
-//    private void autoCompleteLearn(String word) {
-//        if (!word.isEmpty()) {
-//            ts.add_autoCompleteWord(word);
-//            possible_suggestions = ts.get_autoCompleteWords();
-//            if (autoCompletionBinding != null) {
-//                autoCompletionBinding.dispose();
-//            }
-//            autoCompletionBinding = TextFields.bindAutoCompletion(terrain_city, possible_suggestions);
-//        }
-//    }
+    private void autoCompleteLearn(String word) {
+        if (!word.isEmpty()) {
+            ts.add_autoCompleteWord(word);
+            possible_suggestions = ts.get_autoCompleteWords();
+            if (autoCompletionBinding != null) {
+                autoCompletionBinding.dispose();
+            }
+            autoCompletionBinding = TextFields.bindAutoCompletion(terrain_city, possible_suggestions);
+        }
+    }
 }

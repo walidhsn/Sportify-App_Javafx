@@ -86,26 +86,28 @@ public class sportify_homeController implements Initializable {
 
     @FXML
     private void redirectByRole(ActionEvent event) {
+        int id_user = SecurityService.getCurrentUtilisateur().getId();
+        System.out.println("----------> Id User : "+id_user);
         if (SecurityService.getCurrentUtilisateur().getRoles().contains("ROLE_CLIENT")) {
-//            try {
-//                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_client.fxml"));
-//                Parent root = loader.load();
-//                //UPDATE The Controller with Data :
-//                Terrain_view_clientController controller = loader.getController();
-//                controller.setData(SecurityService.getCurrentUtilisateur().getId());
-//                Scene scene = new Scene(root);
-//                Stage stage = (Stage) btn_role.getScene().getWindow();
-//                stage.setScene(scene);
-//            } catch (IOException ex) {
-//                System.out.println(ex.getMessage());
-//            }
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_client.fxml"));
+                Parent root = loader.load();
+                //UPDATE The Controller with Data :
+                Terrain_view_clientController controller = loader.getController();
+                controller.setData(id_user);
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) btn_role.getScene().getWindow();
+                stage.setScene(scene);
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
         } else {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
                 Parent root = loader.load();
                 //UPDATE The Controller with Data :
                 Terrain_view_ownerController controller = loader.getController();
-                controller.setData(SecurityService.getCurrentUtilisateur().getId());
+                controller.setData(id_user);
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) btn_role.getScene().getWindow();
                 stage.setScene(scene);

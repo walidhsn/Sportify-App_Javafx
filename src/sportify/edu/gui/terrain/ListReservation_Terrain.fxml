@@ -25,12 +25,18 @@
             <TableColumn fx:id="nbPerson_col" prefWidth="164.0" text="Number of people" />
         </columns>
       </TableView>
-      <Button fx:id="back_btn" alignment="CENTER_RIGHT" layoutX="25.0" layoutY="29.0" mnemonicParsing="false" onAction="#returnToDetailsTerrain" prefHeight="47.0" prefWidth="125.0" text="Back">
+      <Button fx:id="back_btn" alignment="CENTER_RIGHT" layoutX="25.0" layoutY="29.0" mnemonicParsing="false" onAction="#returnToDetailsTerrain" prefHeight="47.0" prefWidth="94.0" text="Back">
          <font>
             <Font name="Sitka Text" size="15.0" />
          </font>
+         <graphic>
+            <ImageView fx:id="backBtn_icon" fitHeight="31.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/back-arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
-      <ImageView fx:id="backBtn_icon" fitHeight="31.0" fitWidth="38.0" layoutX="50.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
       <GridPane hgap="5.0" layoutX="889.0" layoutY="34.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />

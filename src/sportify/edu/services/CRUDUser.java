@@ -146,4 +146,30 @@ public class CRUDUser {
         }
         return users;
     }
+    public User getUser(int id_user) {
+        User u = new User();
+        try {
+
+            String requete6 = "SELECT * FROM user WHERE id = ?";
+            PreparedStatement pst = cnx.prepareStatement(requete6);
+            pst.setInt(1, id_user);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                
+                u.setId(rs.getInt("id"));
+                u.setPassword(rs.getString("password"));
+                u.setEmail(rs.getString("email"));
+                u.setPhone(rs.getString("phone"));
+                u.setLastname(rs.getString("lastname"));
+                u.setFirstname(rs.getString("firstname"));
+                u.setNomUtilisateur(rs.getString("nomutilisateur"));
+                u.setStatus(rs.getBoolean("status"));
+             
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return u;
+    }
 }

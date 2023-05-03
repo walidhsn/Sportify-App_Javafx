@@ -8,6 +8,7 @@ package sportify.edu.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,8 +21,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import sportify.edu.entities.Equipment;
 import sportify.edu.entities.Reservation;
 import sportify.edu.entities.Terrain;
+import sportify.edu.services.ReservationService;
 import sportify.edu.services.TerrainService;
 
 /**
@@ -56,10 +59,13 @@ public class DETAILS_ReservationController implements Initializable {
     private ImageView terrain_image;
     @FXML
     private TextField total_price;
-    
-    public void setData(Reservation reservation,int client_id) {
+
+    public void setData(Reservation reservation, int client_id) {
         this.reservation = reservation;
         this.client_id = client_id;
+        ReservationService rs = new ReservationService();
+        List<Equipment> list_eq = rs.myEquipments(this.reservation.getId());
+
         TerrainService ts = new TerrainService();
         Terrain t = ts.diplay(reservation.getTerrain_id());
         DateTimeFormatter formatter_time = DateTimeFormatter.ofPattern("HH:mm");
@@ -67,21 +73,24 @@ public class DETAILS_ReservationController implements Initializable {
         startTime.setText(formatter_time.format(reservation.getStartTime()));
         endTime.setText(formatter_time.format(reservation.getEndTime()));
         nbPerson.setText(String.valueOf(reservation.getNbPerson()));
-        if(reservation.isResStatus()){
+        if (reservation.isResStatus()) {
             status.setText("Paid");
-        }else{
+        } else {
             status.setText("Unpaid");
         }
-        dateReservation.setText(formatter_date.format(reservation.getDateReservation())); 
+        dateReservation.setText(formatter_date.format(reservation.getDateReservation()));
         stadiumName.setText(t.getName());
         terrain_type.setText(t.getSportType());
-        String path="file:C:/Users/WALID/Desktop/WEBPI/WEBPI/public/uploads/terrain/";
-        if(t.getImageName()!=null){
-            path+=t.getImageName();
+        String path = "file:C:/Users/moata/PhpstormProjects/WEBPI(finale)/WEBPI(finale)/public/uploads/terrain/";
+        if (t.getImageName() != null) {
+            path += t.getImageName();
             Image img = new Image(path);
             terrain_image.setImage(img);
         }
-        float total = reservation.getNbPerson()*t.getRentPrice();
+        float total = (reservation.getNbPerson() * t.getRentPrice());
+        for (Equipment item : list_eq) {
+            total += item.getPrice();
+        }
         String total_txt = String.valueOf(total) + " Dt";
         total_price.setText(total_txt);
     }
@@ -96,7 +105,7 @@ public class DETAILS_ReservationController implements Initializable {
 
     @FXML
     private void returnToListReservation(ActionEvent event) {
-           try {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/reservation/Reservation_view_client.fxml"));
             Parent root = loader.load();
             //UPDATE The Controller with Data :

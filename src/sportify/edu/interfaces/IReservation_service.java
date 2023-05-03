@@ -5,7 +5,9 @@
  */
 package sportify.edu.interfaces;
 
+import java.time.LocalDate;
 import java.util.List;
+import sportify.edu.entities.Equipment;
 import sportify.edu.entities.Reservation;
 
 /**
@@ -17,8 +19,14 @@ public interface IReservation_service {
    public List<String> reserver_update(Reservation r);
    public List<Reservation> myReservation(int client_id);
    public List<Reservation> terrain_reservations(int terrain_id);
+   public List<Reservation> terrain_reservations_by_year(int terrain_id, int year);
+   public List<Reservation> terrain_reservations_by_month(int terrain_id, int year, int month);
+   public List<Reservation> terrain_reservations_by_week(int terrain_id, LocalDate date);
    public void add_equipment_reservation(int id_reservation,int id_equipment);
-   public void delete_equipment_reservation(int id_reservation);
-   public void update_equipment_reservation(int id_reservation);
-   
+   public void delete_equipment_reservation(int id_reservation,int id_equipment);
+   public void update_equipment_reservation(int id_reservation,int id_equipment);
+   public List<Equipment> myEquipments(int id_reservation);
+   public Reservation find_reservation(Reservation reservation);
+   public Reservation find_reservation_update(Reservation reservation);
+
 }

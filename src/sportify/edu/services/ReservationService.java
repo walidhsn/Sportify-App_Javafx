@@ -10,9 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import sportify.edu.entities.Equipment;
 import sportify.edu.entities.Reservation;
 import sportify.edu.interfaces.EntityCRUD;
 import sportify.edu.interfaces.IReservation_service;
@@ -27,7 +31,7 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
     @Override
     public void addEntity(Reservation t) {
         try {
-            String rq = "INSERT INTO reservation (terrain_id, client_id, date_reservation, start_time, end_time, res_status, nb_person) VALUES(?,?,?,?,?,?,?)";
+            String rq = "INSERT INTO reservation (terrain_id, client_id, date_reservation, start_time, end_time, res_status, nb_person,updated_at) VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
             pst.setInt(1, t.getTerrain_id());
             pst.setInt(2, t.getClient_id());
@@ -36,6 +40,7 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
             pst.setTimestamp(5, Timestamp.valueOf(t.getEndTime()));
             pst.setBoolean(6, t.isResStatus());
             pst.setInt(7, t.getNbPerson());
+            pst.setTimestamp(8, Timestamp.valueOf(t.getUpdated_at()));
             pst.executeUpdate();
             System.out.println("Reservation has been added.");
         } catch (SQLException ex) {
@@ -47,7 +52,7 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
     @Override
     public void updateEntity(Reservation t) {
         try {
-            String rq = "UPDATE reservation SET terrain_id=?, client_id =? , date_reservation = ?, start_time =?, end_time =?, res_status =?, nb_person = ? WHERE id = ?";
+            String rq = "UPDATE reservation SET terrain_id=?, client_id =? , date_reservation = ?, start_time =?, end_time =?, res_status =?, nb_person = ?,updated_at = ? WHERE id = ?";
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
             pst.setInt(1, t.getTerrain_id());
             pst.setInt(2, t.getClient_id());
@@ -56,7 +61,8 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
             pst.setTimestamp(5, Timestamp.valueOf(t.getEndTime()));
             pst.setBoolean(6, t.isResStatus());
             pst.setInt(7, t.getNbPerson());
-            pst.setInt(8, t.getId());
+            pst.setTimestamp(8, Timestamp.valueOf(t.getUpdated_at()));
+            pst.setInt(9, t.getId());
             pst.executeUpdate();
             System.out.println("Reservation has been updated.");
         } catch (SQLException ex) {
@@ -95,6 +101,7 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
                 r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
                 r.setResStatus(rs.getBoolean("res_status"));
                 r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
                 myList.add(r);
             }
         } catch (SQLException ex) {
@@ -120,6 +127,7 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
                 r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
                 r.setResStatus(rs.getBoolean("res_status"));
                 r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -129,6 +137,7 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
 
     @Override
     public List<String> reserver(Reservation r) {
+        int last_id = -1;
         List<String> result = new ArrayList<>();
         List<Reservation> conflictingReservations = findConflictingReservations(r);
         List<String> conflictingTimes = new ArrayList<>();
@@ -154,9 +163,10 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
                 result.add(errorMessage);
             }
         } else {
-            addEntity(r);
+            last_id = addEntity_1(r);
             result.add("ok");
             result.add("Added.");
+            result.add(String.valueOf(last_id));
         }
         return result;
     }
@@ -214,6 +224,7 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
                 r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
                 r.setResStatus(rs.getBoolean("res_status"));
                 r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
                 myList.add(r);
             }
         } catch (SQLException ex) {
@@ -241,6 +252,7 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
                 r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
                 r.setResStatus(rs.getBoolean("res_status"));
                 r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
                 myList.add(r);
             }
         } catch (SQLException ex) {
@@ -281,6 +293,7 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
                 r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
                 r.setResStatus(rs.getBoolean("res_status"));
                 r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
                 result.add(r);
             }
         } catch (SQLException ex) {
@@ -292,17 +305,261 @@ public class ReservationService implements EntityCRUD<Reservation>, IReservation
 
     @Override
     public void add_equipment_reservation(int id_reservation, int id_equipment) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            String rq = "INSERT INTO reservation_equipment ( reservation_id, equipment_id) VALUES (?,?)";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+
+            pst.setInt(1, id_reservation);
+            pst.setInt(2, id_equipment);
+
+            pst.executeUpdate();
+            System.out.println("Reservation-Equipment has been added");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @Override
-    public void delete_equipment_reservation(int id_reservation) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delete_equipment_reservation(int id_reservation, int id_equipment) {
+        try {
+            String rq = "DELETE FROM reservation_equipment WHERE reservation_id = ? AND equipment_id = ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setInt(1, id_reservation);
+            pst.setInt(2, id_equipment);
+            pst.executeUpdate();
+            System.out.println("Reservation-Equipment has been deleted");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
-    public void update_equipment_reservation(int id_reservation) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update_equipment_reservation(int id_reservation, int id_equipment) {
+        try {
+            String rq = "UPDATE reservation_equipment SET reservation_id = ? WHERE equipment_id = ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+
+            pst.setInt(1, id_reservation);
+            pst.setInt(2, id_equipment);
+
+            pst.executeUpdate();
+            System.out.println("Reservation-Equipment has been updated");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
+    @Override
+    public List<Reservation> terrain_reservations_by_year(int terrain_id, int year) {
+        List<Reservation> myList = new ArrayList<>();
+
+        try {
+            String rq = "SELECT * FROM reservation WHERE terrain_id = ? AND YEAR(date_reservation) = ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setInt(1, terrain_id);
+            pst.setInt(2, year);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Reservation r = new Reservation();
+                r.setId(rs.getInt("id"));
+                r.setTerrain_id(rs.getInt("terrain_id"));
+                r.setClient_id(rs.getInt("client_id"));
+                r.setDateReservation(rs.getTimestamp("date_reservation").toLocalDateTime());
+                r.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
+                r.setResStatus(rs.getBoolean("res_status"));
+                r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+                myList.add(r);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return myList;
+    }
+
+    @Override
+    public List<Reservation> terrain_reservations_by_month(int terrain_id, int year, int month) {
+        List<Reservation> myList = new ArrayList<>();
+
+        try {
+            String rq = "SELECT * FROM reservation WHERE terrain_id = ? AND YEAR(date_reservation) = ? AND MONTH(date_reservation) = ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setInt(1, terrain_id);
+            pst.setInt(2, year);
+            pst.setInt(3, month);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Reservation r = new Reservation();
+                r.setId(rs.getInt("id"));
+                r.setTerrain_id(rs.getInt("terrain_id"));
+                r.setClient_id(rs.getInt("client_id"));
+                r.setDateReservation(rs.getTimestamp("date_reservation").toLocalDateTime());
+                r.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
+                r.setResStatus(rs.getBoolean("res_status"));
+                r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+                myList.add(r);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return myList;
+    }
+
+    @Override
+    public List<Reservation> terrain_reservations_by_week(int terrain_id, LocalDate date) {
+        List<Reservation> myList = new ArrayList<>();
+
+        // Find the closest Monday before the given date
+        LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+        // Calculate the end of the week (Sunday)
+        LocalDate endOfWeek = startOfWeek.plusDays(6);
+
+        try {
+            String rq = "SELECT * FROM reservation WHERE terrain_id = ? AND date_reservation >= ? AND date_reservation < ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setInt(1, terrain_id);
+            pst.setTimestamp(2, Timestamp.valueOf(startOfWeek.atStartOfDay()));
+            pst.setTimestamp(3, Timestamp.valueOf(endOfWeek.plusDays(1).atStartOfDay()));
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Reservation r = new Reservation();
+                r.setId(rs.getInt("id"));
+                r.setTerrain_id(rs.getInt("terrain_id"));
+                r.setClient_id(rs.getInt("client_id"));
+                r.setDateReservation(rs.getTimestamp("date_reservation").toLocalDateTime());
+                r.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
+                r.setResStatus(rs.getBoolean("res_status"));
+                r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+                myList.add(r);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return myList;
+    }
+
+    @Override
+    public List<Equipment> myEquipments(int id_reservation) {
+        Equipment e;
+        EquipmentCRUD ec = new EquipmentCRUD();
+        List<Equipment> myList = new ArrayList<>();
+        try {
+            String rq = "SELECT * FROM reservation_equipment WHERE reservation_id = ?";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+
+            pst.setInt(1, id_reservation);
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                e = ec.getEntity(rs.getInt("equipment_id"));
+                myList.add(e);
+            }
+            System.out.println("Reservation-Equipment has been added");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return myList;
+    }
+
+    @Override
+    public Reservation find_reservation(Reservation reservation) {
+        Reservation r = new Reservation();
+
+        PreparedStatement pst;
+        try {
+            String rq = "SELECT * FROM reservation WHERE terrain_id = ? AND updated_at = ?";
+            pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setInt(1, reservation.getTerrain_id());
+            pst.setTimestamp(2, Timestamp.valueOf(reservation.getUpdated_at()));
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {      
+                r.setId(rs.getInt("id"));
+                r.setTerrain_id(rs.getInt("terrain_id"));
+                r.setClient_id(rs.getInt("client_id"));
+                r.setDateReservation(rs.getTimestamp("date_reservation").toLocalDateTime());
+                r.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
+                r.setResStatus(rs.getBoolean("res_status"));
+                r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return r;
+    }
+
+    @Override
+    public Reservation find_reservation_update(Reservation reservation) {
+        Reservation r = new Reservation();
+        PreparedStatement pst;
+        try {
+            String rq = "SELECT * FROM reservation WHERE terrain_id = ? AND start_time = ? AND end_time = ? AND res_status = ? AND client_id = ? AND nb_person = ? AND updated_at = ? AND id <> ?";
+            pst = MyConnection.getInstance().getCnx().prepareStatement(rq);
+            pst.setInt(1, reservation.getTerrain_id());
+            pst.setTimestamp(2, Timestamp.valueOf(reservation.getStartTime()));
+            pst.setTimestamp(3, Timestamp.valueOf(reservation.getEndTime()));
+            pst.setBoolean(4, false);
+            pst.setInt(5, reservation.getClient_id());
+            pst.setInt(6, reservation.getNbPerson());
+            pst.setTimestamp(7, Timestamp.valueOf(reservation.getUpdated_at()));
+            if (reservation.getId() != 0) {
+                pst.setInt(8, reservation.getId());
+            }
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+               
+                r.setId(rs.getInt("id"));
+                r.setTerrain_id(rs.getInt("terrain_id"));
+                r.setClient_id(rs.getInt("client_id"));
+                r.setDateReservation(rs.getTimestamp("date_reservation").toLocalDateTime());
+                r.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+                r.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
+                r.setResStatus(rs.getBoolean("res_status"));
+                r.setNbPerson(rs.getInt("nb_person"));
+                r.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return r;
+    }
+      public int addEntity_1(Reservation t) {
+        int last_id=-1;
+        try {
+            String rq = "INSERT INTO reservation (terrain_id, client_id, date_reservation, start_time, end_time, res_status, nb_person,updated_at) VALUES(?,?,?,?,?,?,?,?)";
+            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(rq,Statement.RETURN_GENERATED_KEYS);
+            pst.setInt(1, t.getTerrain_id());
+            pst.setInt(2, t.getClient_id());
+            pst.setTimestamp(3, Timestamp.valueOf(t.getDateReservation()));
+            pst.setTimestamp(4, Timestamp.valueOf(t.getStartTime()));
+            pst.setTimestamp(5, Timestamp.valueOf(t.getEndTime()));
+            pst.setBoolean(6, t.isResStatus());
+            pst.setInt(7, t.getNbPerson());
+            pst.setTimestamp(8, Timestamp.valueOf(t.getUpdated_at()));
+            pst.executeUpdate();
+            
+            ResultSet rs = pst.getGeneratedKeys();
+             if (rs.next()) {
+        last_id = rs.getInt(1);     
+    }
+            System.out.println("Reservation has been added.");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return last_id;
+    }
 }

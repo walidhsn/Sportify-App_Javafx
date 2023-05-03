@@ -5,12 +5,18 @@
  */
 package sportify.edu.controllers;
 
+import com.lowagie.text.DocumentException;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -32,10 +38,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+import sportify.edu.entities.Equipment;
 import sportify.edu.entities.Reservation;
 import sportify.edu.entities.Terrain;
+import sportify.edu.entities.User;
 import sportify.edu.services.ReservationService;
+import sportify.edu.services.SecurityService;
 import sportify.edu.services.TerrainService;
 
 /**
@@ -58,9 +69,11 @@ public class Reservation_view_client implements Initializable {
     @FXML
     private TableColumn<Reservation, String> details_col;
     @FXML
-    private TableColumn<Reservation, String> update_col;
+    private TableColumn<Reservation, Boolean> update_col;
     @FXML
     private TableColumn<Reservation, String> delete_col;
+    @FXML
+    private TableColumn<Reservation, Boolean> receipt_col;
     @FXML
     private TableColumn<Reservation, String> montant_total;
     @FXML
@@ -76,8 +89,8 @@ public class Reservation_view_client implements Initializable {
     private ImageView backBtn_icon;
     private List<Reservation> reservation_list;
     private List<Reservation> reservation_list_search;
-    private ImageView icon_delete, icon_update, icon_view, icon_card;
-    
+    private ImageView icon_delete, icon_update, icon_view, icon_card, icon_pdf;
+
     private ReservationService rs;
 
     public void setData(int client) {
@@ -90,12 +103,20 @@ public class Reservation_view_client implements Initializable {
         startTime_col.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         endTime_col.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         status_col.setCellValueFactory(new PropertyValueFactory<>("resStatus"));
+        receipt_col.setCellValueFactory(new PropertyValueFactory<>("resStatus"));
+        update_col.setCellValueFactory(new PropertyValueFactory<>("resStatus"));
         montant_total.setCellValueFactory(cellData -> {
             Reservation reservation = cellData.getValue();
-            TerrainService ts= new TerrainService();
+            TerrainService ts = new TerrainService();
             Terrain t = ts.diplay(reservation.getTerrain_id());
             double totalAmount = reservation.getNbPerson() * t.getRentPrice();
-            String total_txt = String.format("%.2f", totalAmount)+" Dt";
+            ReservationService rs = new ReservationService();
+            List<Equipment> list_eq = rs.myEquipments(reservation.getId());
+
+            for (Equipment item : list_eq) {
+                totalAmount += item.getPrice();
+            }
+            String total_txt = String.format("%.2f", totalAmount) + " Dt";
             return new SimpleStringProperty(total_txt);
         });
         search_text.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -138,6 +159,56 @@ public class Reservation_view_client implements Initializable {
                     } else {
                         setGraphic(paymentButton);
                         paymentButton.setOnAction((ActionEvent event) -> {
+                            try {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/reservation/Payment.fxml"));
+                                Parent root = loader.load();
+                                //UPDATE The Controller with Data :
+                                PaymentController controller = loader.getController();
+                                Reservation data = getTableView().getItems().get(getIndex());
+                                controller.setData(data);
+                                //-----
+                                Scene scene = new Scene(root);
+                                Stage stage = (Stage) table_reservation.getScene().getWindow();
+                                stage.setScene(scene);
+                                stage.show();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        });
+                    }
+                }
+            };
+        });
+        // Export Receipt : 
+        receipt_col.setCellFactory(column -> {
+            return new TableCell<Reservation, Boolean>() {
+                final Button exportButton = new Button();
+
+                // Set the button properties
+                {
+                    icon_pdf = new ImageView(new Image("/resources/pdf.png"));
+                    icon_pdf.setFitWidth(30);
+                    icon_pdf.setFitHeight(30);
+                    exportButton.setGraphic(icon_pdf);
+                    exportButton.setText("Get Receipt");
+                    exportButton.setContentDisplay(ContentDisplay.LEFT);
+                }
+
+                @Override
+                protected void updateItem(Boolean resStatus, boolean empty) {
+                    super.updateItem(resStatus, empty);
+                    Label unpaidLabel = new Label("UnPaid");
+                    // Set the label style
+                    unpaidLabel.setStyle("-fx-text-fill: red;");
+                    if (empty || resStatus == null) {
+                        setGraphic(null);
+                    } else if (!resStatus) {
+                        setGraphic(unpaidLabel);
+                    } else if (resStatus) {
+                        setGraphic(exportButton);
+                        exportButton.setOnAction((ActionEvent event) -> {
+                            Reservation data = getTableView().getItems().get(getIndex());
+                            generate_pdf(data);
                         });
                     }
                 }
@@ -188,7 +259,7 @@ public class Reservation_view_client implements Initializable {
 
         //Update Button : 
         update_col.setCellFactory(column -> {
-            return new TableCell<Reservation, String>() {
+            return new TableCell<Reservation, Boolean>() {
 
                 final Button updateButton = new Button();
 
@@ -203,11 +274,12 @@ public class Reservation_view_client implements Initializable {
                 }
 
                 @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
+                protected void updateItem(Boolean resStatus, boolean empty) {
+                    super.updateItem(resStatus, empty);
+
+                    if (empty || resStatus == null) {
                         setGraphic(null);
-                    } else {
+                    } else if (!resStatus) {
                         setGraphic(updateButton);
                         updateButton.setOnAction((ActionEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -226,7 +298,7 @@ public class Reservation_view_client implements Initializable {
                                     Parent root = loader.load();
                                     //UPDATE The Controller with Data :
                                     UPDATE_ReservationController controller = loader.getController();
-                                    controller.setData(data,client_id);
+                                    controller.setData(data, client_id);
                                     //-----
                                     Scene scene = new Scene(root);
                                     Stage stage = (Stage) table_reservation.getScene().getWindow();
@@ -237,6 +309,8 @@ public class Reservation_view_client implements Initializable {
                                 }
                             }
                         });
+                    } else if (resStatus) {
+                        setGraphic(null);
                     }
                 }
             };
@@ -300,21 +374,23 @@ public class Reservation_view_client implements Initializable {
         reservation_list = new ArrayList<>();
         reservation_list_search = new ArrayList<>();
         rs = new ReservationService();
-        
+
     }
 
     @FXML
     private void returnListTerrainClient(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/Terrain/Terrain_view_client.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_client.fxml"));
             Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Terrain_view_clientController controller = loader.getController();
+            controller.setData(this.client_id);
             Scene scene = new Scene(root);
-            Stage stage = (Stage) table_reservation.getScene().getWindow();
+            Stage stage = (Stage) back_btn.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
-
     }
 
     private void refresh() {
@@ -330,5 +406,161 @@ public class Reservation_view_client implements Initializable {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    private void export_pdf(String html, String fileName) throws IOException, DocumentException {
+        // Create a file chooser dialog
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save PDF");
+        fileChooser.setInitialFileName(fileName);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+
+        // Create a document
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.setDocumentFromString(html);
+        renderer.layout();
+
+        // Export to PDF
+        try ( FileOutputStream os = new FileOutputStream(file)) {
+            renderer.createPDF(os);
+        }
+        // Open the PDF file
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().open(file);
+        }
+    }
+
+    private void generate_pdf(Reservation reservation) {
+        User user = SecurityService.getCurrentUtilisateur();
+        ReservationService rs = new ReservationService();
+        List<Equipment> list_eq = rs.myEquipments(reservation.getId());
+        TerrainService ts = new TerrainService();
+        Terrain terrain = ts.diplay(reservation.getTerrain_id());
+        float total = (reservation.getNbPerson() * terrain.getRentPrice());
+        for (Equipment item : list_eq) {
+            total += item.getPrice();
+        }
+        DateTimeFormatter formatter_time = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter formatter_date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String date_res = formatter_date.format(reservation.getDateReservation());
+        String start_time = formatter_time.format(reservation.getStartTime());
+        String end_time = formatter_time.format(reservation.getEndTime());
+        String html = "<!DOCTYPE html>\n"
+                + "<html>\n"
+                + "<head>\n"
+                + "    <title>Receipt</title>\n"
+                + "    <style>\n"
+                + "        body {\n"
+                + "            font-family: Arial, sans-serif;\n"
+                + "            font-size: 17px;\n"
+                + "        }\n"
+                + "        .header {\n"
+                + "            text-align: center;\n"
+                + "        }\n"
+                + "        .header h1 {\n"
+                + "            margin: 0;\n"
+                + "            font-size: 24px;\n"
+                + "        }\n"
+                + "        .info {\n"
+                + "            margin-top: 20px;\n"
+                + "            margin-bottom: 20px;\n"
+                + "            border: 1px solid #ee1e46;\n"
+                + "            padding: 10px;\n"
+                + "        }\n"
+                + "        .items {\n"
+                + "            margin-top: 20px;\n"
+                + "            margin-bottom: 20px;\n"
+                + "            border-collapse: collapse;\n"
+                + "            width: 100%;\n"
+                + "            font-size: 16px;\n"
+                + "        }\n"
+                + "        .items th, .items td {\n"
+                + "            border: 1px solid #ccc;\n"
+                + "            padding: 10px;\n"
+                + "            text-align: left;\n"
+                + "        }\n"
+                + "        .items th {\n"
+                + "            background-color: #eee;\n"
+                + "            font-weight: bold;\n"
+                + "        }\n"
+                + "        .items td {\n"
+                + "            vertical-align: middle;\n"
+                + "        }\n"
+                + "        .items tr:hover {\n"
+                + "            background-color: #f5f5f5;\n"
+                + "        }\n"
+                + "        .total {\n"
+                + "            text-align: right;\n"
+                + "            font-weight: bold;\n"
+                + "            font-size: 18px;\n"
+                + "        }\n"
+                + "    </style>\n"
+                + "</head>\n"
+                + "<header>\n"
+                + " <img src=\"https://i.im.ge/2023/04/23/LxdZBT.icon.png\" alt=\"Company Logo\" width=\"240\" height=\"180\" />\n"
+                + "  <h1>Receipt :</h1>\n"
+                + "</header>\n"
+                + "<body>\n"
+                + "    \n"
+                + "    <div class=\"info\">\n"
+                + "        <p><strong>Client Information:</strong></p>\n"
+                + "        <p><strong>Firstname:</strong> " + user.getFirstname() + "</p>\n"
+                + "        <p><strong>Lastname:</strong> " + user.getLastname() + "</p>\n"
+                + "        <p><strong>Email:</strong> " + user.getEmail() + "</p>\n"
+                + "        <p><strong>Telephone:</strong> " + user.getPhone() + "</p>\n"
+                + "    </div>\n"
+                + "    <table class=\"items\">\n"
+                + "        <thead>\n"
+                + "            <tr>\n"
+                + "                <th>Date</th>\n"
+                + "                <th>Start Time</th>\n"
+                + "                <th>End Time</th>\n"
+                + "                <th>Number of people</th>\n"
+                + "                <th>Subtotal</th>\n"
+                + "            </tr>\n"
+                + "        </thead>\n"
+                + "        <tbody>\n"
+                + "            \n"
+                + "            <tr>\n"
+                + "                <td>" + date_res + "</td>\n"
+                + "                <td>" + start_time + "</td>\n"
+                + "                <td>" + end_time + "</td>\n"
+                + "                <td>" + String.valueOf(reservation.getNbPerson()) + "</td>\n"
+                + "                <td>" + String.valueOf(total) + ".DT</td>\n"
+                + "            </tr>\n";
+        for (Equipment item : list_eq) {
+            html += " <tr>"
+                    + " <td colspan=\"3\" align=\"right\">Equipments:</td>"
+                    + " <td>" + item.getName() + "</td>"
+                    + " <td>" + item.getPrice() + " Dt" + "</td>"
+                    + " </tr>";
+        }
+        html += "            <tr>\n"
+                + "                <td colspan=\"3\" align=\"right\">Total:</td>\n"
+                + "                <td class=\"total\">" + String.valueOf(total) + ".DT</td>\n"
+                + "            </tr>\n"
+                + "        </tbody>\n"
+                + "    </table>\n"
+                + "    <br></br><br></br><br></br>\n"
+                + "     <div>\n"
+                + "                            <p>\n"
+                + "                    © All rights reserved | This template is made with ♥ by Creative Crew \n"
+                + "                            </p>\n"
+                + "    </div>\n"
+                + "</body>\n"
+                + "</html>";
+        String txt = "Reservation-" + String.valueOf(reservation.getId()) + "-" + generateUniqueString() + ".pdf";
+        String fileName = txt;
+        try {
+            export_pdf(html, fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String generateUniqueString() {
+        String unique = UUID.randomUUID().toString(); // Generate a unique String
+        return unique;
     }
 }

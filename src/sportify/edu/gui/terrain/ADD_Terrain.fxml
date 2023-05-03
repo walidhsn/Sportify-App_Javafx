@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -62,19 +63,25 @@
          </children>
       </GridPane>
       <ImageView fx:id="terrain_image" fitHeight="236.0" fitWidth="282.0" layoutX="647.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="upload_image" layoutX="702.0" layoutY="399.0" mnemonicParsing="false" onAction="#upload_imageAction" prefHeight="42.0" prefWidth="216.0" text="Upload an Image">
+      <Button fx:id="upload_image" layoutX="680.0" layoutY="396.0" mnemonicParsing="false" onAction="#upload_imageAction" prefHeight="42.0" prefWidth="216.0" text="Upload an Image">
          <font>
             <Font name="Sitka Text" size="15.0" />
          </font>
          <graphic>
-            <ImageView fx:id="upload_img_icon" fitHeight="26.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="upload_img_icon" fitHeight="26.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/upload-image-icon.png" />
+               </image></ImageView>
          </graphic></Button>
-      <Button fx:id="back_btn" alignment="CENTER_RIGHT" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#returnToListTerrain" prefHeight="47.0" prefWidth="124.0" text="Back">
+      <Button fx:id="back_btn" alignment="CENTER_RIGHT" layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#returnToListTerrain" prefHeight="47.0" prefWidth="103.0" text="Back">
          <font>
             <Font name="Sitka Text" size="15.0" />
          </font>
          <graphic>
-            <ImageView fx:id="backBtn_icon" fitHeight="31.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="backBtn_icon" fitHeight="31.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/back-arrow.png" />
+               </image></ImageView>
          </graphic>
       </Button>
    </children>

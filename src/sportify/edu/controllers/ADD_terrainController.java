@@ -22,7 +22,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -94,6 +93,11 @@ public class ADD_terrainController implements Initializable {
 
     private TerrainService ts;
     private Set<String> possible_suggestions;
+    private int id_owner;
+
+    public void setData(int id_owner) {
+        this.id_owner = id_owner;
+    }
 
     /**
      * Initializes the controller class.
@@ -161,18 +165,26 @@ public class ADD_terrainController implements Initializable {
 
     @FXML
     private void add_terrain(ActionEvent event) {
-        int id_user = 1; // Just For Test will be replaced
+        Terrain verif;
+       
         //Getting Values :        
         String name = terrain_name.getText();
         Integer capacity = terrain_capacity.getValue();
-        String sport_type = terrain_sportType.getValue();
+        String sport_type = "";
+        if (terrain_sportType.getValue() != null) {
+            sport_type = terrain_sportType.getValue();
+        }
         Double rent_price = terrain_rentPrice.getValue();
         boolean disponibility = terrain_disponibility.isSelected();
         Integer postalCode = terrain_postalCode.getValue();
         String roadName = terrain_roadName.getText();
         Integer roadNumber = terrain_roadNumber.getValue();
         String city = terrain_city.getText();
-        String country = terrain_country.getValue().getName();
+        String country = "";
+        if (terrain_country.getValue() != null) {
+            country = terrain_country.getValue().getName();
+        }
+
         // Control :
         if (name.isEmpty() && name.length() < 3) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -180,39 +192,69 @@ public class ADD_terrainController implements Initializable {
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            terrain_name.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_name).play();
         } else if (sport_type.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("'Sport Type' must be selected");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
-        } else if (roadName.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("you must input the Terrain 'Road Name'");
-            alert.setTitle("Problem");
-            alert.setHeaderText(null);
-            alert.showAndWait();
-        } else if (city.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("you must input the Terrain 'City'");
-            alert.setTitle("Problem");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+            terrain_sportType.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_sportType).play();
         } else if (country.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("you must input the Terrain 'Country'");
             alert.setTitle("Problem");
             alert.setHeaderText(null);
             alert.showAndWait();
+            terrain_country.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_country).play();
+        } else if (city.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("you must input the Terrain 'City'");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            terrain_city.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_city).play();
+        } else if (roadName.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("you must input the Terrain 'Road Name'");
+            alert.setTitle("Problem");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            terrain_roadName.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            new animatefx.animation.Shake(terrain_roadName).play();
         } else {
-            if (file != null) {
-                String destPath = "C:/Users/WALID/Desktop/WEBPI/WEBPI/public/uploads/terrain/";
-                String imageName = generateUniqueName(file); // Generate a unique name for the image
-                File dest = new File(destPath + imageName); // Set the destination path for the image
-                try {
-                    Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING); // Copy the image to the destination folder
+            terrain_name.setStyle(null);
+            terrain_sportType.setStyle(null);
+            terrain_country.setStyle(null);
+            terrain_city.setStyle(null);
+            terrain_roadName.setStyle(null);
+            verif = ts.find_terrain(name, city, country);
+            if (verif == null) {
+                if (file != null) {
+                    String destPath = "C:/Users/moata/PhpstormProjects/WEBPI(finale)/WEBPI(finale)/public/uploads/terrain/";
+                    String imageName = generateUniqueName(file); // Generate a unique name for the image
+                    File dest = new File(destPath + imageName); // Set the destination path for the image
+                    try {
+                        Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING); // Copy the image to the destination folder
 
-                    Terrain t = new Terrain(id_user, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, imageName, LocalDateTime.now());
+                        Terrain t = new Terrain(this.id_owner, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, imageName, LocalDateTime.now());
+                        ts.addEntity(t);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Success");
+                        alert.setContentText("Added .");
+                        alert.setHeaderText(null);
+                        alert.show();
+                        redirectToListTerrain();
+                    } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+
+                } else {
+                    Terrain t = new Terrain(this.id_owner, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, null, LocalDateTime.now());
                     ts.addEntity(t);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
@@ -220,19 +262,13 @@ public class ADD_terrainController implements Initializable {
                     alert.setHeaderText(null);
                     alert.show();
                     redirectToListTerrain();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
                 }
-
             } else {
-                Terrain t = new Terrain(id_user, name, capacity, sport_type, rent_price.floatValue(), disponibility, postalCode, roadName, roadNumber, city, country, null, LocalDateTime.now());
-                ts.addEntity(t);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setContentText("Added .");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("The Stadium Already Exist,try another one.");
+                alert.setTitle("Problem");
                 alert.setHeaderText(null);
-                alert.show();
-                redirectToListTerrain();
+                alert.showAndWait();
             }
         }
     }
@@ -274,23 +310,29 @@ public class ADD_terrainController implements Initializable {
 
     @FXML
     private void returnToListTerrain(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+      try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Terrain_view_ownerController controller = loader.getController();
+            controller.setData(this.id_owner);
             Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) back_btn.getScene().getWindow();
             stage.setScene(scene);
-            stage.show();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
     private void redirectToListTerrain() {
-        Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Terrain_view_ownerController controller = loader.getController();
+            controller.setData(this.id_owner);
             Scene scene = new Scene(root);
-            Stage stage = (Stage) terrain_addBtn.getScene().getWindow();
+            Stage stage = (Stage) back_btn.getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -309,7 +351,7 @@ public class ADD_terrainController implements Initializable {
                 setGraphic(null);
             } else {
                 setText(item.getName());
-                Image img = new Image("file:C:/Users/WALID/Desktop/Sportify_java/Sportify/src/resources/countries/" + item.getCode().toLowerCase() + ".png");
+                Image img = new Image("file:C:/Users/moata/Desktop/Sportify-App_Javafx-master/src/resources/countries/" + item.getCode().toLowerCase() + ".png");
                 imageView.setImage(img);
                 imageView.setFitWidth(35);
                 imageView.setFitHeight(30);

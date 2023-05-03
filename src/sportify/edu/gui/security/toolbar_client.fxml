@@ -6,8 +6,9 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
 
-<ToolBar prefHeight="110.0" prefWidth="900.0" style="-fx-background-radius: 15px;" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.toolbar_clientController">
+<ToolBar prefHeight="110.0" prefWidth="900.0" style="-fx-background-radius: 15px;" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.toolbar_clientController">
    <items>
       <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -15,18 +16,16 @@
          </image>
       </ImageView>
       <Separator orientation="VERTICAL" prefHeight="60.0" />
-      <Button mnemonicParsing="false" onAction="#goToHomeClient" text="Home" />
-      <Separator orientation="VERTICAL" prefHeight="60.0" />
-      <Button mnemonicParsing="false" onAction="#goToEventsClient" text="Events" />
-      <Separator orientation="VERTICAL" prefHeight="60.0" />
-      <Button mnemonicParsing="false" onAction="#goToProductsClient" text="Products" />
-      <Separator orientation="VERTICAL" prefHeight="60.0" />
-      <Button mnemonicParsing="false" onAction="#goToEquipmentsClient" text="Equipments" />
-      <Separator orientation="VERTICAL" prefHeight="60.0" />
-      <Button mnemonicParsing="false" onAction="#goToAcademyClient" text="Academy" />
-      <Separator orientation="VERTICAL" prefHeight="60.0" />
-      <Button mnemonicParsing="false" onAction="#goToCoachClient" text="Coach" />
-      <Separator orientation="VERTICAL" prefHeight="60.0" />
-      <MenuButton mnemonicParsing="false" text="MenuButton" />
+      <FlowPane alignment="CENTER" hgap="20.0" prefHeight="95.0" prefWidth="765.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#goToHomeClient" text="Home" />
+            <Button mnemonicParsing="false" onAction="#goToEventsClient" text="Events" />
+            <Button mnemonicParsing="false" onAction="#goToProductsClient" text="Products" />
+            <Button mnemonicParsing="false" onAction="#goToEquipmentsClient" text="Equipments" />
+            <Button mnemonicParsing="false" onAction="#goToAcademyClient" text="Academy" />
+            <Button mnemonicParsing="false" onAction="#goToCoachClient" text="Coach" />
+            <MenuButton mnemonicParsing="false" text="MenuButton" />
+         </children>
+      </FlowPane>
    </items>
 </ToolBar>

@@ -29,13 +29,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import sportify.edu.services.SecurityService;
 
 /**
  * FXML Controller class
@@ -74,8 +71,6 @@ public class Terrain_view_ownerController implements Initializable {
     private TextField search_text;
     @FXML
     private Button add_btn;
-    @FXML
-    private MenuButton fxmenu;
 
     private List<Terrain> list_terrain;
     private List<Terrain> list_terrain_search;
@@ -91,31 +86,16 @@ public class Terrain_view_ownerController implements Initializable {
     private ImageView backBtn_icon;
 
     private int id_user;
+    @FXML
+    private Button chart_btn;
+    @FXML
+    private ImageView add_icon1;
     
-    public void setData(int id_user){
-        this.id_user = id_user;
-    }
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        ts = new TerrainService();
-        id_user=1; // this will be modified by the user id getted from the user instance 
+    public void setData(int id){
+        this.id_user = id;
         list_terrain = ts.myProprieties(id_user);
         table_terrain.setItems(FXCollections.observableArrayList(list_terrain));
-        fxmenu.setText(SecurityService.getCurrentUtilisateur().getNomUtilisateur());
-        MenuItem menuItem1 = new MenuItem("My profile");
-        MenuItem menuItem2 = new MenuItem("Logout");
-        MenuItem menuItem3 = new MenuItem("Changer mot de passe");
-        fxmenu.getItems().addAll(menuItem1, menuItem2,menuItem3);
-        menuItem1.setOnAction((event) -> {
-        loadFXML("../gui/security/gerercompte.fxml");
-    });
-        menuItem2.setOnAction(event -> redirectToFxml("../gui/security/login.fxml"));
-        menuItem3.setOnAction((event) -> {
-        loadFXML("../gui/security/changermdp.fxml");
-    });
+        
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         capacity_col.setCellValueFactory(new PropertyValueFactory<>("capacity"));
         sportType_col.setCellValueFactory(new PropertyValueFactory<>("sportType"));
@@ -224,7 +204,7 @@ public class Terrain_view_ownerController implements Initializable {
                                     Parent root = loader.load();
                                     //UPDATE The Controller with Data :
                                     UPDATE_TerrainController controller = loader.getController();
-                                    controller.setTerrain(data);
+                                    controller.setTerrain(data,id_user);
                                     //-----
                                     Scene scene = new Scene(root);
                                     Stage stage = (Stage) table_terrain.getScene().getWindow();
@@ -273,7 +253,7 @@ public class Terrain_view_ownerController implements Initializable {
                                 Parent root = loader.load();
                                 //UPDATE The Controller with Data :
                                 DETAILS_TerrainController controller = loader.getController();
-                                controller.setInformation_Terrain(data);
+                                controller.setInformation_Terrain(data,id_user);
                                 //-----
                                 Scene scene = new Scene(root);
                                 Stage stage = (Stage) table_terrain.getScene().getWindow();
@@ -288,11 +268,21 @@ public class Terrain_view_ownerController implements Initializable {
             };
         });
     }
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        ts = new TerrainService();      
+    }
 
     private void refresh() {
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+       try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_owner.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Terrain_view_ownerController controller = loader.getController();
+            controller.setData(this.id_user);           
             Scene scene = new Scene(root);
             Stage stage = (Stage) table_terrain.getScene().getWindow();
             stage.setScene(scene);
@@ -304,7 +294,24 @@ public class Terrain_view_ownerController implements Initializable {
     @FXML
     private void redirectToAddTerrain(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../gui/terrain/ADD_Terrain.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/ADD_Terrain.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            ADD_terrainController controller = loader.getController();
+            controller.setData(this.id_user);           
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) add_btn.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void returnHomePage(ActionEvent event) {
+              try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/security/sportify_home.fxml"));
+            Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -315,32 +322,19 @@ public class Terrain_view_ownerController implements Initializable {
     }
 
     @FXML
-    private void returnHomePage(ActionEvent event) {
-    }
-    private void loadFXML(String fxml) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+    private void redirectToChart(ActionEvent event) {
+           try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_chart.fxml"));
             Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void redirectToFxml(String fxml) {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Terrain_chartController controller = loader.getController();
+            controller.setData(this.id_user);           
             Scene scene = new Scene(root);
-            Stage stage = (Stage) fxmenu.getScene().getWindow();
+            Stage stage = (Stage) chart_btn.getScene().getWindow();
             stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
-    
+
 }
