@@ -16,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import sportify.edu.entities.User;
 import sportify.edu.services.SecurityService;
@@ -28,6 +30,9 @@ import sportify.edu.services.SecurityService;
 public class toolbar_clientController implements Initializable {
 
     private User user;
+    
+    @FXML
+    MenuButton fxmenu;
 
     /**
      * Initializes the controller class.
@@ -36,6 +41,35 @@ public class toolbar_clientController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         user = new User();
         user = SecurityService.getCurrentUtilisateur();
+        fxmenu.setText(SecurityService.getCurrentUtilisateur().getNomUtilisateur());
+
+        MenuItem menuItem1 = new MenuItem("My profile");
+        MenuItem menuItem3 = new MenuItem("Change password");
+        MenuItem menuItem2 = new MenuItem("Logout");
+        MenuItem menuItem4 = new MenuItem("My reservations");
+        fxmenu.getItems().addAll(menuItem1, menuItem3,menuItem4,menuItem2);
+
+        menuItem1.setOnAction((event) -> {
+        loadFXML("../gui/security/gerercompte.fxml");
+    });
+        menuItem2.setOnAction(event -> redirectToFxml("../gui/security/login.fxml"));
+        menuItem3.setOnAction((event) -> {
+            loadFXML("../gui/security/changermdp.fxml");
+        });
+        menuItem4.setOnAction((event) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/terrain/Terrain_view_client.fxml"));
+                Parent root = loader.load();
+                //UPDATE The Controller with Data :
+                Terrain_view_clientController controller = loader.getController();
+                controller.setData(user.getId());
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) fxmenu.getScene().getWindow();
+                stage.setScene(scene);
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        });
     }
 
     @FXML
@@ -101,5 +135,30 @@ public class toolbar_clientController implements Initializable {
             Logger.getLogger(toolbar_clientController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void loadFXML(String fxml) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void redirectToFxml(String fxml) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) fxmenu.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
