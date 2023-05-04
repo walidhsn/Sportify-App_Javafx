@@ -28,6 +28,7 @@ import sportify.edu.services.SecurityService;
 public class toolbar_clientController implements Initializable {
 
     private User user;
+
     /**
      * Initializes the controller class.
      */
@@ -39,26 +40,48 @@ public class toolbar_clientController implements Initializable {
 
     @FXML
     private void goToHomeClient(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/security/sportify_home.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @FXML
     private void goToEventsClient(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/event/Event_view_client.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Event_view_clientController controller = loader.getController();
+            controller.setData(user.getId());
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @FXML
     private void goToProductsClient(ActionEvent event) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/Produit_view_client.fxml"));
-                Parent root = loader.load();
-                //UPDATE The Controller with Data :
-                Produit_view_clientController controller = loader.getController();
-                controller.setData(user.getId());
-                Scene scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-            }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/produit/Produit_view_client.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Produit_view_clientController controller = loader.getController();
+            controller.setData(user.getId());
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @FXML
@@ -77,10 +100,6 @@ public class toolbar_clientController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(toolbar_clientController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    @FXML
-    private void goToCoachClient(ActionEvent event) {
     }
 
 }

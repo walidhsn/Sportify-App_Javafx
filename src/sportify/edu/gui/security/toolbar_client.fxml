@@ -23,7 +23,6 @@
             <Button mnemonicParsing="false" onAction="#goToProductsClient" text="Products" />
             <Button mnemonicParsing="false" onAction="#goToEquipmentsClient" text="Equipments" />
             <Button mnemonicParsing="false" onAction="#goToAcademyClient" text="Academy" />
-            <Button mnemonicParsing="false" onAction="#goToCoachClient" text="Coach" />
             <MenuButton mnemonicParsing="false" text="MenuButton" />
          </children>
       </FlowPane>

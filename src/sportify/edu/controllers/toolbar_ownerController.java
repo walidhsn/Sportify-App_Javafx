@@ -20,6 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import sportify.edu.entities.User;
+import sportify.edu.services.SecurityService;
 
 /**
  * FXML Controller class
@@ -41,26 +43,48 @@ public class toolbar_ownerController implements Initializable {
     @FXML
     private Button btn_academy;
     @FXML
-    private Button btn_coach;
-    @FXML
     private MenuButton fxmenu;
     @FXML
     private Button btn_commands;
+    private User user;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        user = SecurityService.getCurrentUtilisateur();
     }
 
     @FXML
     private void goToHome(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/security/sportify_home.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @FXML
     private void goToEventsOwner(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/event/Event_view_owner.fxml"));
+            Parent root = loader.load();
+            //UPDATE The Controller with Data :
+            Event_view_ownerController controller = loader.getController();
+            controller.setData(user.getId());
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(scene);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @FXML
@@ -76,7 +100,6 @@ public class toolbar_ownerController implements Initializable {
             Logger.getLogger(toolbar_clientController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
     @FXML
 
@@ -91,11 +114,6 @@ public class toolbar_ownerController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(toolbar_clientController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    @FXML
-    private void goToCoachOwner(ActionEvent event) {
-
     }
 
     @FXML

@@ -24,7 +24,6 @@
             <Button fx:id="btn_commands" mnemonicParsing="false" onAction="#goToCommands" text="Commands" />
             <Button fx:id="btn_equipment" mnemonicParsing="false" onAction="#goToEquipmentsOwner" text="Equipments" />
             <Button fx:id="btn_academy" mnemonicParsing="false" onAction="#goToAcademyOwner" text="Academy" />
-            <Button fx:id="btn_coach" mnemonicParsing="false" onAction="#goToCoachOwner" text="Coach" />
             <MenuButton fx:id="fxmenu" mnemonicParsing="false" text="MenuButton" />
          </children>
       </FlowPane>

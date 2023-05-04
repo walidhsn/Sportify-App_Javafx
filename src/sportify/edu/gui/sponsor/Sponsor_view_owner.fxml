@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.Sponsor_view_ownerController">
+   <children>
+      <TableView fx:id="table_sponsor" layoutX="26.0" layoutY="92.0" prefHeight="497.0" prefWidth="1135.0">
+         <columns>
+            <TableColumn fx:id="name_col" prefWidth="161.0" text="Name" />
+            <TableColumn fx:id="email_col" prefWidth="174.0" text="Email" />
+            <TableColumn fx:id="tel_col" prefWidth="198.0" text="Telephone" />
+            <TableColumn fx:id="details_col" prefWidth="200.0" text="Details" />
+            <TableColumn fx:id="update_col" prefWidth="200.0" text="Update" />
+            <TableColumn fx:id="delete_col" prefWidth="200.0" text="Delete" />
+         </columns>
+      </TableView>
+      <ToolBar layoutX="26.0" layoutY="24.0" prefHeight="57.0" prefWidth="1135.0">
+         <items>
+            <Button fx:id="back_btn" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#returnToEventList" prefHeight="41.0" prefWidth="103.0" text="Back">
+               <font>
+                  <Font name="Sitka Text" size="15.0" />
+               </font>
+               <graphic>
+                  <ImageView fx:id="backBtn_icon" fitHeight="31.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../resources/back-arrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator prefWidth="200.0" />
+            <GridPane hgap="5.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <TextField fx:id="search_text" prefHeight="37.0" prefWidth="182.0" promptText="Search" />
+                  <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../../../../resources/search-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="17.0" />
+            <Button fx:id="add_btn" mnemonicParsing="false" onAction="#redirectToAddSponsor" prefHeight="41.0" prefWidth="155.0" text="ADD Sponsor">
+               <graphic>
+                  <ImageView fx:id="add_icon" fitHeight="25.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../resources/add.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </items>
+      </ToolBar>
+   </children>
+</AnchorPane>

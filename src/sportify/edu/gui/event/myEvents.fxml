@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../../../resources/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sportify.edu.controllers.myEventsController">
+   <children>
+      <TableView fx:id="table_event" layoutX="36.0" layoutY="78.0" prefHeight="497.0" prefWidth="1101.0">
+         <columns>
+            <TableColumn fx:id="name_col" prefWidth="102.0" text="Name" />
+            <TableColumn fx:id="category_col" prefWidth="115.0" text="Category" />
+            <TableColumn fx:id="date_col" prefWidth="104.0" text="Date" />
+            <TableColumn fx:id="startTime_col" prefWidth="116.0" text="Start Time" />
+            <TableColumn fx:id="endTime_col" prefWidth="118.0" text="End Time" />
+            <TableColumn fx:id="terrainName_col" minWidth="0.0" prefWidth="147.0" text="Staduim name" />
+            <TableColumn fx:id="updatedAt_col" prefWidth="155.0" text="UpdatedAt" />
+            <TableColumn fx:id="details_col" prefWidth="121.0" text="Details" />
+            <TableColumn fx:id="delete_col" prefWidth="122.0" text="Delete" />
+         </columns>
+      </TableView>
+      <ToolBar layoutX="36.0" layoutY="14.0" prefHeight="57.0" prefWidth="1101.0">
+         <items>
+            <Button fx:id="back_btn" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#returnToListEvents" prefHeight="41.0" prefWidth="103.0" text="Back">
+               <font>
+                  <Font name="Sitka Text" size="15.0" />
+               </font>
+               <graphic>
+                  <ImageView fx:id="backBtn_icon" fitHeight="31.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../resources/back-arrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator prefWidth="200.0" />
+            <GridPane hgap="5.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <TextField fx:id="search_text" prefHeight="37.0" prefWidth="164.0" promptText="Search" />
+                  <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../../../../resources/search-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="17.0" />
+         </items>
+      </ToolBar>
+   </children>
+</AnchorPane>
